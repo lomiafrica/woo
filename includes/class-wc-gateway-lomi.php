@@ -791,7 +791,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway_CC {
 	 * @return string
 	 */
 	protected function get_lomi_api_base_url() {
-		return $this->testmode ? 'https://sandbox.api.lomi.africa/v1' : 'https://api.lomi.africa/v1';
+		return $this->testmode ? 'https://sandbox.api.lomi.africa' : 'https://api.lomi.africa';
 	}
 
 	/**
