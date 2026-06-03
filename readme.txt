@@ -1,6 +1,5 @@
-=== lomi. WooCommerce Payment Gateway ===
-Contributors: tubiz
-Donate link: https://bosun.me/donate
+=== Lomi for WooCommerce ===
+Contributors: Lomi Africa
 Tags: lomi, woocommerce, payment gateway, mastercard, visa
 Requires at least: 6.8
 Tested up to: 6.9
@@ -73,8 +72,8 @@ You can also follow me on Twitter! **[@tubiz](https://twitter.com/tubiz)**
 == Installation ==
 
 *   Go to __WordPress Admin__ > __Plugins__ > __Add New__ from the left-hand menu
-*   In the search box type __lomi. WooCommerce Payment Gateway__
-*   Click on Install now when you see __lomi. WooCommerce Payment Gateway__ to install the plugin
+*   In the search box type __Lomi for WooCommerce__
+*   Click on Install now when you see __Lomi for WooCommerce__ to install the plugin
 *   After installation, __activate__ the plugin.
 
 
@@ -291,7 +290,7 @@ If you do not find lomi. on the Payment method options, please go through the se
 *	New: Add support for confirming payment using the webhook url
 
 = 2.0.1 - July 5, 2016 =
-*	Fix: lomi. payment option and settings not available if lomi. WooCommerce Payment Gateway version 2.0.0 is installed and WooCommerce version 2.5.5 and below is installed
+*	Fix: lomi. payment option and settings not available if Lomi for WooCommerce version 2.0.0 is installed and WooCommerce version 2.5.5 and below is installed
 
 = 2.0.0 - June 28, 2016 =
 * 	New: Saved cards - allow store customers to save their card details and pay again using the same card. Card details are saved on lomi. servers and not on your store.
@@ -309,6 +308,6 @@ If you do not find lomi. on the Payment method options, please go through the se
 
 1. lomi. displayed as a payment method on the WooCommerce payment methods page
 
-2. lomi. WooCommerce payment gateway settings page
+2. Lomi for WooCommerce settings page
 
 3. lomi. on WooCommerce Checkout

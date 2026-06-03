@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: lomi. WooCommerce Payment Gateway
+ * Plugin Name: Lomi for WooCommerce
  * Plugin URI: https://lomi.africa
  * Description: WooCommerce payment gateway for lomi.
  * Version: 6.0.0
- * Author: Tunbosun Ayinla
- * Author URI: https://bosun.me
+ * Author: Lomi Africa
+ * Author URI: https://lomi.africa
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Requires Plugins: woocommerce
@@ -61,7 +61,7 @@ function wc_lomi_get_payment_icon_url( $slug ) {
 }
 
 /**
- * Initialize lomi. WooCommerce payment gateway.
+ * Initialize Lomi for WooCommerce.
  */
 function tbz_wc_lomi_init() {
 

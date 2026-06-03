@@ -1,7 +1,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: lomi. WooCommerce Payment Gateway\n"
+"Project-Id-Version: Lomi for WooCommerce\n"
 "POT-Creation-Date: 2026-04-29 23:11+0100\n"
 "PO-Revision-Date: 2026-04-29 23:10+0100\n"
 "Last-Translator: \n"
@@ -942,7 +942,7 @@ msgid "Disable lomi. test mode"
 msgstr ""
 
 #. Plugin Name of the plugin/theme
-msgid "lomi. WooCommerce Payment Gateway"
+msgid "Lomi for WooCommerce"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
@@ -954,9 +954,9 @@ msgid "WooCommerce payment gateway for lomi."
 msgstr ""
 
 #. Author of the plugin/theme
-msgid "Tunbosun Ayinla"
+msgid "Lomi Africa"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "https://bosun.me"
+msgid "https://lomi.africa"
 msgstr ""

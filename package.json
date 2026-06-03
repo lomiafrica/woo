@@ -1,8 +1,8 @@
 {
 	"name": "woo-lomi",
-	"title": "lomi. WooCommerce Payment Gateway",
+	"title": "Lomi for WooCommerce",
 	"version": "5.8.2",
-	"author": "Tunbosun Ayinla",
+	"author": "Lomi Africa",
 	"license": "GPL-3.0+",
 	"keywords": [],
 	"engines": {
