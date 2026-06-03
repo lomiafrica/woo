@@ -537,7 +537,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway_CC {
 				'title'             => __( 'Split Payment Transaction Charge', 'woo-lomi' ),
 				'type'              => 'number',
 				'description'       => __( 'A flat fee to charge the subaccount for this transaction, in Naira (&#8358;). This overrides the split percentage set when the subaccount was created. Ideally, you will need to use this if you are splitting in flat rates (since subaccount creation only allows for percentage split). e.g. 100 for a &#8358;100 flat fee.', 'woo-lomi' ),
-				'class'             => __( 'woocommerce_lomi_split_payment_transaction_charge', 'woo-lomi' ),
+				'class'             => 'woocommerce_lomi_split_payment_transaction_charge',
 				'default'           => '',
 				'custom_attributes' => array(
 					'min'  => 1,

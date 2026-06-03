@@ -15,6 +15,7 @@
 	},
 	"scripts": {
 		"start": "wp-scripts start",
-		"build": "wp-scripts build"
+		"build": "wp-scripts build",
+		"i18n": "node scripts/i18n-build.mjs"
 	}
 }

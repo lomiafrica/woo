@@ -30,6 +30,18 @@ define( 'WC_LOMI_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 define( 'WC_LOMI_VERSION', '6.0.0' );
 
 /**
+ * Load plugin translations.
+ */
+function wc_lomi_load_textdomain() {
+	load_plugin_textdomain(
+		'woo-lomi',
+		false,
+		dirname( plugin_basename( WC_LOMI_MAIN_FILE ) ) . '/languages'
+	);
+}
+add_action( 'plugins_loaded', 'wc_lomi_load_textdomain', 0 );
+
+/**
  * Force HTTPS URL when WooCommerce is available.
  *
  * @param string $url URL.

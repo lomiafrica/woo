@@ -79,7 +79,7 @@ class WC_Gateway_Custom_Lomi extends WC_Gateway_Lomi_Subscriptions {
 				'title'       => __( 'Subaccount Code', 'woo-lomi' ),
 				'type'        => 'text',
 				'description' => __( 'Enter the subaccount code here.', 'woo-lomi' ),
-				'class'       => __( 'woocommerce_lomi_subaccount_code', 'woo-lomi' ),
+				'class'       => 'woocommerce_lomi_subaccount_code',
 				'default'     => '',
 			),
 			'split_payment_transaction_charge' => array(
