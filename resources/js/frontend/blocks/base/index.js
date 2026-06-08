@@ -9,76 +9,96 @@ const defaultLabel = __(
     'woo-lomi'
 );
 
-const securedBadgeLabel = __(
+const payWithLabel = __(
+    'Pay with',
+    'woo-lomi'
+);
+
+const securedByLabel = __(
+    'Secured by',
+    'woo-lomi'
+);
+
+const securedByImageAlt = __(
     'Secured by lomi.',
     'woo-lomi'
 );
 
-const securedBadgeStyles = {
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: '7px 16px',
-    borderRadius: '9999px',
-    background: 'rgba(255, 255, 255, 0.55)',
-    backdropFilter: 'blur(12px)',
-    WebkitBackdropFilter: 'blur(12px)',
-    border: '1px solid rgba(15, 23, 42, 0.08)',
-    boxShadow: '0 1px 2px rgba(15, 23, 42, 0.06)',
-    width: 'fit-content',
-};
+const brandName = 'lomi.';
 
 export const ariaLabel = ({ title }) => {
     return decodeEntities( title ) || defaultLabel;
 }
 
-const PaymentIcons = ({ logoUrls }) => {
-    if ( ! logoUrls?.length ) {
-        return null;
+const isWidePaymentIcon = (iconUrl) => {
+    return typeof iconUrl === 'string' && iconUrl.includes( 'spi' );
+};
+
+const SecuredByBadge = ({ brandingImageUrl }) => {
+    if ( brandingImageUrl ) {
+        return (
+            <span className="wc-lomi-checkout-branding__badge">
+                <img
+                    className="wc-lomi-secured-by-image"
+                    src={ brandingImageUrl }
+                    alt={ securedByImageAlt }
+                    loading="lazy"
+                    decoding="async"
+                />
+            </span>
+        );
     }
 
     return (
-        <div className="wc-lomi-payment-icons" style={{ display: 'flex', flexDirection: 'row', gap: '0.5rem', flexWrap: 'wrap', alignItems: 'center' }}>
-            {logoUrls.map((logoUrl, index) => (
-                <img key={index} src={logoUrl} alt="" style={{ height: '28px', width: 'auto', maxWidth: '72px', objectFit: 'contain' }} />
-            ))}
-        </div>
+        <span className="wc-lomi-checkout-branding__badge">
+            { securedByLabel } <strong>{ brandName }</strong>
+        </span>
     );
 };
 
-const SecuredBadge = ({ securedBadgeUrl }) => {
+const CheckoutBranding = ({ brandingImageUrl, paymentIconUrls }) => {
     return (
-        <div className="wc-lomi-secured-badge" style={ securedBadgeStyles }>
-            { securedBadgeUrl ? (
-                <img
-                    src={ securedBadgeUrl }
-                    alt={ securedBadgeLabel }
-                    style={{ height: '18px', width: 'auto', maxWidth: '180px', objectFit: 'contain' }}
-                />
-            ) : (
-                <span style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '0.01em', color: '#0f172a' }}>
-                    { securedBadgeLabel }
-                </span>
+        <div className="wc-lomi-checkout-branding">
+            <div className="wc-lomi-checkout-branding__header">
+                <p className="wc-lomi-checkout-branding__title">
+                    { payWithLabel } <strong>{ brandName }</strong>
+                </p>
+                <SecuredByBadge brandingImageUrl={ brandingImageUrl } />
+            </div>
+            { paymentIconUrls?.length > 0 && (
+                <div className="wc-lomi-checkout-branding__methods">
+                    { paymentIconUrls.map( ( iconUrl, index ) => (
+                        <div
+                            key={ index }
+                            className={
+                                'wc-lomi-checkout-branding__method' +
+                                ( isWidePaymentIcon( iconUrl ) ? ' wc-lomi-checkout-branding__method--wide' : '' )
+                            }
+                        >
+                            <img src={ iconUrl } alt="" loading="lazy" decoding="async" />
+                        </div>
+                    ) ) }
+                </div>
             ) }
         </div>
     );
 };
 
 /**
- * Content — "Pay with lomi.", secured badge, then payment method icons.
+ * Label — compact branding card with payment method icons.
  */
-export const Content = ({ description, securedBadgeUrl, paymentIconUrls }) => {
+export const Label = ({ title, brandingImageUrl, paymentIconUrls }) => {
     return (
-        <div className="wc-lomi-checkout-branding" style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-            { description ? (
-                <div className="wc-lomi-checkout-description">{ decodeEntities( description ) }</div>
-            ) : null }
-            <SecuredBadge securedBadgeUrl={ securedBadgeUrl } />
-            <PaymentIcons logoUrls={ paymentIconUrls } />
-        </div>
+        <CheckoutBranding
+            brandingImageUrl={ brandingImageUrl }
+            paymentIconUrls={ paymentIconUrls }
+        />
     );
 };
 
-export const Label = ({ title }) => {
-    return <span>{ ariaLabel( { title: title } ) }</span>;
+/**
+ * Content is empty; branding is shown in the label row.
+ */
+export const Content = () => {
+    return null;
 };

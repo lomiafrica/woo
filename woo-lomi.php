@@ -110,7 +110,7 @@ function wc_lomi_get_compact_icon_url() {
  * @return string[]
  */
 function wc_lomi_get_default_payment_icon_slugs() {
-	return array( 'wave', 'mtn', 'orange', 'cards', 'apple-pay', 'google-pay', 'spi' );
+	return array( 'wave', 'mtn', 'apple-pay', 'google-pay', 'spi' );
 }
 
 /**
@@ -141,60 +141,109 @@ function wc_lomi_get_checkout_payment_icon_urls() {
 }
 
 /**
- * "Secured by lomi." badge image for checkout branding.
- *
- * Drop secured-by-lomi.webp into assets/images/ when the asset is ready.
+ * Composite checkout branding image (legacy asset; optional override).
  *
  * @return string
  */
-function wc_lomi_get_secured_badge_url() {
-	$url = wc_lomi_get_payment_icon_url( 'secured-by-lomi' );
+function wc_lomi_get_checkout_branding_image_url() {
+	$url = wc_lomi_get_payment_icon_url( 'pay-with-lomi' );
 
-	return apply_filters( 'wc_lomi_secured_badge_url', $url );
+	return apply_filters( 'wc_lomi_checkout_branding_image_url', $url );
 }
 
 /**
- * Inline styles for the frosted "Secured by lomi." badge.
+ * Whether checkout uses the structured branding card instead of the title.
  *
- * @return string
+ * @return bool
  */
-function wc_lomi_get_secured_badge_styles() {
-	return 'display:inline-flex;align-items:center;justify-content:center;padding:7px 16px;border-radius:9999px;background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(15,23,42,0.08);box-shadow:0 1px 2px rgba(15,23,42,0.06);';
+function wc_lomi_uses_checkout_branding_card() {
+	return true;
 }
 
 /**
- * Render checkout branding: description, secured badge, payment icons.
+ * Enqueue checkout branding styles on the checkout page.
  *
- * @param string $description Merchant-facing checkout text.
  * @return void
  */
-function wc_lomi_render_checkout_branding( $description = '' ) {
-	$secured_badge_url = wc_lomi_get_secured_badge_url();
-	$icon_urls         = wc_lomi_get_checkout_payment_icon_urls();
-
-	echo '<div class="wc-lomi-checkout-branding" style="display:flex;flex-direction:column;gap:0.75rem;">';
-
-	if ( $description ) {
-		echo '<div class="wc-lomi-checkout-description">' . wpautop( wptexturize( $description ) ) . '</div>';
+function wc_lomi_enqueue_checkout_branding_styles() {
+	if ( ! function_exists( 'is_checkout' ) || ! is_checkout() ) {
+		return;
 	}
 
-	echo '<div class="wc-lomi-secured-badge" style="' . esc_attr( wc_lomi_get_secured_badge_styles() ) . '">';
-	if ( $secured_badge_url ) {
-		echo '<img src="' . esc_url( $secured_badge_url ) . '" alt="' . esc_attr__( 'Secured by lomi.', 'woo-lomi' ) . '" style="height:18px;width:auto;max-width:180px;object-fit:contain;" />';
-	} else {
-		echo '<span style="font-size:12px;font-weight:600;letter-spacing:0.01em;color:#0f172a;">' . esc_html__( 'Secured by lomi.', 'woo-lomi' ) . '</span>';
-	}
-	echo '</div>';
+	wp_enqueue_style(
+		'wc-lomi-checkout-branding',
+		plugins_url( 'assets/css/checkout-branding.css', WC_LOMI_MAIN_FILE ),
+		array(),
+		WC_LOMI_VERSION
+	);
+}
+add_action( 'wp_enqueue_scripts', 'wc_lomi_enqueue_checkout_branding_styles' );
 
-	if ( ! empty( $icon_urls ) ) {
-		echo '<div class="wc-lomi-payment-icons" style="display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center;">';
-		foreach ( $icon_urls as $icon_url ) {
-			echo '<img class="wc-lomi-payment-icon" src="' . esc_url( $icon_url ) . '" alt="" style="height:28px;width:auto;max-width:72px;object-fit:contain;" />';
+/**
+ * Checkout branding card: title, trust badge, and payment method icons.
+ *
+ * @return string
+ */
+function wc_lomi_get_checkout_branding_html() {
+	$icons = array();
+
+	foreach ( wc_lomi_get_checkout_payment_icon_slugs() as $slug ) {
+		$url = wc_lomi_get_payment_icon_url( $slug );
+		if ( $url ) {
+			$icons[] = array(
+				'slug' => $slug,
+				'url'  => $url,
+			);
 		}
-		echo '</div>';
 	}
 
-	echo '</div>';
+	ob_start();
+	?>
+	<div class="wc-lomi-checkout-branding">
+		<div class="wc-lomi-checkout-branding__header">
+			<span class="wc-lomi-checkout-branding__badge">
+				<?php
+				$secured_by_image_url = wc_lomi_get_checkout_branding_image_url();
+				if ( $secured_by_image_url ) :
+					?>
+					<img
+						class="wc-lomi-secured-by-image"
+						src="<?php echo esc_url( $secured_by_image_url ); ?>"
+						alt="<?php echo esc_attr__( 'Secured by lomi.', 'woo-lomi' ); ?>"
+						loading="lazy"
+						decoding="async"
+					/>
+				<?php else : ?>
+					<?php
+					echo wp_kses(
+						__( 'Secured by <strong>lomi.</strong>', 'woo-lomi' ),
+						array( 'strong' => array() )
+					);
+					?>
+				<?php endif; ?>
+			</span>
+		</div>
+		<?php if ( ! empty( $icons ) ) : ?>
+		<div class="wc-lomi-checkout-branding__methods">
+			<?php foreach ( $icons as $icon ) : ?>
+			<div class="wc-lomi-checkout-branding__method<?php echo 'spi' === $icon['slug'] ? ' wc-lomi-checkout-branding__method--wide' : ''; ?>">
+				<img src="<?php echo esc_url( $icon['url'] ); ?>" alt="" loading="lazy" decoding="async" />
+			</div>
+			<?php endforeach; ?>
+		</div>
+		<?php endif; ?>
+	</div>
+	<?php
+	return (string) ob_get_clean();
+}
+
+/**
+ * Render checkout branding (classic checkout payment box).
+ *
+ * @return void
+ */
+function wc_lomi_render_checkout_branding() {
+	echo wc_lomi_get_checkout_branding_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 }
 
 /**
@@ -308,7 +357,7 @@ function wc_lomi_fetch_connected_provider_icon_slugs( $secret_key, $testmode, $f
 		}
 	}
 
-	$order = array( 'wave', 'mtn', 'orange', 'cards', 'apple-pay', 'google-pay', 'spi' );
+	$order = array( 'wave', 'mtn', 'apple-pay', 'google-pay', 'spi' );
 	usort(
 		$icons,
 		function ( $a, $b ) use ( $order ) {

@@ -245,12 +245,25 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 	 * Display lomi payment icon.
 	 */
 	public function get_icon() {
-
-		$url  = wc_lomi_get_payment_icon_url( 'lomi' );
-		$icon = '<img class="wc-lomi-payment-icon" src="' . esc_url( $url ) . '" alt="' . esc_attr__( 'lomi. payment methods', 'woo-lomi' ) . '" />';
+		$icon = wc_lomi_get_checkout_branding_html();
+		if ( ! $icon ) {
+			return apply_filters( 'woocommerce_gateway_icon', '', $this->id );
+		}
 
 		return apply_filters( 'woocommerce_gateway_icon', $icon, $this->id );
+	}
 
+	/**
+	 * Hide title text when the composite branding image is used.
+	 *
+	 * @return string
+	 */
+	public function get_title() {
+		if ( wc_lomi_uses_checkout_branding_card() ) {
+			return '';
+		}
+
+		return $this->title;
 	}
 
 	/**
@@ -359,8 +372,8 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 			'description'                      => array(
 				'title'       => __( 'Description', 'woo-lomi' ),
 				'type'        => 'textarea',
-				'description' => __( 'Checkout text shown below the payment method title (e.g. "Pay with lomi.").', 'woo-lomi' ),
-				'default'     => __( 'Pay with lomi.', 'woo-lomi' ),
+				'description' => __( 'Optional extra text below the payment method. Leave empty to use the default lomi. branding card.', 'woo-lomi' ),
+				'default'     => '',
 				'desc_tip'    => true,
 			),
 			'testmode'                         => array(
@@ -493,7 +506,6 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 	 * Payment form on checkout page
 	 */
 	public function payment_fields() {
-		wc_lomi_render_checkout_branding( $this->description );
 	}
 
 	/**
