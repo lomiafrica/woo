@@ -62,7 +62,11 @@ final class WC_Gateway_Lomi_Blocks_Support extends AbstractPaymentMethodType {
 		);
 
 		if ( function_exists( 'wp_set_script_translations' ) ) {
-			wp_set_script_translations( 'wc-lomi-blocks', 'woo-lomi', );
+			wp_set_script_translations(
+				'wc-lomi-blocks',
+				'woo-lomi',
+				plugin_dir_path( WC_LOMI_MAIN_FILE ) . 'languages'
+			);
 		}
 
 		return array( 'wc-lomi-blocks' );

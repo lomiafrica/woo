@@ -329,7 +329,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway_CC {
 	public function get_icon() {
 
 		$url  = wc_lomi_get_payment_icon_url( 'lomi' );
-		$icon = '<img src="' . esc_url( $url ) . '" alt="' . esc_attr__( 'lomi. payment methods', 'woo-lomi' ) . '" />';
+		$icon = '<img class="wc-lomi-payment-icon" src="' . esc_url( $url ) . '" alt="' . esc_attr__( 'lomi. payment methods', 'woo-lomi' ) . '" style="height: 24px; width: auto; max-height: 24px; max-width: 80px; vertical-align: middle; margin-left: 0.35em;" />';
 
 		return apply_filters( 'woocommerce_gateway_icon', $icon, $this->id );
 
@@ -435,14 +435,14 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway_CC {
 				'title'       => __( 'Title', 'woo-lomi' ),
 				'type'        => 'text',
 				'description' => __( 'This controls the payment method title which the user sees during checkout.', 'woo-lomi' ),
-				'default'     => __( 'Debit/Credit Cards', 'woo-lomi' ),
+				'default'     => __( 'lomi.', 'woo-lomi' ),
 				'desc_tip'    => true,
 			),
 			'description'                      => array(
 				'title'       => __( 'Description', 'woo-lomi' ),
 				'type'        => 'textarea',
 				'description' => __( 'This controls the payment method description which the user sees during checkout.', 'woo-lomi' ),
-				'default'     => __( 'Make payment using your debit and credit cards', 'woo-lomi' ),
+				'default'     => __( 'Pay securely with lomi.', 'woo-lomi' ),
 				'desc_tip'    => true,
 			),
 			'testmode'                         => array(
@@ -452,18 +452,6 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway_CC {
 				'description' => __( 'Test mode uses the sandbox API. Disable for live payments.', 'woo-lomi' ),
 				'default'     => 'yes',
 				'desc_tip'    => true,
-			),
-			'payment_page'                     => array(
-				'title'       => __( 'Payment Option', 'woo-lomi' ),
-				'type'        => 'select',
-				'description' => __( 'Legacy option. All payments use lomi. hosted checkout.', 'woo-lomi' ),
-				'default'     => '',
-				'desc_tip'    => false,
-				'options'     => array(
-					''          => __( 'Select One', 'woo-lomi' ),
-					'inline'    => __( 'Popup', 'woo-lomi' ),
-					'redirect'  => __( 'Redirect', 'woo-lomi' ),
-				),
 			),
 			'test_secret_key'                  => array(
 				'title'       => __( 'Test Secret Key', 'woo-lomi' ),
@@ -517,51 +505,10 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway_CC {
 				'description' => '',
 				'default'     => 'no',
 			),
-			'split_payment'                    => array(
-				'title'       => __( 'Split Payment', 'woo-lomi' ),
-				'label'       => __( 'Enable Split Payment', 'woo-lomi' ),
-				'type'        => 'checkbox',
-				'description' => '',
-				'class'       => 'woocommerce_lomi_split_payment',
-				'default'     => 'no',
-				'desc_tip'    => true,
-			),
-			'subaccount_code'                  => array(
-				'title'       => __( 'Subaccount Code', 'woo-lomi' ),
-				'type'        => 'text',
-				'description' => __( 'Enter the subaccount code here.', 'woo-lomi' ),
-				'class'       => 'woocommerce_lomi_subaccount_code',
-				'default'     => '',
-			),
-			'split_payment_transaction_charge' => array(
-				'title'             => __( 'Split Payment Transaction Charge', 'woo-lomi' ),
-				'type'              => 'number',
-				'description'       => __( 'A flat fee to charge the subaccount for this transaction, in Naira (&#8358;). This overrides the split percentage set when the subaccount was created. Ideally, you will need to use this if you are splitting in flat rates (since subaccount creation only allows for percentage split). e.g. 100 for a &#8358;100 flat fee.', 'woo-lomi' ),
-				'class'             => __( 'woocommerce_lomi_split_payment_transaction_charge', 'woo-lomi' ),
-				'default'           => '',
-				'custom_attributes' => array(
-					'min'  => 1,
-					'step' => 0.1,
-				),
-				'desc_tip'          => false,
-			),
-			'split_payment_charge_account'     => array(
-				'title'       => __( 'lomi. Charges Bearer', 'woo-lomi' ),
-				'type'        => 'select',
-				'description' => __( 'Who bears lomi. charges?', 'woo-lomi' ),
-				'class'       => 'woocommerce_lomi_split_payment_charge_account',
-				'default'     => '',
-				'desc_tip'    => false,
-				'options'     => array(
-					''           => __( 'Select One', 'woo-lomi' ),
-					'account'    => __( 'Account', 'woo-lomi' ),
-					'subaccount' => __( 'Subaccount', 'woo-lomi' ),
-				),
-			),
 			'custom_gateways'                  => array(
 				'title'       => __( 'Additional lomi. Gateways', 'woo-lomi' ),
 				'type'        => 'select',
-				'description' => __( 'Create additional custom lomi. based gateways. This allows you to create additional lomi. gateways using custom filters. You can create a gateway that accepts only verve cards, a gateway that accepts only bank payment, a gateway that accepts a specific bank issued cards.', 'woo-lomi' ),
+				'description' => __( 'Create additional lomi. payment methods that use the same API keys as the main gateway, with custom checkout labels and icons.', 'woo-lomi' ),
 				'default'     => '',
 				'desc_tip'    => true,
 				'options'     => array(
@@ -572,14 +519,6 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway_CC {
 					'4' => __( '4 gateways', 'woo-lomi' ),
 					'5' => __( '5 gateways', 'woo-lomi' ),
 				),
-			),
-			'saved_cards'                      => array(
-				'title'       => __( 'Saved Cards', 'woo-lomi' ),
-				'label'       => __( 'Enable Payment via Saved Cards', 'woo-lomi' ),
-				'type'        => 'checkbox',
-				'description' => __( 'If enabled, users will be able to pay with a saved card during checkout. Card details are saved on lomi. servers, not on your store.<br>Note that you need to have a valid SSL certificate installed.', 'woo-lomi' ),
-				'default'     => 'no',
-				'desc_tip'    => true,
 			),
 			'custom_metadata'                  => array(
 				'title'       => __( 'Custom Metadata', 'woo-lomi' ),
@@ -655,7 +594,9 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway_CC {
 			),
 		);
 
-		if ( 'NGN' !== get_woocommerce_currency() ) {
+		$allowed_currencies = apply_filters( 'woocommerce_lomi_supported_currencies', array( 'XOF', 'USD', 'EUR' ) );
+
+		if ( ! in_array( get_woocommerce_currency(), $allowed_currencies, true ) ) {
 			unset( $form_fields['custom_gateways'] );
 		}
 
@@ -725,7 +666,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway_CC {
 	/**
 	 * Process a redirect payment option payment.
 	 *
-	 * @since 5.7
+	 * @since 1.0.0
 	 * @param int $order_id Order ID.
 	 * @return array|void
 	 */
@@ -774,15 +715,58 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway_CC {
 	 */
 
 	/**
-	 * Minor units for order total (API amount).
+	 * Order total formatted for lomi. API amount.
 	 *
 	 * @param WC_Order $order Order.
+	 * @return float|int
+	 */
+	protected function get_order_amount_for_lomi( $order ) {
+		$currency = strtoupper( $order->get_currency() );
+		$decimals = $this->get_currency_minor_unit_decimals( $currency );
+		$amount   = (float) wc_format_decimal( $order->get_total(), $decimals );
+
+		return 0 === (int) $decimals ? (int) $amount : $amount;
+	}
+
+	/**
+	 * Normalize customer phone for lomi. API/provider validation.
+	 *
+	 * @param WC_Order $order Order.
+	 * @return string
+	 */
+	protected function get_lomi_customer_phone( WC_Order $order ) {
+		$phone = trim( (string) $order->get_billing_phone() );
+		if ( '' === $phone ) {
+			return '';
+		}
+
+		$phone = preg_replace( '/[\s().-]+/', '', $phone );
+		if ( is_string( $phone ) && 0 === strpos( $phone, '00' ) ) {
+			$phone = '+' . substr( $phone, 2 );
+		}
+
+		return is_string( $phone ) ? $phone : '';
+	}
+
+	/**
+	 * Currency minor unit precision expected by the lomi. API.
+	 *
+	 * @param string $currency Currency code.
 	 * @return int
 	 */
-	protected function get_order_amount_minor_units( $order ) {
-		$currency = $order->get_currency();
-		$decimals = function_exists( 'wc_get_price_decimals' ) ? wc_get_price_decimals( $currency ) : wc_get_price_decimals();
-		return (int) round( (float) $order->get_total() * ( 10 ** (int) $decimals ) );
+	protected function get_currency_minor_unit_decimals( $currency ) {
+		$currency = strtoupper( $currency );
+		$decimals = array(
+			'XOF' => 0,
+			'USD' => 2,
+			'EUR' => 2,
+		);
+
+		return (int) apply_filters(
+			'woocommerce_lomi_currency_minor_unit_decimals',
+			isset( $decimals[ $currency ] ) ? $decimals[ $currency ] : 2,
+			$currency
+		);
 	}
 
 	/**
@@ -808,7 +792,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway_CC {
 			'method'  => $method,
 			'timeout' => 60,
 			'headers' => array(
-				'X-API-Key'    => $this->secret_key,
+				'X-API-KEY'    => $this->secret_key,
 				'Content-Type' => 'application/json',
 			),
 		);
@@ -817,19 +801,73 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway_CC {
 		}
 		$request = wp_remote_request( $url, $args );
 		if ( is_wp_error( $request ) ) {
-			return $request;
+			$this->log_lomi_api_error(
+				$request->get_error_message(),
+				array(
+					'method' => $method,
+					'url'    => $url,
+				)
+			);
+
+			return new WP_Error(
+				'lomi_http_request',
+				sprintf(
+					/* translators: %s: WordPress HTTP API error message */
+					__( 'lomi. API request failed before receiving a response: %s', 'woo-lomi' ),
+					$request->get_error_message()
+				)
+			);
 		}
 		$code = wp_remote_retrieve_response_code( $request );
 		$raw  = wp_remote_retrieve_body( $request );
 		$json = json_decode( $raw );
 		if ( $code < 200 || $code >= 300 ) {
-			$msg = __( 'lomi. API request failed.', 'woo-lomi' );
+			$detail = __( 'No response body.', 'woo-lomi' );
 			if ( is_object( $json ) && ! empty( $json->message ) ) {
-				$msg = (string) $json->message;
+				$detail = (string) $json->message;
+			} elseif ( is_object( $json ) && ! empty( $json->error ) ) {
+				$detail = is_string( $json->error ) ? (string) $json->error : wp_json_encode( $json->error );
+			} elseif ( ! empty( $raw ) ) {
+				$detail = wp_strip_all_tags( (string) $raw );
 			}
+
+			$msg = sprintf(
+				/* translators: 1: HTTP status code, 2: API response detail */
+				__( 'lomi. API request failed (HTTP %1$d): %2$s', 'woo-lomi' ),
+				$code,
+				$detail
+			);
+
+			$this->log_lomi_api_error(
+				$msg,
+				array(
+					'method'        => $method,
+					'url'           => $url,
+					'status_code'   => $code,
+					'response_body' => $raw,
+					'request_body'  => isset( $args['body'] ) ? $args['body'] : '',
+				)
+			);
+
 			return new WP_Error( 'lomi_api', $msg );
 		}
 		return $json;
+	}
+
+	/**
+	 * Log API errors without exposing credentials.
+	 *
+	 * @param string $message Error message.
+	 * @param array  $context Log context.
+	 * @return void
+	 */
+	protected function log_lomi_api_error( $message, $context = array() ) {
+		if ( ! function_exists( 'wc_get_logger' ) ) {
+			return;
+		}
+
+		$context['source'] = 'woo-lomi';
+		wc_get_logger()->error( $message, $context );
 	}
 
 	/**
@@ -934,17 +972,12 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway_CC {
 		}
 		$body = array(
 			'currency_code'             => strtoupper( $order->get_currency() ),
-			'amount'                    => $this->get_order_amount_minor_units( $order ),
+			'amount'                    => $this->get_order_amount_for_lomi( $order ),
 			'success_url'               => esc_url_raw( $callback ),
 			'cancel_url'                => esc_url_raw( $cancel ),
 			'customer_email'            => $order->get_billing_email(),
 			'customer_name'             => trim( $order->get_billing_first_name() . ' ' . $order->get_billing_last_name() ),
-			'customer_phone'            => $order->get_billing_phone(),
-			'customer_city'             => $order->get_billing_city(),
-			'customer_country'          => $order->get_billing_country(),
-			'customer_address'          => trim( $order->get_billing_address_1() . ' ' . $order->get_billing_address_2() ),
-			'customer_postal_code'      => $order->get_billing_postcode(),
-			'require_billing_address'   => false,
+			'customer_phone'            => $this->get_lomi_customer_phone( $order ),
 			'title'                     => sprintf( __( 'Order %s', 'woo-lomi' ), $order->get_order_number() ),
 			'metadata'                  => $this->build_lomi_session_metadata( $order ),
 		);
@@ -961,7 +994,20 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway_CC {
 			return $resp;
 		}
 		$data = $this->lomi_normalize_checkout_session_payload( $resp );
-		if ( ! $data || empty( $data->checkout_session_id ) || empty( $data->checkout_url ) ) {
+		$checkout_url = '';
+		if ( $data && ! empty( $data->checkout_url ) ) {
+			$checkout_url = (string) $data->checkout_url;
+		} elseif ( $data && ! empty( $data->url ) ) {
+			$checkout_url = (string) $data->url;
+		}
+
+		if ( ! $data || empty( $data->checkout_session_id ) || empty( $checkout_url ) ) {
+			$this->log_lomi_api_error(
+				'Unexpected checkout session response from lomi.',
+				array(
+					'response_body' => wp_json_encode( $resp ),
+				)
+			);
 			$order->add_order_note( __( 'lomi.: checkout session response missing checkout_session_id or checkout_url.', 'woo-lomi' ) );
 			$order->save();
 			return new WP_Error( 'lomi_bad_response', __( 'Unexpected response from lomi. when creating checkout session.', 'woo-lomi' ) );
@@ -969,7 +1015,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway_CC {
 		$order->update_meta_data( '_lomi_checkout_session_id', (string) $data->checkout_session_id );
 		$order->save();
 		return array(
-			'checkout_url'        => (string) $data->checkout_url,
+			'checkout_url'        => $checkout_url,
 			'checkout_session_id' => (string) $data->checkout_session_id,
 		);
 	}
@@ -1042,14 +1088,14 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway_CC {
 			return;
 		}
 
-		$expected = $this->get_order_amount_minor_units( $order );
-		$paid     = isset( $session_data->amount ) ? (int) $session_data->amount : 0;
-		if ( $paid !== $expected ) {
+		$expected = $this->get_order_amount_for_lomi( $order );
+		$paid     = isset( $session_data->amount ) ? (float) $session_data->amount : 0;
+		if ( (float) $paid !== (float) $expected ) {
 			$order->update_status(
 				'on-hold',
 				sprintf(
-					/* translators: 1: expected minor units, 2: session amount */
-					__( 'lomi.: amount mismatch (order expects %1$d minor units; session has %2$d).', 'woo-lomi' ),
+					/* translators: 1: expected amount, 2: session amount */
+					__( 'lomi.: amount mismatch (order expects %1$s; session has %2$s).', 'woo-lomi' ),
 					$expected,
 					$paid
 				)
@@ -1422,7 +1468,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway_CC {
 	/**
 	 * Checks if autocomplete order is enabled for the payment method.
 	 *
-	 * @since 5.7
+	 * @since 1.0.0
 	 * @param WC_Order $order Order object.
 	 * @return bool
 	 */
@@ -1443,7 +1489,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway_CC {
 	/**
 	 * Retrieve the payment channels configured for the gateway
 	 *
-	 * @since 5.7
+	 * @since 1.0.0
 	 * @param WC_Order $order Order object.
 	 * @return array
 	 */
@@ -1460,7 +1506,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway_CC {
 		 * @param array $payment_channels A list of payment channels.
 		 * @param string $id Payment method ID.
 		 * @param WC_Order $order Order object.
-		 * @since 5.8.2
+		 * @since 1.0.0
 		 */
 		return apply_filters( 'wc_lomi_payment_channels', $payment_channels, $this->id, $order );
 	}

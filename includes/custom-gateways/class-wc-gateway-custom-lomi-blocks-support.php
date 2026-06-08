@@ -43,7 +43,7 @@ class WC_Gateway_Custom_Lomi_Blocks_Support extends AbstractPaymentMethodType {
 	 * @return array
 	 */
 	public function get_payment_method_script_handles() {
-		$script_asset_path = plugins_url( "/assets/js/blocks/frontend/blocks/{$this->name}.asset.php", WC_LOMI_MAIN_FILE );
+		$script_asset_path = plugin_dir_path( WC_LOMI_MAIN_FILE ) . "assets/js/blocks/frontend/blocks/{$this->name}.asset.php";
 		$script_asset      = file_exists( $script_asset_path )
 			? require $script_asset_path
 			: array(
@@ -62,7 +62,11 @@ class WC_Gateway_Custom_Lomi_Blocks_Support extends AbstractPaymentMethodType {
 		);
 
 		if ( function_exists( 'wp_set_script_translations' ) ) {
-			wp_set_script_translations( "wc-{$this->name}-blocks", 'woo-lomi', );
+			wp_set_script_translations(
+				"wc-{$this->name}-blocks",
+				'woo-lomi',
+				plugin_dir_path( WC_LOMI_MAIN_FILE ) . 'languages'
+			);
 		}
 
 		return array( "wc-{$this->name}-blocks" );
@@ -92,7 +96,7 @@ class WC_Gateway_Custom_Lomi_Blocks_Support extends AbstractPaymentMethodType {
 			'title'             => $this->get_setting( 'title' ),
 			'description'       => $this->get_setting( 'description' ),
 			'supports'          => array_filter( $gateway->supports, array( $gateway, 'supports' ) ),
-			'allow_saved_cards' => $gateway->saved_cards && is_user_logged_in(),
+			'allow_saved_cards' => false,
 			'logo_urls'         => $payment_icons_url,
 		);
 	}

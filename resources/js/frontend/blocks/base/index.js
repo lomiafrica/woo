@@ -22,9 +22,9 @@ export const Content = ({ description }) => {
 
 const PaymentIcons = ({ logoUrls, label }) => {
     return (
-        <div style={{ display: 'flex', flexDirection: 'row', gap: '0.5rem', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', flexDirection: 'row', gap: '0.35rem', flexWrap: 'wrap', alignItems: 'center' }}>
             {logoUrls.map((logoUrl, index) => (
-                <img key={index} src={logoUrl} alt={label} />
+                <img key={index} src={logoUrl} alt={label} style={{ height: '24px', width: 'auto', maxWidth: '80px', objectFit: 'contain' }} />
             ))}
         </div>
     );
@@ -33,7 +33,7 @@ const PaymentIcons = ({ logoUrls, label }) => {
 export const Label = ({ logoUrls, title }) => {
     return (
         <>
-            <div style={{ display: 'flex', flexDirection: 'row', gap: '0.5rem' }}>
+            <div style={{ display: 'flex', flexDirection: 'row', gap: '0.5rem', alignItems: 'center' }}>
                 <div>
                     { ariaLabel( { title: title } ) }
                 </div>

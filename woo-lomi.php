@@ -1,11 +1,11 @@
 <?php
 /**
- * Plugin Name: lomi. WooCommerce Payment Gateway
+ * Plugin Name: lomi. for WooCommerce
  * Plugin URI: https://lomi.africa
  * Description: WooCommerce payment gateway for lomi.
- * Version: 6.0.0
- * Author: Tunbosun Ayinla
- * Author URI: https://bosun.me
+ * Version: 1.0.0
+ * Author: lomi.
+ * Author URI: https://lomi.africa
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Requires Plugins: woocommerce
@@ -27,7 +27,19 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'WC_LOMI_MAIN_FILE', __FILE__ );
 define( 'WC_LOMI_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 
-define( 'WC_LOMI_VERSION', '6.0.0' );
+define( 'WC_LOMI_VERSION', '1.0.0' );
+
+/**
+ * Load plugin translations.
+ */
+function wc_lomi_load_textdomain() {
+	load_plugin_textdomain(
+		'woo-lomi',
+		false,
+		dirname( plugin_basename( WC_LOMI_MAIN_FILE ) ) . '/languages'
+	);
+}
+add_action( 'plugins_loaded', 'wc_lomi_load_textdomain', 0 );
 
 /**
  * Force HTTPS URL when WooCommerce is available.
@@ -61,7 +73,7 @@ function wc_lomi_get_payment_icon_url( $slug ) {
 }
 
 /**
- * Initialize lomi. WooCommerce payment gateway.
+ * Initialize lomi. for WooCommerce.
  */
 function tbz_wc_lomi_init() {
 
@@ -123,7 +135,9 @@ function tbz_wc_add_lomi_gateway( $methods ) {
 		$methods[] = 'WC_Gateway_Lomi';
 	}
 
-	if ( 'NGN' === get_woocommerce_currency() ) {
+	$allowed_currencies = apply_filters( 'woocommerce_lomi_supported_currencies', array( 'XOF', 'USD', 'EUR' ) );
+
+	if ( in_array( get_woocommerce_currency(), $allowed_currencies, true ) ) {
 
 		$settings        = get_option( 'woocommerce_lomi_settings', '' );
 		$custom_gateways = isset( $settings['custom_gateways'] ) ? $settings['custom_gateways'] : '';

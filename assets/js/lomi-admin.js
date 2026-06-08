@@ -1,6 +1,8 @@
 jQuery( function( $ ) {
 	'use strict';
 
+	var formatlomi = {};
+
 	/**
 	 * Object to handle lomi. admin functions.
 	 */
@@ -32,24 +34,6 @@ jQuery( function( $ ) {
 
 			$( '#woocommerce_lomi_testmode' ).change();
 
-			$( document.body ).on( 'change', '.woocommerce_lomi_split_payment', function() {
-				var subaccount_code = $( '.woocommerce_lomi_subaccount_code' ).parents( 'tr' ).eq( 0 ),
-					subaccount_charge = $( '.woocommerce_lomi_split_payment_charge_account' ).parents( 'tr' ).eq( 0 ),
-					transaction_charge = $( '.woocommerce_lomi_split_payment_transaction_charge' ).parents( 'tr' ).eq( 0 );
-
-				if ( $( this ).is( ':checked' ) ) {
-					subaccount_code.show();
-					subaccount_charge.show();
-					transaction_charge.show();
-				} else {
-					subaccount_code.hide();
-					subaccount_charge.hide();
-					transaction_charge.hide();
-				}
-			} );
-
-			$( '#woocommerce_lomi_split_payment' ).change();
-
 			// Toggle Custom Metadata settings.
 			$( '.wc-lomi-metadata' ).change( function() {
 				if ( $( this ).is( ':checked' ) ) {
@@ -57,22 +41,6 @@ jQuery( function( $ ) {
 				} else {
 					$( '.wc-lomi-meta-order-id, .wc-lomi-meta-name, .wc-lomi-meta-email, .wc-lomi-meta-phone, .wc-lomi-meta-billing-address, .wc-lomi-meta-shipping-address, .wc-lomi-meta-products' ).closest( 'tr' ).hide();
 				}
-			} ).change();
-
-			// Toggle Bank filters settings.
-			$( '.wc-lomi-payment-channels' ).on( 'change', function() {
-
-				var channels = $( ".wc-lomi-payment-channels" ).val();
-
-				if ( $.inArray( 'card', channels ) != '-1' ) {
-					$( '.wc-lomi-cards-allowed' ).closest( 'tr' ).show();
-					$( '.wc-lomi-banks-allowed' ).closest( 'tr' ).show();
-				}
-				else {
-					$( '.wc-lomi-cards-allowed' ).closest( 'tr' ).hide();
-					$( '.wc-lomi-banks-allowed' ).closest( 'tr' ).hide();
-				}
-
 			} ).change();
 
 			$( ".wc-lomi-payment-icons" ).select2( {
@@ -104,7 +72,7 @@ jQuery( function( $ ) {
 		}
 	};
 
-	function formatlomi.PaymentIcons( payment_method ) {
+	formatlomi.PaymentIcons = function( payment_method ) {
 		if ( !payment_method.id ) {
 			return payment_method.text;
 		}
@@ -116,7 +84,7 @@ jQuery( function( $ ) {
 		return $payment_method;
 	};
 
-	function formatlomi.PaymentIconDisplay( payment_method ) {
+	formatlomi.PaymentIconDisplay = function( payment_method ) {
 		return payment_method.text;
 	};
 

@@ -38,18 +38,6 @@ class WC_Gateway_Custom_Lomi extends WC_Gateway_Lomi_Subscriptions {
 				'desc_tip'    => true,
 				'default'     => '',
 			),
-			'payment_page'                     => array(
-				'title'       => __( 'Payment Option', 'woo-lomi' ),
-				'type'        => 'select',
-				'description' => __( 'Legacy setting. Customers are always sent to lomi. hosted checkout.', 'woo-lomi' ),
-				'default'     => '',
-				'desc_tip'    => false,
-				'options'     => array(
-					''         => __( 'Select One', 'woo-lomi' ),
-					'inline'   => __( 'Popup', 'woo-lomi' ),
-					'redirect' => __( 'Redirect', 'woo-lomi' ),
-				),
-			),
 			'autocomplete_order'               => array(
 				'title'       => __( 'Autocomplete Order After Payment', 'woo-lomi' ),
 				'label'       => __( 'Autocomplete Order', 'woo-lomi' ),
@@ -65,86 +53,6 @@ class WC_Gateway_Custom_Lomi extends WC_Gateway_Lomi_Subscriptions {
 				'type'        => 'checkbox',
 				'description' => '',
 				'default'     => 'no',
-			),
-			'split_payment'                    => array(
-				'title'       => __( 'Split Payment', 'woo-lomi' ),
-				'label'       => __( 'Enable Split Payment', 'woo-lomi' ),
-				'type'        => 'checkbox',
-				'description' => '',
-				'class'       => 'woocommerce_lomi_split_payment',
-				'default'     => 'no',
-				'desc_tip'    => true,
-			),
-			'subaccount_code'                  => array(
-				'title'       => __( 'Subaccount Code', 'woo-lomi' ),
-				'type'        => 'text',
-				'description' => __( 'Enter the subaccount code here.', 'woo-lomi' ),
-				'class'       => __( 'woocommerce_lomi_subaccount_code', 'woo-lomi' ),
-				'default'     => '',
-			),
-			'split_payment_transaction_charge' => array(
-				'title'             => __( 'Split Payment Transaction Charge', 'woo-lomi' ),
-				'type'              => 'number',
-				'description'       => __( 'A flat fee to charge the subaccount for this transaction, in Naira (&#8358;). This overrides the split percentage set when the subaccount was created. Ideally, you will need to use this if you are splitting in flat rates (since subaccount creation only allows for percentage split). e.g. 100 for a &#8358;100 flat fee.', 'woo-lomi' ),
-				'class'             => 'woocommerce_lomi_split_payment_transaction_charge',
-				'default'           => '',
-				'custom_attributes' => array(
-					'min'  => 1,
-					'step' => 0.1,
-				),
-				'desc_tip'          => false,
-			),
-			'split_payment_charge_account'     => array(
-				'title'       => __( 'lomi. Charges Bearer', 'woo-lomi' ),
-				'type'        => 'select',
-				'description' => __( 'Who bears lomi. charges?', 'woo-lomi' ),
-				'class'       => 'woocommerce_lomi_split_payment_charge_account',
-				'default'     => '',
-				'desc_tip'    => false,
-				'options'     => array(
-					''           => __( 'Select One', 'woo-lomi' ),
-					'account'    => __( 'Account', 'woo-lomi' ),
-					'subaccount' => __( 'Subaccount', 'woo-lomi' ),
-				),
-			),
-			'payment_channels'                 => array(
-				'title'             => __( 'Payment Channels', 'woo-lomi' ),
-				'type'              => 'multiselect',
-				'class'             => 'wc-enhanced-select wc-lomi-payment-channels',
-				'description'       => __( 'The payment channels enabled for this gateway', 'woo-lomi' ),
-				'default'           => '',
-				'desc_tip'          => true,
-				'select_buttons'    => true,
-				'options'           => $this->channels(),
-				'custom_attributes' => array(
-					'data-placeholder' => __( 'Select payment channels', 'woo-lomi' ),
-				),
-			),
-			'cards_allowed'                    => array(
-				'title'             => __( 'Allowed Card Brands', 'woo-lomi' ),
-				'type'              => 'multiselect',
-				'class'             => 'wc-enhanced-select wc-lomi-cards-allowed',
-				'description'       => __( 'The card brands allowed for this gateway. This filter only works with the card payment channel.', 'woo-lomi' ),
-				'default'           => '',
-				'desc_tip'          => true,
-				'select_buttons'    => true,
-				'options'           => $this->card_types(),
-				'custom_attributes' => array(
-					'data-placeholder' => __( 'Select card brands', 'woo-lomi' ),
-				),
-			),
-			'banks_allowed'                    => array(
-				'title'             => __( 'Allowed Banks Card', 'woo-lomi' ),
-				'type'              => 'multiselect',
-				'class'             => 'wc-enhanced-select wc-lomi-banks-allowed',
-				'description'       => __( 'The banks whose card should be allowed for this gateway. This filter only works with the card payment channel.', 'woo-lomi' ),
-				'default'           => '',
-				'desc_tip'          => true,
-				'select_buttons'    => true,
-				'options'           => $this->banks(),
-				'custom_attributes' => array(
-					'data-placeholder' => __( 'Select banks', 'woo-lomi' ),
-				),
 			),
 			'payment_icons'                    => array(
 				'title'             => __( 'Payment Icons', 'woo-lomi' ),
@@ -292,72 +200,6 @@ class WC_Gateway_Custom_Lomi extends WC_Gateway_Lomi_Subscriptions {
 	}
 
 	/**
-	 * Payment Channels.
-	 */
-	public function channels() {
-
-		return array(
-			'card'          => __( 'Cards', 'woo-lomi' ),
-			'bank'          => __( 'Pay with Bank', 'woo-lomi' ),
-			'ussd'          => __( 'USSD', 'woo-lomi' ),
-			'qr'            => __( 'QR', 'woo-lomi' ),
-			'bank_transfer' => __( 'Bank Transfer', 'woo-lomi' ),
-		);
-
-	}
-
-	/**
-	 * Card Types.
-	 */
-	public function card_types() {
-
-		return array(
-			'visa'       => __( 'Visa', 'woo-lomi' ),
-			'verve'      => __( 'Verve', 'woo-lomi' ),
-			'mastercard' => __( 'Mastercard', 'woo-lomi' ),
-		);
-
-	}
-
-	/**
-	 * Banks.
-	 */
-	public function banks() {
-
-		return array(
-			'044'  => __( 'Access Bank', 'woo-lomi' ),
-			'035A' => __( 'ALAT by WEMA', 'woo-lomi' ),
-			'401'  => __( 'ASO Savings and Loans', 'woo-lomi' ),
-			'023'  => __( 'Citibank Nigeria', 'woo-lomi' ),
-			'063'  => __( 'Access Bank (Diamond)', 'woo-lomi' ),
-			'050'  => __( 'Ecobank Nigeria', 'woo-lomi' ),
-			'562'  => __( 'Ekondo Microfinance Bank', 'woo-lomi' ),
-			'084'  => __( 'Enterprise Bank', 'woo-lomi' ),
-			'070'  => __( 'Fidelity Bank', 'woo-lomi' ),
-			'011'  => __( 'First Bank of Nigeria', 'woo-lomi' ),
-			'214'  => __( 'First City Monument Bank', 'woo-lomi' ),
-			'058'  => __( 'Guaranty Trust Bank', 'woo-lomi' ),
-			'030'  => __( 'Heritage Bank', 'woo-lomi' ),
-			'301'  => __( 'Jaiz Bank', 'woo-lomi' ),
-			'082'  => __( 'Keystone Bank', 'woo-lomi' ),
-			'014'  => __( 'MainStreet Bank', 'woo-lomi' ),
-			'526'  => __( 'Parallex Bank', 'woo-lomi' ),
-			'076'  => __( 'Polaris Bank Limited', 'woo-lomi' ),
-			'101'  => __( 'Providus Bank', 'woo-lomi' ),
-			'221'  => __( 'Stanbic IBTC Bank', 'woo-lomi' ),
-			'068'  => __( 'Standard Chartered Bank', 'woo-lomi' ),
-			'232'  => __( 'Sterling Bank', 'woo-lomi' ),
-			'100'  => __( 'Suntrust Bank', 'woo-lomi' ),
-			'032'  => __( 'Union Bank of Nigeria', 'woo-lomi' ),
-			'033'  => __( 'United Bank For Africa', 'woo-lomi' ),
-			'215'  => __( 'Unity Bank', 'woo-lomi' ),
-			'035'  => __( 'Wema Bank', 'woo-lomi' ),
-			'057'  => __( 'Zenith Bank', 'woo-lomi' ),
-		);
-
-	}
-
-	/**
 	 * Payment Icons.
 	 */
 	public function payment_icons() {
@@ -366,38 +208,8 @@ class WC_Gateway_Custom_Lomi extends WC_Gateway_Lomi_Subscriptions {
 			'verve'         => __( 'Verve', 'woo-lomi' ),
 			'visa'          => __( 'Visa', 'woo-lomi' ),
 			'mastercard'    => __( 'Mastercard', 'woo-lomi' ),
-			'lomiwhite' => __( 'Secured by lomi. White', 'woo-lomi' ),
-			'lomiblue'  => __( 'Secured by lomi. Blue', 'woo-lomi' ),
-			'lomi-wc'   => __( 'lomi. Nigeria', 'woo-lomi' ),
-			'lomi-gh'   => __( 'lomi. Ghana', 'woo-lomi' ),
-			'access'        => __( 'Access Bank', 'woo-lomi' ),
-			'alat'          => __( 'ALAT by WEMA', 'woo-lomi' ),
-			'aso'           => __( 'ASO Savings and Loans', 'woo-lomi' ),
-			'citibank'      => __( 'Citibank Nigeria', 'woo-lomi' ),
-			'diamond'       => __( 'Access Bank (Diamond)', 'woo-lomi' ),
-			'ecobank'       => __( 'Ecobank Nigeria', 'woo-lomi' ),
-			'ekondo'        => __( 'Ekondo Microfinance Bank', 'woo-lomi' ),
-			'enterprise'    => __( 'Enterprise Bank', 'woo-lomi' ),
-			'fidelity'      => __( 'Fidelity Bank', 'woo-lomi' ),
-			'firstbank'     => __( 'First Bank of Nigeria', 'woo-lomi' ),
-			'fcmb'          => __( 'First City Monument Bank', 'woo-lomi' ),
-			'gtbank'        => __( 'Guaranty Trust Bank', 'woo-lomi' ),
-			'heritage'      => __( 'Heritage Bank', 'woo-lomi' ),
-			'jaiz'          => __( 'Jaiz Bank', 'woo-lomi' ),
-			'keystone'      => __( 'Keystone Bank', 'woo-lomi' ),
-			'mainstreet'    => __( 'MainStreet Bank', 'woo-lomi' ),
-			'parallex'      => __( 'Parallex Bank', 'woo-lomi' ),
-			'polaris'       => __( 'Polaris Bank Limited', 'woo-lomi' ),
-			'providus'      => __( 'Providus Bank', 'woo-lomi' ),
-			'stanbic'       => __( 'Stanbic IBTC Bank', 'woo-lomi' ),
-			'standard'      => __( 'Standard Chartered Bank', 'woo-lomi' ),
-			'sterling'      => __( 'Sterling Bank', 'woo-lomi' ),
-			'suntrust'      => __( 'Suntrust Bank', 'woo-lomi' ),
-			'union'         => __( 'Union Bank of Nigeria', 'woo-lomi' ),
-			'uba'           => __( 'United Bank For Africa', 'woo-lomi' ),
-			'unity'         => __( 'Unity Bank', 'woo-lomi' ),
-			'wema'          => __( 'Wema Bank', 'woo-lomi' ),
-			'zenith'        => __( 'Zenith Bank', 'woo-lomi' ),
+			'lomiwhite'     => __( 'Secured by lomi. White', 'woo-lomi' ),
+			'lomiblue'      => __( 'Secured by lomi. Blue', 'woo-lomi' ),
 		);
 
 	}
@@ -412,7 +224,7 @@ class WC_Gateway_Custom_Lomi extends WC_Gateway_Lomi_Subscriptions {
 		}
 		$icon_html = '';
 		foreach ( $icons as $i ) {
-			$icon_html .= '<img src="' . esc_url( wc_lomi_get_payment_icon_url( $i ) ) . '" alt="' . esc_attr( (string) $i ) . '" style="height: 40px; margin-right: 0.4em;margin-bottom: 0.6em;" />';
+			$icon_html .= '<img class="wc-lomi-payment-icon" src="' . esc_url( wc_lomi_get_payment_icon_url( $i ) ) . '" alt="' . esc_attr( (string) $i ) . '" style="height: 24px; width: auto; max-height: 24px; max-width: 80px; vertical-align: middle; margin-left: 0.35em;" />';
 		}
 		return apply_filters( 'woocommerce_gateway_icon', $icon_html, $this->id );
 	}

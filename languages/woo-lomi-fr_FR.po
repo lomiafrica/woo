@@ -1,37 +1,38 @@
-# Copyright (C) 2026 lomi.
+# French translations for lomi. for WooCommerce.
 # This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Project-Id-Version: lomi. for WooCommerce 1.0.0\\nReport-Msgid-Bugs-To: https://github.com/alphajoop/woocommerce/issues\\nPOT-Creation-Date: 2026-06-05T02:07:02.098Z\\nPO-Revision-Date: 2026-06-05T02:07:02.098Z\\nLast-Translator: lomi.\\nLanguage-Team: lomi.\\nMIME-Version: 1.0\\nContent-Type: text/plain; charset=UTF-8\\nContent-Transfer-Encoding: 8bit\\nPlural-Forms: nplurals=2; plural=(n != 1);\\nX-Domain: woo-lomi\\n"
+"Project-Id-Version: lomi. for WooCommerce 1.0.0\\nReport-Msgid-Bugs-To: https://github.com/alphajoop/woocommerce/issues\\nPOT-Creation-Date: 2026-06-05T02:07:02.101Z\\nPO-Revision-Date: 2026-06-05T02:07:02.101Z\\nLast-Translator: lomi.\\nLanguage-Team: lomi.\\nLanguage: fr_FR\\nMIME-Version: 1.0\\nContent-Type: text/plain; charset=UTF-8\\nContent-Transfer-Encoding: 8bit\\nPlural-Forms: nplurals=2; plural=(n > 1);\\nX-Domain: woo-lomi\\n"
 
 #: includes/class-wc-gateway-lomi.php:516
 msgid "1 gateway"
-msgstr ""
+msgstr "1 passerelle"
 
 #: includes/class-wc-gateway-lomi.php:517
 msgid "2 gateways"
-msgstr ""
+msgstr "2 passerelles"
 
 #: includes/class-wc-gateway-lomi.php:518
 msgid "3 gateways"
-msgstr ""
+msgstr "3 passerelles"
 
 #: includes/class-wc-gateway-lomi.php:519
 msgid "4 gateways"
-msgstr ""
+msgstr "4 passerelles"
 
 #: includes/class-wc-gateway-lomi.php:520
 msgid "5 gateways"
-msgstr ""
+msgstr "5 passerelles"
 
 #: includes/class-wc-gateway-lomi.php:211
 msgid ""
 "Accept payments with lomi. Secure hosted checkout. <a href=\"%1$s\" target=\"_blank\">Create an account</a> and <a href=\"%2$s\" target=\"_blank\">get your API keys</a>."
 msgstr ""
+"Acceptez les paiements avec lomi. via une page de paiement securisee. <a href=\"%1$s\" target=\"_blank\">Creez un compte</a> et <a href=\"%2$s\" target=\"_blank\">recuperez vos cles API</a>."
 
 #: includes/class-wc-gateway-lomi.php:509
 msgid "Additional lomi. Gateways"
-msgstr ""
+msgstr "Passerelles lomi. supplementaires"
 
 #: includes/custom-gateways/gateway-five/class-wc-gateway-lomi-five.php:61
 #: includes/custom-gateways/gateway-four/class-wc-gateway-lomi-four.php:61
@@ -41,193 +42,202 @@ msgstr ""
 msgid ""
 "Additional lomi. payment method using shared API keys from the main lomi. gateway. <a href=\"%1$s\" target=\"_blank\">lomi.</a> · <a href=\"%2$s\" target=\"_blank\">Dashboard</a>."
 msgstr ""
+"Methode de paiement lomi. supplementaire utilisant les cles API partagees de la passerelle lomi. principale. <a href=\"%1$s\" target=\"_blank\">lomi.</a> · <a href=\"%2$s\" target=\"_blank\">Tableau de bord</a>."
 
 #: includes/class-wc-gateway-lomi.php:494
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:43
 msgid "Autocomplete Order"
-msgstr ""
+msgstr "Finaliser automatiquement la commande"
 
 #: includes/class-wc-gateway-lomi.php:493
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:42
 msgid "Autocomplete Order After Payment"
-msgstr ""
+msgstr "Finaliser automatiquement la commande apres paiement"
 
 #: includes/class-wc-gateway-lomi.php:1433
 msgid ""
 "Automatic refunds from WooCommerce are not available for lomi.. Process refunds in your lomi. dashboard."
 msgstr ""
+"Les remboursements automatiques depuis WooCommerce ne sont pas disponibles pour lomi.. Effectuez les remboursements dans votre tableau de bord lomi."
 
 #: includes/class-wc-gateway-lomi-subscriptions.php:87
 msgid ""
 "Automatic subscription renewals are not charged in WooCommerce with lomi. hosted checkout. Collect payment via a new checkout session or from the lomi. dashboard."
 msgstr ""
+"Les renouvellements automatiques d'abonnement ne sont pas debites dans WooCommerce avec la page de paiement hebergee lomi. Encaissez le paiement via une nouvelle session de paiement ou depuis le tableau de bord lomi."
 
 #: includes/class-wc-gateway-lomi.php:1156
 msgid "Cancel order & restore cart"
-msgstr ""
+msgstr "Annuler la commande et restaurer le panier"
 
 #: includes/class-wc-gateway-lomi.php:396
 msgid ""
 "Configure a webhook in your <a href=\"%1$s\" target=\"_blank\" rel=\"noopener noreferrer\">lomi. dashboard</a> with URL: <code style=\"color:red\">%2$s</code> and the same signing secret as below."
 msgstr ""
+"Configurez un webhook dans votre <a href=\"%1$s\" target=\"_blank\" rel=\"noopener noreferrer\">tableau de bord lomi.</a> avec l'URL: <code style=\"color:red\">%2$s</code> et le meme secret de signature que ci-dessous."
 
 #: includes/class-wc-gateway-lomi.php:1193
 msgid "Could not verify payment with lomi.."
-msgstr ""
+msgstr "Impossible de verifier le paiement avec lomi.."
 
 #: includes/class-wc-gateway-lomi.php:511
 msgid ""
 "Create additional lomi. payment methods that use the same API keys as the main gateway, with custom checkout labels and icons."
 msgstr ""
+"Creez des methodes de paiement lomi. supplementaires qui utilisent les memes cles API que la passerelle principale, avec des libelles et des icones de paiement personnalises."
 
 #: includes/class-wc-gateway-lomi.php:1104
 msgid ""
 "Currency mismatch while verifying payment with lomi.. Please contact the store."
 msgstr ""
+"La devise ne correspond pas lors de la verification du paiement avec lomi.. Veuillez contacter la boutique."
 
 #: includes/class-wc-gateway-lomi.php:524
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:71
 msgid "Custom Metadata"
-msgstr ""
+msgstr "Metadonnees personnalisees"
 
 #: includes/class-wc-gateway-lomi.php:551
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:98
 msgid "Customer Email"
-msgstr ""
+msgstr "E-mail client"
 
 #: includes/class-wc-gateway-lomi.php:542
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:89
 msgid "Customer Name"
-msgstr ""
+msgstr "Nom du client"
 
 #: includes/class-wc-gateway-lomi.php:560
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:107
 msgid "Customer Phone"
-msgstr ""
+msgstr "Telephone du client"
 
 #: includes/class-wc-gateway-lomi.php:442
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:35
 msgid "Description"
-msgstr ""
+msgstr "Description"
 
 #: woo-lomi.php:232
 msgid "Disable lomi. test mode"
-msgstr ""
+msgstr "Desactiver le mode test lomi."
 
 #: includes/class-wc-gateway-lomi.php:525
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:72
 msgid "Enable Custom Metadata"
-msgstr ""
+msgstr "Activer les metadonnees personnalisees"
 
 #: includes/class-wc-gateway-lomi.php:428
 msgid "Enable lomi."
-msgstr ""
+msgstr "Activer lomi."
 
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:21
 msgid "Enable lomi. - %s"
-msgstr ""
+msgstr "Activer lomi. - %s"
 
 #: includes/class-wc-gateway-lomi.php:430
 msgid "Enable lomi. on the checkout page."
-msgstr ""
+msgstr "Activer lomi. sur la page de paiement."
 
 #: includes/class-wc-gateway-lomi.php:450
 msgid "Enable Test Mode"
-msgstr ""
+msgstr "Activer le mode test"
 
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:23
 msgid "Enable this gateway as a payment option on the checkout page."
-msgstr ""
+msgstr "Activer cette passerelle comme option de paiement sur la page de commande."
 
 #: includes/class-wc-gateway-lomi.php:427
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:19
 msgid "Enable/Disable"
-msgstr ""
+msgstr "Activer/Desactiver"
 
 #: includes/custom-gateways/gateway-five/class-wc-gateway-lomi-five.php:54
 msgid "Five"
-msgstr ""
+msgstr "Cinq"
 
 #: includes/custom-gateways/gateway-four/class-wc-gateway-lomi-four.php:54
 msgid "Four"
-msgstr ""
+msgstr "Quatre"
 
 #: woo-lomi.php
 msgid "https://lomi.africa"
-msgstr ""
+msgstr "https://lomi.africa"
 
 #: includes/class-wc-gateway-lomi.php:555
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:102
 msgid "If checked, the customer email address will be sent to lomi."
-msgstr ""
+msgstr "Si cette option est cochee, l'adresse e-mail du client sera envoyee a lomi."
 
 #: includes/class-wc-gateway-lomi.php:546
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:93
 msgid "If checked, the customer full name will be sent to lomi."
-msgstr ""
+msgstr "Si cette option est cochee, le nom complet du client sera envoye a lomi."
 
 #: includes/class-wc-gateway-lomi.php:564
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:111
 msgid "If checked, the customer phone will be sent to lomi."
-msgstr ""
+msgstr "Si cette option est cochee, le telephone du client sera envoye a lomi."
 
 #: includes/class-wc-gateway-lomi.php:573
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:120
 msgid "If checked, the order billing address will be sent to lomi."
-msgstr ""
+msgstr "Si cette option est cochee, l'adresse de facturation sera envoyee a lomi."
 
 #: includes/class-wc-gateway-lomi.php:537
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:84
 msgid "If checked, the Order ID will be sent to lomi."
-msgstr ""
+msgstr "Si cette option est cochee, l'ID de commande sera envoye a lomi."
 
 #: includes/class-wc-gateway-lomi.php:582
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:129
 msgid "If checked, the order shipping address will be sent to lomi."
-msgstr ""
+msgstr "Si cette option est cochee, l'adresse de livraison sera envoyee a lomi."
 
 #: includes/class-wc-gateway-lomi.php:591
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:138
 msgid "If checked, the product(s) purchased will be sent to lomi."
-msgstr ""
+msgstr "Si cette option est cochee, les produits achetes seront envoyes a lomi."
 
 #: includes/class-wc-gateway-lomi.php:497
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:46
 msgid "If enabled, the order will be marked as complete after successful payment"
 msgstr ""
+"Si cette option est activee, la commande sera marquee comme terminee apres un paiement reussi."
 
 #: includes/class-wc-gateway-lomi.php:528
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:75
 msgid ""
 "If enabled, you will be able to send more information about the order to lomi.."
 msgstr ""
+"Si cette option est activee, vous pourrez envoyer davantage d'informations sur la commande a lomi.."
 
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:170
 msgid ""
 "Important: configure your webhook in the <a href=\"%s\" target=\"_blank\" rel=\"noopener noreferrer\">lomi. dashboard</a> using the URL below."
 msgstr ""
+"Important: configurez votre webhook dans le <a href=\"%s\" target=\"_blank\" rel=\"noopener noreferrer\">tableau de bord lomi.</a> avec l'URL ci-dessous."
 
 #: includes/class-wc-gateway-lomi.php:475
 msgid "Live Public Key"
-msgstr ""
+msgstr "Cle publique de production"
 
 #: includes/class-wc-gateway-lomi.php:469
 msgid "Live Secret Key"
-msgstr ""
+msgstr "Cle secrete de production"
 
 #: includes/class-wc-gateway-lomi.php:487
 msgid "Live webhook secret"
-msgstr ""
+msgstr "Secret webhook de production"
 
 #: includes/class-wc-gateway-lomi.php:210
 #: includes/class-wc-gateway-lomi.php:438
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:32
 msgid "lomi."
-msgstr ""
+msgstr "lomi."
 
 #: resources/js/frontend/blocks/base/index.js:7
 msgid "lomi. "
-msgstr ""
+msgstr "lomi. "
 
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:158
 #: includes/custom-gateways/gateway-five/class-wc-gateway-lomi-five.php:58
@@ -236,354 +246,373 @@ msgstr ""
 #: includes/custom-gateways/gateway-three/class-wc-gateway-lomi-three.php:58
 #: includes/custom-gateways/gateway-two/class-wc-gateway-lomi-two.php:58
 msgid "lomi. - %s"
-msgstr ""
+msgstr "lomi. - %s"
 
 #: includes/class-wc-gateway-lomi.php:816
 msgid "lomi. API request failed (HTTP %1$d): %2$s"
-msgstr ""
+msgstr "La requete API lomi. a echoue (HTTP %1$d): %2$s"
 
 #: includes/class-wc-gateway-lomi.php:796
 msgid "lomi. API request failed before receiving a response: %s"
-msgstr ""
+msgstr "La requete API lomi. a echoue avant de recevoir une reponse: %s"
 
 #: includes/class-wc-gateway-lomi.php:1058
 msgid "lomi. checkout session expired before payment; review or cancel the order."
 msgstr ""
+"La session de paiement lomi. a expire avant le paiement; verifiez ou annulez la commande."
 
 #: woo-lomi.php
 msgid "lomi. for WooCommerce"
-msgstr ""
+msgstr "lomi. pour WooCommerce"
 
 #: includes/class-wc-gateway-lomi.php:413
 msgid "lomi. payment gateway disabled"
-msgstr ""
+msgstr "Passerelle de paiement lomi. desactivee"
 
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:196
 msgid "lomi. Payment Gateway Disabled: %s"
-msgstr ""
+msgstr "Passerelle de paiement lomi. desactivee: %s"
 
 #: includes/class-wc-gateway-lomi.php:332
 msgid "lomi. payment methods"
-msgstr ""
+msgstr "Methodes de paiement lomi."
 
 #: includes/class-wc-gateway-lomi.php:1111
 msgid "lomi. payment successful (checkout session: %s)"
-msgstr ""
+msgstr "Paiement lomi. reussi (session de paiement: %s)"
 
 #: woo-lomi.php:189
 msgid ""
 "lomi. requires WooCommerce to be installed and active. Click %s to install WooCommerce."
 msgstr ""
+"lomi. necessite que WooCommerce soit installe et actif. Cliquez sur %s pour installer WooCommerce."
 
 #: includes/class-wc-gateway-lomi.php:314
 msgid ""
 "lomi. supports XOF, USD, and EUR only. Set your store currency <a href=\"%s\">here</a>."
 msgstr ""
+"lomi. prend uniquement en charge XOF, USD et EUR. Definissez la devise de votre boutique <a href=\"%s\">ici</a>."
 
 #: woo-lomi.php:225
 msgid "lomi. test mode enabled"
-msgstr ""
+msgstr "Mode test lomi. active"
 
 #: woo-lomi.php:226
 msgid ""
 "lomi. test mode is currently enabled. Remember to disable it when you want to start accepting live payments on your site."
 msgstr ""
+"Le mode test lomi. est actuellement active. Pensez a le desactiver lorsque vous voulez accepter des paiements reels sur votre site."
 
 #: includes/class-wc-gateway-lomi-subscriptions.php:69
 msgid "lomi. Transaction Failed (%s)"
-msgstr ""
+msgstr "Transaction lomi. echouee (%s)"
 
 #: includes/class-wc-gateway-lomi.php:1078
 msgid "lomi.: amount mismatch (order expects %1$s; session has %2$s)."
-msgstr ""
+msgstr "lomi.: montant different (la commande attend %1$s; la session contient %2$s)."
 
 #: includes/class-wc-gateway-lomi.php:991
 msgid "lomi.: checkout session response missing checkout_session_id or checkout_url."
 msgstr ""
+"lomi.: la reponse de session de paiement ne contient pas checkout_session_id ou checkout_url."
 
 #: includes/class-wc-gateway-lomi.php:1191
 msgid "lomi.: could not fetch checkout session from API after customer return."
 msgstr ""
+"lomi.: impossible de recuperer la session de paiement depuis l'API apres le retour du client."
 
 #: includes/class-wc-gateway-lomi.php:1097
 msgid "lomi.: currency mismatch (order %1$s vs session %2$s)."
-msgstr ""
+msgstr "lomi.: devise differente (commande %1$s contre session %2$s)."
 
 #: includes/class-wc-gateway-lomi.php:969
 msgid "lomi.: failed to create checkout session (%s)"
-msgstr ""
+msgstr "lomi.: echec de creation de la session de paiement (%s)"
 
 #: includes/class-wc-gateway-lomi.php:1267
 msgid ""
 "lomi.: PAYMENT_SUCCEEDED webhook received but session could not be fetched from API."
 msgstr ""
+"lomi.: webhook PAYMENT_SUCCEEDED recu, mais la session n'a pas pu etre recuperee depuis l'API."
 
 #: includes/class-wc-gateway-lomi.php:1183
 msgid "lomi.: return URL missing checkout session id in order meta."
 msgstr ""
+"lomi.: l'URL de retour ne contient pas l'ID de session de paiement dans les metadonnees de commande."
 
 #: includes/class-wc-gateway-lomi.php:1050
 msgid "lomi.: session not paid yet (status: %1$s, session: %2$s)."
-msgstr ""
+msgstr "lomi.: session pas encore payee (statut: %1$s, session: %2$s)."
 
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:210
 msgid "Mastercard"
-msgstr ""
+msgstr "Mastercard"
 
 #: includes/class-wc-gateway-lomi.php:1185
 msgid "Missing lomi. session. Please try again or contact the store."
-msgstr ""
+msgstr "Session lomi. manquante. Veuillez reessayer ou contacter la boutique."
 
 #: includes/class-wc-gateway-lomi.php:805
 msgid "No response body."
-msgstr ""
+msgstr "Aucun corps de reponse."
 
 #: includes/custom-gateways/gateway-one/class-wc-gateway-lomi-one.php:54
 msgid "One"
-msgstr ""
+msgstr "Une"
 
 #: includes/class-wc-gateway-lomi.php:477
 msgid "Optional. Not required for hosted checkout; reserved for future use."
 msgstr ""
+"Facultatif. Non requis pour la page de paiement hebergee; reserve a une utilisation future."
 
 #: includes/class-wc-gateway-lomi.php:465
 msgid "Optional. Not required for hosted checkout."
-msgstr ""
+msgstr "Facultatif. Non requis pour la page de paiement hebergee."
 
 #: includes/class-wc-gateway-lomi.php:961
 msgid "Order %s"
-msgstr ""
+msgstr "Commande %s"
 
 #: includes/class-wc-gateway-lomi.php:569
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:116
 msgid "Order Billing Address"
-msgstr ""
+msgstr "Adresse de facturation de la commande"
 
 #: includes/class-wc-gateway-lomi.php:533
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:80
 msgid "Order ID"
-msgstr ""
+msgstr "ID de commande"
 
 #: includes/class-wc-gateway-lomi.php:690
 msgid "Order not found."
-msgstr ""
+msgstr "Commande introuvable."
 
 #: includes/class-wc-gateway-lomi.php:578
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:125
 msgid "Order Shipping Address"
-msgstr ""
+msgstr "Adresse de livraison de la commande"
 
 #: includes/class-wc-gateway-lomi.php:445
 msgid "Pay securely with lomi."
-msgstr ""
+msgstr "Payez en toute securite avec lomi."
 
 #: includes/class-wc-gateway-lomi.php:1154
 msgid "Pay with lomi."
-msgstr ""
+msgstr "Payer avec lomi."
 
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:58
 msgid "Payment Icons"
-msgstr ""
+msgstr "Icones de paiement"
 
 #: includes/class-wc-gateway-lomi.php:349
 msgid "Please enter your lomi. secret API key %shere%s to use this gateway."
 msgstr ""
+"Veuillez saisir votre cle API secrete lomi. %sici%s pour utiliser cette passerelle."
 
 #: includes/class-wc-gateway-lomi.php:587
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:134
 msgid "Product(s) Purchased"
-msgstr ""
+msgstr "Produit(s) achete(s)"
 
 #: includes/class-wc-gateway-lomi.php:502
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:51
 msgid "Remove Cancel Order & Restore Cart Button"
-msgstr ""
+msgstr "Retirer le bouton Annuler la commande et restaurer le panier"
 
 #: includes/class-wc-gateway-lomi.php:503
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:52
 msgid "Remove the cancel order & restore cart button on the pay for order page"
 msgstr ""
+"Retirer le bouton Annuler la commande et restaurer le panier sur la page de paiement de commande"
 
 #: includes/class-wc-gateway-lomi.php:388
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:162
 msgid "Return to payments"
-msgstr ""
+msgstr "Retour aux paiements"
 
 #: includes/class-wc-gateway-lomi.php:1122
 msgid "Saved card payments are not available with lomi."
-msgstr ""
+msgstr "Les paiements par carte enregistree ne sont pas disponibles avec lomi."
 
 #: includes/class-wc-gateway-lomi.php:658
 msgid "Saved cards are not supported with lomi. Use the hosted checkout."
 msgstr ""
+"Les cartes enregistrees ne sont pas prises en charge avec lomi. Utilisez la page de paiement hebergee."
 
 #: includes/class-wc-gateway-lomi.php:489
 msgid "Secret for verifying webhook signatures (live)."
-msgstr ""
+msgstr "Secret pour verifier les signatures webhook (production)."
 
 #: includes/class-wc-gateway-lomi.php:483
 msgid ""
 "Secret for verifying webhook signatures (test). Must match the secret configured on your lomi. webhook endpoint."
 msgstr ""
+"Secret pour verifier les signatures webhook (test). Il doit correspondre au secret configure sur votre endpoint webhook lomi."
 
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:212
 msgid "Secured by lomi. Blue"
-msgstr ""
+msgstr "Securise par lomi. bleu"
 
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:211
 msgid "Secured by lomi. White"
-msgstr ""
+msgstr "Securise par lomi. blanc"
 
 #: includes/class-wc-gateway-lomi.php:515
 msgid "Select One"
-msgstr ""
+msgstr "Selectionner"
 
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:67
 msgid "Select payment icons"
-msgstr ""
+msgstr "Selectionner les icones de paiement"
 
 #: includes/class-wc-gateway-lomi.php:552
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:99
 msgid "Send Customer Email"
-msgstr ""
+msgstr "Envoyer l'e-mail client"
 
 #: includes/class-wc-gateway-lomi.php:543
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:90
 msgid "Send Customer Name"
-msgstr ""
+msgstr "Envoyer le nom du client"
 
 #: includes/class-wc-gateway-lomi.php:561
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:108
 msgid "Send Customer Phone"
-msgstr ""
+msgstr "Envoyer le telephone du client"
 
 #: includes/class-wc-gateway-lomi.php:570
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:117
 msgid "Send Order Billing Address"
-msgstr ""
+msgstr "Envoyer l'adresse de facturation"
 
 #: includes/class-wc-gateway-lomi.php:534
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:81
 msgid "Send Order ID"
-msgstr ""
+msgstr "Envoyer l'ID de commande"
 
 #: includes/class-wc-gateway-lomi.php:579
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:126
 msgid "Send Order Shipping Address"
-msgstr ""
+msgstr "Envoyer l'adresse de livraison"
 
 #: includes/class-wc-gateway-lomi.php:588
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:135
 msgid "Send Product(s) Purchased"
-msgstr ""
+msgstr "Envoyer les produits achetes"
 
 #: woo-lomi.php:116
 msgid "Settings"
-msgstr ""
+msgstr "Reglages"
 
 #: includes/class-wc-gateway-lomi.php:449
 msgid "Test mode"
-msgstr ""
+msgstr "Mode test"
 
 #: includes/class-wc-gateway-lomi.php:452
 msgid "Test mode uses the sandbox API. Disable for live payments."
-msgstr ""
+msgstr "Le mode test utilise l'API sandbox. Desactivez-le pour les paiements reels."
 
 #: includes/class-wc-gateway-lomi.php:463
 msgid "Test Public Key"
-msgstr ""
+msgstr "Cle publique de test"
 
 #: includes/class-wc-gateway-lomi.php:457
 msgid "Test Secret Key"
-msgstr ""
+msgstr "Cle secrete de test"
 
 #: includes/class-wc-gateway-lomi.php:481
 msgid "Test webhook secret"
-msgstr ""
+msgstr "Secret webhook de test"
 
 #: includes/class-wc-gateway-lomi.php:1153
 msgid "Thank you for your order. Pay securely with lomi. using the button below."
 msgstr ""
+"Merci pour votre commande. Payez en toute securite avec lomi. en utilisant le bouton ci-dessous."
 
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:61
 msgid "The payment icons to be displayed on the checkout page."
-msgstr ""
+msgstr "Les icones de paiement a afficher sur la page de commande."
 
 #: includes/class-wc-gateway-lomi.php:444
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:37
 msgid ""
 "This controls the payment method description which the user sees during checkout."
 msgstr ""
+"Controle la description de la methode de paiement affichee au client lors du paiement."
 
 #: includes/class-wc-gateway-lomi.php:437
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:30
 msgid "This controls the payment method title which the user sees during checkout."
 msgstr ""
+"Controle le titre de la methode de paiement affiche au client lors du paiement."
 
 #: includes/class-wc-gateway-lomi-subscriptions.php:42
 msgid "This subscription has a free trial, reason for the 0 amount"
-msgstr ""
+msgstr "Cet abonnement dispose d'un essai gratuit, ce qui explique le montant de 0"
 
 #: includes/custom-gateways/gateway-three/class-wc-gateway-lomi-three.php:54
 msgid "Three"
-msgstr ""
+msgstr "Trois"
 
 #: includes/class-wc-gateway-lomi.php:435
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:28
 msgid "Title"
-msgstr ""
+msgstr "Titre"
 
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:181
 msgid ""
 "To configure your lomi. API keys and enable/disable test mode, do that <a href=\"%s\">here</a>"
 msgstr ""
+"Pour configurer vos cles API lomi. et activer/desactiver le mode test, faites-le <a href=\"%s\">ici</a>"
 
 #: includes/custom-gateways/gateway-two/class-wc-gateway-lomi-two.php:54
 msgid "Two"
-msgstr ""
+msgstr "Deux"
 
 #: includes/class-wc-gateway-lomi.php:993
 msgid "Unexpected response from lomi. when creating checkout session."
-msgstr ""
+msgstr "Reponse inattendue de lomi. lors de la creation de la session de paiement."
 
 #: includes/class-wc-gateway-lomi.php:1051
 msgid "unknown"
-msgstr ""
+msgstr "inconnu"
 
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:208
 msgid "Verve"
-msgstr ""
+msgstr "Verve"
 
 #: woo-lomi.php:116
 msgid "View lomi. WooCommerce settings"
-msgstr ""
+msgstr "Voir les reglages WooCommerce lomi."
 
 #: includes/custom-gateways/class-wc-gateway-custom-lomi.php:209
 msgid "Visa"
-msgstr ""
+msgstr "Visa"
 
 #: includes/class-wc-gateway-lomi.php:1085
 msgid "We could not confirm the payment amount with lomi.. Please contact the store."
 msgstr ""
+"Nous n'avons pas pu confirmer le montant du paiement avec lomi.. Veuillez contacter la boutique."
 
 #: woo-lomi.php
 msgid "WooCommerce payment gateway for lomi."
-msgstr ""
+msgstr "Passerelle de paiement WooCommerce pour lomi."
 
 #: includes/class-wc-gateway-lomi.php:1131
 msgid "You can only add a new card when placing an order."
-msgstr ""
+msgstr "Vous ne pouvez ajouter une nouvelle carte que lors du passage d'une commande."
 
 #: includes/class-wc-gateway-lomi.php:1064
 msgid ""
 "Your lomi. payment was not completed. You can try again from the order payment page."
 msgstr ""
+"Votre paiement lomi. n'a pas ete finalise. Vous pouvez reessayer depuis la page de paiement de la commande."
 
 #: includes/class-wc-gateway-lomi.php:471
 msgid "Your lomi. secret API key (live)."
-msgstr ""
+msgstr "Votre cle API secrete lomi. (production)."
 
 #: includes/class-wc-gateway-lomi.php:459
 msgid "Your lomi. secret API key (test)."
-msgstr ""
+msgstr "Votre cle API secrete lomi. (test)."
 
