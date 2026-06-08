@@ -108,6 +108,8 @@ const translations = {
 	'lomi. Charges Bearer': 'Responsable des frais lomi.',
 	'lomi. Payment Gateway Disabled: %s': 'Passerelle de paiement lomi. desactivee: %s',
 	'Pay securely with lomi.': 'Payez en toute securite avec lomi.',
+	'Pay with lomi.': 'Payez avec lomi.',
+	'Secured by lomi.': 'Securise par lomi.',
 	'Mastercard': 'Mastercard',
 	'Missing lomi. session. Please try again or contact the store.': 'Session lomi. manquante. Veuillez reessayer ou contacter la boutique.',
 	'No response body.': 'Aucun corps de reponse.',

@@ -83,11 +83,13 @@ final class WC_Gateway_Lomi_Blocks_Support extends AbstractPaymentMethodType {
 		$gateway                = $payment_gateways['lomi'];
 
 		return array(
-			'title'             => $this->get_setting( 'title' ),
-			'description'       => $this->get_setting( 'description' ),
-			'supports'          => array_filter( $gateway->supports, array( $gateway, 'supports' ) ),
-			'allow_saved_cards' => false,
-			'logo_urls'         => array( $payment_gateways['lomi']->get_logo_url() ),
+			'title'               => $this->get_setting( 'title' ),
+			'description'         => $this->get_setting( 'description' ),
+			'supports'            => array_filter( $gateway->supports, array( $gateway, 'supports' ) ),
+			'allow_saved_cards'   => false,
+			'secured_badge_url'   => wc_lomi_get_secured_badge_url(),
+			'payment_icon_urls'   => $payment_gateways['lomi']->get_payment_icon_urls(),
+			'logo_urls'           => $payment_gateways['lomi']->get_payment_icon_urls(),
 		);
 	}
 

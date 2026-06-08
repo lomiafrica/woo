@@ -14,9 +14,9 @@ const label = ariaLabel({ title: settings.title });
  */
 const Lomi_Gateway = {
 	name: PAYMENT_METHOD_NAME,
-	label: <Label logoUrls={ settings.logo_urls } title={ label } />,
-	content: <Content description={ settings.description } />,
-	edit: <Content description={ settings.description } />,
+	label: <Label title={ label } />,
+	content: <Content description={ settings.description } securedBadgeUrl={ settings.secured_badge_url } paymentIconUrls={ settings.payment_icon_urls } />,
+	edit: <Content description={ settings.description } securedBadgeUrl={ settings.secured_badge_url } paymentIconUrls={ settings.payment_icon_urls } />,
 	canMakePayment: () => true,
 	ariaLabel: label,
 	supports: {

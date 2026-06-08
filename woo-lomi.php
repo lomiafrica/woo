@@ -60,16 +60,270 @@ function wc_lomi_force_https_url( $url ) {
 function wc_lomi_get_payment_icon_url( $slug ) {
 	$slug = strtolower( sanitize_file_name( (string) $slug ) );
 	if ( '' === $slug ) {
-		$slug = 'lomi';
+		return '';
 	}
+
 	$dir = dirname( WC_LOMI_MAIN_FILE ) . '/assets/images/';
-	foreach ( array( 'svg', 'png', 'webp', 'jpg', 'jpeg' ) as $ext ) {
+	foreach ( array( 'webp', 'svg', 'png', 'jpg', 'jpeg' ) as $ext ) {
 		$file = $dir . $slug . '.' . $ext;
 		if ( is_readable( $file ) ) {
 			return wc_lomi_force_https_url( plugins_url( 'assets/images/' . $slug . '.' . $ext, WC_LOMI_MAIN_FILE ) );
 		}
 	}
-	return wc_lomi_force_https_url( plugins_url( 'assets/images/lomi-placeholder.svg', WC_LOMI_MAIN_FILE ) );
+
+	return '';
+}
+
+/**
+ * Brand logo URL for checkout (lomi. wordmark on light backgrounds).
+ *
+ * @return string
+ */
+function wc_lomi_get_brand_logo_url() {
+	$url = wc_lomi_get_payment_icon_url( 'lomi_l' );
+	if ( $url ) {
+		return $url;
+	}
+
+	return wc_lomi_force_https_url( plugins_url( 'assets/images/lomi_d.webp', WC_LOMI_MAIN_FILE ) );
+}
+
+/**
+ * Compact lomi. icon for the payment method title row.
+ *
+ * @return string
+ */
+function wc_lomi_get_compact_icon_url() {
+	$url = wc_lomi_get_payment_icon_url( 'icon' );
+	if ( $url ) {
+		return $url;
+	}
+
+	return wc_lomi_get_brand_logo_url();
+}
+
+/**
+ * Default payment method icons shown on checkout (bundled assets).
+ *
+ * Temporary until checkout session exposes merchant-specific methods.
+ *
+ * @return string[]
+ */
+function wc_lomi_get_default_payment_icon_slugs() {
+	return array( 'wave', 'mtn', 'orange', 'cards', 'apple-pay', 'google-pay', 'spi' );
+}
+
+/**
+ * Payment icon slugs to render on WooCommerce checkout.
+ *
+ * @return string[]
+ */
+function wc_lomi_get_checkout_payment_icon_slugs() {
+	return apply_filters( 'wc_lomi_checkout_payment_icon_slugs', wc_lomi_get_default_payment_icon_slugs() );
+}
+
+/**
+ * Payment icon URLs to render on WooCommerce checkout.
+ *
+ * @return string[]
+ */
+function wc_lomi_get_checkout_payment_icon_urls() {
+	$urls = array();
+
+	foreach ( wc_lomi_get_checkout_payment_icon_slugs() as $slug ) {
+		$url = wc_lomi_get_payment_icon_url( $slug );
+		if ( $url ) {
+			$urls[] = $url;
+		}
+	}
+
+	return apply_filters( 'wc_lomi_checkout_payment_icon_urls', $urls );
+}
+
+/**
+ * "Secured by lomi." badge image for checkout branding.
+ *
+ * Drop secured-by-lomi.webp into assets/images/ when the asset is ready.
+ *
+ * @return string
+ */
+function wc_lomi_get_secured_badge_url() {
+	$url = wc_lomi_get_payment_icon_url( 'secured-by-lomi' );
+
+	return apply_filters( 'wc_lomi_secured_badge_url', $url );
+}
+
+/**
+ * Inline styles for the frosted "Secured by lomi." badge.
+ *
+ * @return string
+ */
+function wc_lomi_get_secured_badge_styles() {
+	return 'display:inline-flex;align-items:center;justify-content:center;padding:7px 16px;border-radius:9999px;background:rgba(255,255,255,0.55);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(15,23,42,0.08);box-shadow:0 1px 2px rgba(15,23,42,0.06);';
+}
+
+/**
+ * Render checkout branding: description, secured badge, payment icons.
+ *
+ * @param string $description Merchant-facing checkout text.
+ * @return void
+ */
+function wc_lomi_render_checkout_branding( $description = '' ) {
+	$secured_badge_url = wc_lomi_get_secured_badge_url();
+	$icon_urls         = wc_lomi_get_checkout_payment_icon_urls();
+
+	echo '<div class="wc-lomi-checkout-branding" style="display:flex;flex-direction:column;gap:0.75rem;">';
+
+	if ( $description ) {
+		echo '<div class="wc-lomi-checkout-description">' . wpautop( wptexturize( $description ) ) . '</div>';
+	}
+
+	echo '<div class="wc-lomi-secured-badge" style="' . esc_attr( wc_lomi_get_secured_badge_styles() ) . '">';
+	if ( $secured_badge_url ) {
+		echo '<img src="' . esc_url( $secured_badge_url ) . '" alt="' . esc_attr__( 'Secured by lomi.', 'woo-lomi' ) . '" style="height:18px;width:auto;max-width:180px;object-fit:contain;" />';
+	} else {
+		echo '<span style="font-size:12px;font-weight:600;letter-spacing:0.01em;color:#0f172a;">' . esc_html__( 'Secured by lomi.', 'woo-lomi' ) . '</span>';
+	}
+	echo '</div>';
+
+	if ( ! empty( $icon_urls ) ) {
+		echo '<div class="wc-lomi-payment-icons" style="display:flex;flex-wrap:wrap;gap:0.5rem;align-items:center;">';
+		foreach ( $icon_urls as $icon_url ) {
+			echo '<img class="wc-lomi-payment-icon" src="' . esc_url( $icon_url ) . '" alt="" style="height:28px;width:auto;max-width:72px;object-fit:contain;" />';
+		}
+		echo '</div>';
+	}
+
+	echo '</div>';
+}
+
+/**
+ * Map a lomi. provider code to a bundled checkout icon slug.
+ *
+ * @param string $provider_code Provider code from GET /providers.
+ * @return string
+ */
+function wc_lomi_map_provider_code_to_icon_slug( $provider_code ) {
+	$map = array(
+		'WAVE'   => 'wave',
+		'MTN'    => 'mtn',
+		'ORANGE' => 'orange',
+		'SPI'    => 'spi',
+		'STRIPE' => 'cards',
+	);
+
+	$code = strtoupper( (string) $provider_code );
+
+	return isset( $map[ $code ] ) ? $map[ $code ] : '';
+}
+
+/**
+ * Transient cache key for connected provider icons.
+ *
+ * @param string $secret_key API secret key.
+ * @param bool   $testmode   Whether test mode is active.
+ * @return string
+ */
+function wc_lomi_provider_icons_cache_key( $secret_key, $testmode ) {
+	return 'wc_lomi_providers_' . ( $testmode ? 'test' : 'live' ) . '_' . md5( (string) $secret_key );
+}
+
+/**
+ * Clear cached provider icons for a given API key.
+ *
+ * @param string $secret_key API secret key.
+ * @param bool   $testmode   Whether test mode is active.
+ * @return void
+ */
+function wc_lomi_clear_provider_icons_cache( $secret_key, $testmode ) {
+	if ( empty( $secret_key ) ) {
+		return;
+	}
+
+	delete_transient( wc_lomi_provider_icons_cache_key( $secret_key, $testmode ) );
+}
+
+/**
+ * Fetch icon slugs for payment providers connected in the lomi. dashboard.
+ *
+ * Results are cached for one hour to avoid API calls on every checkout page load.
+ *
+ * @param string $secret_key API secret key.
+ * @param bool   $testmode   Whether test mode is active.
+ * @param bool   $force_refresh Bypass cache when true.
+ * @return string[]
+ */
+function wc_lomi_fetch_connected_provider_icon_slugs( $secret_key, $testmode, $force_refresh = false ) {
+	if ( empty( $secret_key ) ) {
+		return array();
+	}
+
+	$cache_key = wc_lomi_provider_icons_cache_key( $secret_key, $testmode );
+
+	if ( ! $force_refresh ) {
+		$cached = get_transient( $cache_key );
+		if ( is_array( $cached ) ) {
+			return $cached;
+		}
+	}
+
+	$base_url = $testmode ? 'https://sandbox.api.lomi.africa' : 'https://api.lomi.africa';
+	$response = wp_remote_get(
+		$base_url . '/providers',
+		array(
+			'timeout' => 10,
+			'headers' => array(
+				'X-API-KEY' => $secret_key,
+			),
+		)
+	);
+
+	if ( is_wp_error( $response ) ) {
+		return array();
+	}
+
+	$status = (int) wp_remote_retrieve_response_code( $response );
+	$body   = json_decode( wp_remote_retrieve_body( $response ), true );
+
+	$providers = array();
+	if ( ! empty( $body['data'] ) && is_array( $body['data'] ) ) {
+		$providers = $body['data'];
+	} elseif ( is_array( $body ) && isset( $body[0]['provider_code'] ) ) {
+		$providers = $body;
+	}
+
+	if ( 200 !== $status || empty( $providers ) ) {
+		return array();
+	}
+
+	$icons = array();
+	foreach ( $providers as $provider ) {
+		if ( empty( $provider['is_connected'] ) || empty( $provider['provider_code'] ) ) {
+			continue;
+		}
+
+		$slug = wc_lomi_map_provider_code_to_icon_slug( $provider['provider_code'] );
+		if ( $slug && ! in_array( $slug, $icons, true ) ) {
+			$icons[] = $slug;
+		}
+	}
+
+	$order = array( 'wave', 'mtn', 'orange', 'cards', 'apple-pay', 'google-pay', 'spi' );
+	usort(
+		$icons,
+		function ( $a, $b ) use ( $order ) {
+			$pos_a = array_search( $a, $order, true );
+			$pos_b = array_search( $b, $order, true );
+			$pos_a = false === $pos_a ? PHP_INT_MAX : $pos_a;
+			$pos_b = false === $pos_b ? PHP_INT_MAX : $pos_b;
+
+			return $pos_a - $pos_b;
+		}
+	);
+
+	set_transient( $cache_key, $icons, HOUR_IN_SECONDS );
+
+	return $icons;
 }
 
 /**
