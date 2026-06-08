@@ -207,6 +207,8 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 
 		// Payment listener/API hook.
 		add_action( 'woocommerce_api_wc_gateway_lomi', array( $this, 'verify_lomi_checkout_session' ) );
+		add_action( 'woocommerce_api_wc_gateway_lomi_cancel', array( $this, 'handle_lomi_checkout_cancel' ) );
+		add_action( 'woocommerce_api_wc_gateway_lomi_abandon', array( $this, 'handle_lomi_checkout_abandon' ) );
 
 		// Webhook listener/API hook.
 		add_action( 'woocommerce_api_tbz_wc_lomi_webhook', array( $this, 'process_lomi_webhooks' ) );
@@ -509,7 +511,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 	}
 
 	/**
-	 * Enqueue checkout styles for the payment icon.
+	 * Enqueue checkout assets for branding and hosted-checkout abandon recovery.
 	 */
 	public function payment_scripts() {
 		if ( ! is_checkout() && ! is_wc_endpoint_url( 'order-pay' ) ) {
@@ -521,6 +523,163 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 			plugins_url( 'assets/css/lomi-checkout.css', WC_LOMI_MAIN_FILE ),
 			array(),
 			WC_LOMI_VERSION
+		);
+
+		if ( ! $this->is_available() || ! is_checkout() || is_order_received_page() ) {
+			return;
+		}
+
+		wp_enqueue_script(
+			'wc-lomi-checkout-abandon',
+			plugins_url( 'assets/js/checkout-abandon.js', WC_LOMI_MAIN_FILE ),
+			array( 'jquery' ),
+			WC_LOMI_VERSION,
+			true
+		);
+
+		wp_localize_script(
+			'wc-lomi-checkout-abandon',
+			'wc_lomi_checkout_params',
+			array(
+				'storageKey' => 'wc_lomi_checkout_redirect',
+				'abandonUrl' => WC()->api_request_url( 'wc_gateway_lomi_abandon' ),
+				'gatewayIds' => $this->get_lomi_gateway_ids(),
+			)
+		);
+	}
+
+	/**
+	 * Gateway IDs that use lomi. hosted checkout.
+	 *
+	 * @return string[]
+	 */
+	protected function get_lomi_gateway_ids() {
+		return array_values( array_unique( apply_filters( 'wc_lomi_gateway_ids', array( $this->id ) ) ) );
+	}
+
+	/**
+	 * Remember the pending order while the shopper is on hosted checkout.
+	 *
+	 * @param WC_Order $order Order.
+	 * @return void
+	 */
+	protected function set_lomi_pending_checkout_session( WC_Order $order ) {
+		if ( ! WC()->session ) {
+			return;
+		}
+
+		WC()->session->set( 'lomi_pending_order_id', $order->get_id() );
+		WC()->session->set( 'lomi_pending_order_key', $order->get_order_key() );
+	}
+
+	/**
+	 * Clear pending hosted checkout pointers from the shopper session.
+	 *
+	 * @return void
+	 */
+	protected function clear_lomi_pending_checkout_session() {
+		if ( ! WC()->session ) {
+			return;
+		}
+
+		WC()->session->set( 'lomi_pending_order_id', null );
+		WC()->session->set( 'lomi_pending_order_key', null );
+	}
+
+	/**
+	 * Restore a pending order back into the cart.
+	 *
+	 * @param WC_Order $order Order.
+	 * @return void
+	 */
+	protected function restore_order_items_to_cart( WC_Order $order ) {
+		if ( ! function_exists( 'wc_load_cart' ) ) {
+			return;
+		}
+
+		wc_load_cart();
+
+		if ( ! WC()->cart ) {
+			return;
+		}
+
+		WC()->cart->empty_cart( false );
+
+		foreach ( $order->get_items() as $item ) {
+			if ( ! $item instanceof WC_Order_Item_Product ) {
+				continue;
+			}
+
+			$product_id   = $item->get_product_id();
+			$variation_id = $item->get_variation_id();
+			$quantity     = $item->get_quantity();
+			$variations   = array();
+
+			foreach ( $item->get_meta_data() as $meta ) {
+				if ( taxonomy_is_product_attribute( $meta->key ) || meta_is_product_attribute( $meta->key, $meta->value, $product_id ) ) {
+					$variations[ 'attribute_' . sanitize_title( $meta->key ) ] = $meta->value;
+				}
+			}
+
+			$cart_item_data = apply_filters(
+				'woocommerce_order_again_cart_item_data',
+				array(),
+				$item,
+				$order
+			);
+
+			WC()->cart->add_to_cart( $product_id, $quantity, $variation_id, $variations, $cart_item_data );
+		}
+
+		WC()->cart->calculate_totals();
+	}
+
+	/**
+	 * Cancel a pending hosted checkout order and restore the cart.
+	 *
+	 * @param WC_Order $order Order.
+	 * @param string   $note  Order note.
+	 * @return bool
+	 */
+	protected function abandon_lomi_checkout_order( WC_Order $order, $note = '' ) {
+		if ( ! $order instanceof WC_Order ) {
+			return false;
+		}
+
+		$abandonable_statuses = apply_filters(
+			'wc_lomi_abandonable_order_statuses',
+			array( 'pending', 'failed', 'on-hold' )
+		);
+
+		if ( ! $order->has_status( $abandonable_statuses ) ) {
+			return false;
+		}
+
+		if ( ! $note ) {
+			$note = __( 'lomi.: customer left hosted checkout before completing payment.', 'woo-lomi' );
+		}
+
+		$this->restore_order_items_to_cart( $order );
+		$order->update_status( 'cancelled', $note );
+		$order->delete_meta_data( '_lomi_checkout_session_id' );
+		$order->save();
+
+		return true;
+	}
+
+	/**
+	 * Hosted checkout cancel URL for a specific order.
+	 *
+	 * @param WC_Order $order Order.
+	 * @return string
+	 */
+	protected function get_lomi_checkout_cancel_url( WC_Order $order ) {
+		return add_query_arg(
+			array(
+				'order_id' => $order->get_id(),
+				'key'      => $order->get_order_key(),
+			),
+			WC()->api_request_url( 'wc_gateway_lomi_cancel' )
 		);
 	}
 
@@ -590,6 +749,8 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 			wc_add_notice( $session->get_error_message(), 'error' );
 			return;
 		}
+
+		$this->set_lomi_pending_checkout_session( $order );
 
 		return array(
 			'result'   => 'success',
@@ -866,10 +1027,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 			),
 			WC()->api_request_url( 'WC_Gateway_Lomi' )
 		);
-		$cancel   = wc_get_cart_url();
-		if ( ! $cancel ) {
-			$cancel = wc_get_checkout_url();
-		}
+		$cancel = $this->get_lomi_checkout_cancel_url( $order );
 		$body = array(
 			'currency_code'           => strtoupper( $order->get_currency() ),
 			'amount'                  => $this->get_order_amount_for_lomi( $order ),
@@ -1084,6 +1242,89 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 	}
 
 	/**
+	 * Resolve the pending hosted checkout order from the shopper session.
+	 *
+	 * @return WC_Order|false
+	 */
+	protected function get_pending_lomi_checkout_order() {
+		if ( ! WC()->session ) {
+			return false;
+		}
+
+		$order_id = absint( WC()->session->get( 'lomi_pending_order_id' ) );
+		$order_key = (string) WC()->session->get( 'lomi_pending_order_key' );
+
+		if ( ! $order_id || ! $order_key ) {
+			return false;
+		}
+
+		$order = wc_get_order( $order_id );
+		if ( ! $order || $order->get_order_key() !== $order_key ) {
+			return false;
+		}
+
+		return $order;
+	}
+
+	/**
+	 * Customer cancelled hosted checkout from lomi.
+	 */
+	public function handle_lomi_checkout_cancel() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$order_id = isset( $_GET['order_id'] ) ? absint( $_GET['order_id'] ) : 0;
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		$key = isset( $_GET['key'] ) ? sanitize_text_field( wp_unslash( $_GET['key'] ) ) : '';
+
+		@ob_clean();
+
+		$order = wc_get_order( $order_id );
+		if ( ! $order || $order->get_order_key() !== $key ) {
+			wp_safe_redirect( wc_get_checkout_url() );
+			exit;
+		}
+
+		$this->abandon_lomi_checkout_order(
+			$order,
+			__( 'lomi.: customer cancelled hosted checkout.', 'woo-lomi' )
+		);
+		$this->clear_lomi_pending_checkout_session();
+		wc_add_notice(
+			__( 'Payment was cancelled. Your cart has been restored — you can place your order again.', 'woo-lomi' ),
+			'notice'
+		);
+		wp_safe_redirect( wc_get_checkout_url() );
+		exit;
+	}
+
+	/**
+	 * Browser returned to checkout without completing hosted payment.
+	 */
+	public function handle_lomi_checkout_abandon() {
+		@ob_clean();
+
+		$order = $this->get_pending_lomi_checkout_order();
+		if ( ! $order ) {
+			wp_send_json_success( array( 'abandoned' => false ) );
+		}
+
+		$abandoned = $this->abandon_lomi_checkout_order( $order );
+		$this->clear_lomi_pending_checkout_session();
+
+		if ( $abandoned ) {
+			wc_add_notice(
+				__( 'Payment was cancelled. Your cart has been restored — you can place your order again.', 'woo-lomi' ),
+				'notice'
+			);
+		}
+
+		wp_send_json_success(
+			array(
+				'abandoned' => $abandoned,
+			)
+		);
+	}
+
+	/**
 	 * Return handler after lomi. checkout.
 	 */
 	public function verify_lomi_checkout_session() {
@@ -1121,7 +1362,18 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 			exit;
 		}
 		$this->maybe_complete_order_from_lomi_session( $order, $data, true );
-		wp_safe_redirect( $this->get_return_url( $order ) );
+		$this->clear_lomi_pending_checkout_session();
+
+		if ( $this->lomi_session_is_paid( $data->status ?? '' ) ) {
+			wp_safe_redirect( $this->get_return_url( $order ) );
+			exit;
+		}
+
+		$this->abandon_lomi_checkout_order(
+			$order,
+			__( 'lomi.: hosted checkout returned without a completed payment.', 'woo-lomi' )
+		);
+		wp_safe_redirect( wc_get_checkout_url() );
 		exit;
 	}
 
