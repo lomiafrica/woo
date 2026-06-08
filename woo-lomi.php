@@ -3,7 +3,7 @@
  * Plugin Name: lomi. for WooCommerce
  * Plugin URI: https://lomi.africa
  * Description: WooCommerce payment gateway for lomi.
- * Version: 1.0.0
+ * Version: 6.1.0
  * Author: lomi.
  * Author URI: https://lomi.africa
  * License: GPL-2.0+
@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'WC_LOMI_MAIN_FILE', __FILE__ );
 define( 'WC_LOMI_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 
-define( 'WC_LOMI_VERSION', '1.0.0' );
+define( 'WC_LOMI_VERSION', '6.1.0' );
 
 /**
  * Load plugin translations.
@@ -85,19 +85,9 @@ function tbz_wc_lomi_init() {
 	add_action( 'admin_init', 'tbz_wc_lomi_testmode_notice' );
 
 	require_once __DIR__ . '/includes/class-wc-gateway-lomi.php';
-
 	require_once __DIR__ . '/includes/class-wc-gateway-lomi-subscriptions.php';
 
-	require_once __DIR__ . '/includes/custom-gateways/class-wc-gateway-custom-lomi.php';
-
-	require_once __DIR__ . '/includes/custom-gateways/gateway-one/class-wc-gateway-lomi-one.php';
-	require_once __DIR__ . '/includes/custom-gateways/gateway-two/class-wc-gateway-lomi-two.php';
-	require_once __DIR__ . '/includes/custom-gateways/gateway-three/class-wc-gateway-lomi-three.php';
-	require_once __DIR__ . '/includes/custom-gateways/gateway-four/class-wc-gateway-lomi-four.php';
-	require_once __DIR__ . '/includes/custom-gateways/gateway-five/class-wc-gateway-lomi-five.php';
-
 	add_filter( 'woocommerce_payment_gateways', 'tbz_wc_add_lomi_gateway', 99 );
-
 	add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'tbz_woo_lomi_plugin_action_links' );
 
 }
@@ -107,9 +97,8 @@ add_action( 'plugins_loaded', 'tbz_wc_lomi_init', 99 );
  * Add Settings link to the plugin entry in the plugins menu.
  *
  * @param array $links Plugin action links.
- *
  * @return array
- **/
+ */
 function tbz_woo_lomi_plugin_action_links( $links ) {
 
 	$settings_link = array(
@@ -124,58 +113,14 @@ function tbz_woo_lomi_plugin_action_links( $links ) {
  * Add lomi. gateway to WooCommerce.
  *
  * @param array $methods WooCommerce payment gateways methods.
- *
  * @return array
  */
 function tbz_wc_add_lomi_gateway( $methods ) {
 
-	if ( class_exists( 'WC_Subscriptions_Order' ) && class_exists( 'WC_Payment_Gateway_CC' ) ) {
+	if ( class_exists( 'WC_Subscriptions_Order' ) && class_exists( 'WC_Payment_Gateway' ) ) {
 		$methods[] = 'WC_Gateway_Lomi_Subscriptions';
 	} else {
 		$methods[] = 'WC_Gateway_Lomi';
-	}
-
-	$allowed_currencies = apply_filters( 'woocommerce_lomi_supported_currencies', array( 'XOF', 'USD', 'EUR' ) );
-
-	if ( in_array( get_woocommerce_currency(), $allowed_currencies, true ) ) {
-
-		$settings        = get_option( 'woocommerce_lomi_settings', '' );
-		$custom_gateways = isset( $settings['custom_gateways'] ) ? $settings['custom_gateways'] : '';
-
-		switch ( $custom_gateways ) {
-			case '5':
-				$methods[] = 'WC_Gateway_Lomi_One';
-				$methods[] = 'WC_Gateway_Lomi_Two';
-				$methods[] = 'WC_Gateway_Lomi_Three';
-				$methods[] = 'WC_Gateway_Lomi_Four';
-				$methods[] = 'WC_Gateway_Lomi_Five';
-				break;
-
-			case '4':
-				$methods[] = 'WC_Gateway_Lomi_One';
-				$methods[] = 'WC_Gateway_Lomi_Two';
-				$methods[] = 'WC_Gateway_Lomi_Three';
-				$methods[] = 'WC_Gateway_Lomi_Four';
-				break;
-
-			case '3':
-				$methods[] = 'WC_Gateway_Lomi_One';
-				$methods[] = 'WC_Gateway_Lomi_Two';
-				$methods[] = 'WC_Gateway_Lomi_Three';
-				break;
-
-			case '2':
-				$methods[] = 'WC_Gateway_Lomi_One';
-				$methods[] = 'WC_Gateway_Lomi_Two';
-				break;
-
-			case '1':
-				$methods[] = 'WC_Gateway_Lomi_One';
-				break;
-
-			default:
-				break;
-		}
 	}
 
 	return $methods;
@@ -191,7 +136,7 @@ function tbz_wc_lomi_wc_missing_notice() {
 
 /**
  * Display the test mode notice.
- **/
+ */
 function tbz_wc_lomi_testmode_notice() {
 
 	if ( ! class_exists( Notes::class ) ) {
@@ -248,21 +193,10 @@ add_action(
 function tbz_wc_gateway_lomi_woocommerce_block_support() {
 	if ( class_exists( 'Automattic\WooCommerce\Blocks\Payments\Integrations\AbstractPaymentMethodType' ) ) {
 		require_once __DIR__ . '/includes/class-wc-gateway-lomi-blocks-support.php';
-		require_once __DIR__ . '/includes/custom-gateways/class-wc-gateway-custom-lomi-blocks-support.php';
-		require_once __DIR__ . '/includes/custom-gateways/gateway-one/class-wc-gateway-lomi-one-blocks-support.php';
-		require_once __DIR__ . '/includes/custom-gateways/gateway-two/class-wc-gateway-lomi-two-blocks-support.php';
-		require_once __DIR__ . '/includes/custom-gateways/gateway-three/class-wc-gateway-lomi-three-blocks-support.php';
-		require_once __DIR__ . '/includes/custom-gateways/gateway-four/class-wc-gateway-lomi-four-blocks-support.php';
-		require_once __DIR__ . '/includes/custom-gateways/gateway-five/class-wc-gateway-lomi-five-blocks-support.php';
 		add_action(
 			'woocommerce_blocks_payment_method_type_registration',
 			static function( Automattic\WooCommerce\Blocks\Payments\PaymentMethodRegistry $payment_method_registry ) {
 				$payment_method_registry->register( new WC_Gateway_Lomi_Blocks_Support() );
-				$payment_method_registry->register( new WC_Gateway_Lomi_One_Blocks_Support() );
-				$payment_method_registry->register( new WC_Gateway_Lomi_Two_Blocks_Support() );
-				$payment_method_registry->register( new WC_Gateway_Lomi_Three_Blocks_Support() );
-				$payment_method_registry->register( new WC_Gateway_Lomi_Four_Blocks_Support() );
-				$payment_method_registry->register( new WC_Gateway_Lomi_Five_Blocks_Support() );
 			}
 		);
 	}

@@ -16,7 +16,6 @@ The plugin lets merchants accept customer payments in XOF, USD, and EUR while me
 - Test and live API key configuration
 - Webhook-based payment confirmation
 - Optional checkout metadata
-- Optional additional lomi. payment methods with custom labels and card-brand filters
 
 ## Important Notes
 
@@ -58,12 +57,6 @@ The plugin lets merchants accept customer payments in XOF, USD, and EUR while me
 Configure the webhook URL shown in the lomi. settings screen from your lomi. dashboard.
 
 The webhook signing secret in WooCommerce must match the secret configured for the webhook endpoint in lomi. The plugin uses webhooks to confirm successful payments and update WooCommerce orders.
-
-### Additional Payment Methods
-
-The plugin can create additional lomi. payment methods that reuse the main gateway API keys.
-
-Use additional payment methods when you need separate checkout labels or card-brand filters in WooCommerce. These payment methods still use lomi. hosted checkout.
 
 ### Supported Currencies
 

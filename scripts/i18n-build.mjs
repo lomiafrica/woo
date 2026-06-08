@@ -21,11 +21,6 @@ const pluginHeaders = [
 
 const scriptHandles = [
 	'wc-lomi-blocks',
-	'wc-lomi-one-blocks',
-	'wc-lomi-two-blocks',
-	'wc-lomi-three-blocks',
-	'wc-lomi-four-blocks',
-	'wc-lomi-five-blocks',
 ];
 
 const translations = {
