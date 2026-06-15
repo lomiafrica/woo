@@ -1,35 +1,57 @@
 jQuery( function( $ ) {
 	'use strict';
 
-	/**
-	 * Object to handle lomi. admin functions.
-	 */
 	var wc_lomi_admin = {
-		/**
-		 * Initialize.
-		 */
+		testFieldSelectors: '#woocommerce_lomi_test_secret_key, #woocommerce_lomi_test_public_key, #woocommerce_lomi_test_webhook_secret',
+		liveFieldSelectors: '#woocommerce_lomi_live_secret_key, #woocommerce_lomi_live_public_key, #woocommerce_lomi_live_webhook_secret',
+
+		getSettingsTable: function() {
+			return $( '.wc-lomi-settings-table' );
+		},
+
+		fieldRow: function( $field ) {
+			var $row = $field.closest( 'tr' );
+			if ( $row.length ) {
+				return $row;
+			}
+			return $field.closest( 'fieldset, .form-field, .components-base-control' ).first();
+		},
+
+		toggleModeFields: function( testMode ) {
+			var $table = this.getSettingsTable();
+
+			if ( $table.length ) {
+				$table.toggleClass( 'wc-lomi-mode-test', testMode );
+				$table.toggleClass( 'wc-lomi-mode-live', ! testMode );
+			}
+
+			if ( testMode ) {
+				$( this.liveFieldSelectors ).each( function() {
+					wc_lomi_admin.fieldRow( $( this ) ).hide();
+				} );
+				$( this.testFieldSelectors ).each( function() {
+					wc_lomi_admin.fieldRow( $( this ) ).show();
+				} );
+			} else {
+				$( this.testFieldSelectors ).each( function() {
+					wc_lomi_admin.fieldRow( $( this ) ).hide();
+				} );
+				$( this.liveFieldSelectors ).each( function() {
+					wc_lomi_admin.fieldRow( $( this ) ).show();
+				} );
+			}
+		},
+
 		init: function() {
+			var $testMode = $( '#woocommerce_lomi_testmode' );
 
 			$( document.body ).on( 'change', '#woocommerce_lomi_testmode', function() {
-				var test_secret_key = $( '#woocommerce_lomi_test_secret_key' ).parents( 'tr' ).eq( 0 ),
-					test_webhook_secret = $( '#woocommerce_lomi_test_webhook_secret' ).parents( 'tr' ).eq( 0 ),
-					live_secret_key = $( '#woocommerce_lomi_live_secret_key' ).parents( 'tr' ).eq( 0 ),
-					live_webhook_secret = $( '#woocommerce_lomi_live_webhook_secret' ).parents( 'tr' ).eq( 0 );
-
-				if ( $( this ).is( ':checked' ) ) {
-					test_secret_key.show();
-					test_webhook_secret.show();
-					live_secret_key.hide();
-					live_webhook_secret.hide();
-				} else {
-					test_secret_key.hide();
-					test_webhook_secret.hide();
-					live_secret_key.show();
-					live_webhook_secret.show();
-				}
+				wc_lomi_admin.toggleModeFields( $( this ).is( ':checked' ) );
 			} );
 
-			$( '#woocommerce_lomi_testmode' ).change();
+			if ( $testMode.length ) {
+				wc_lomi_admin.toggleModeFields( $testMode.is( ':checked' ) );
+			}
 
 			$( '.wc-lomi-metadata' ).change( function() {
 				if ( $( this ).is( ':checked' ) ) {
@@ -40,7 +62,7 @@ jQuery( function( $ ) {
 			} ).change();
 
 			$( '#woocommerce_lomi_test_secret_key, #woocommerce_lomi_live_secret_key, #woocommerce_lomi_test_webhook_secret, #woocommerce_lomi_live_webhook_secret' ).after(
-				'<button class="wc-lomi-toggle-secret" style="height: 30px; margin-left: 2px; cursor: pointer"><span class="dashicons dashicons-visibility"></span></button>'
+				'<button type="button" class="wc-lomi-toggle-secret" style="height: 30px; margin-left: 2px; cursor: pointer"><span class="dashicons dashicons-visibility"></span></button>'
 			);
 
 			$( '.wc-lomi-toggle-secret' ).on( 'click', function( event ) {
@@ -64,5 +86,4 @@ jQuery( function( $ ) {
 	};
 
 	wc_lomi_admin.init();
-
 } );

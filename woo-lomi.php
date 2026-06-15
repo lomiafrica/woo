@@ -398,6 +398,37 @@ function tbz_wc_lomi_init() {
 add_action( 'plugins_loaded', 'tbz_wc_lomi_init', 99 );
 
 /**
+ * Keep existing API secrets when WooCommerce saves partial gateway settings (e.g. Payments list toggle).
+ *
+ * @param mixed $value     New option value.
+ * @param mixed $old_value Previous option value.
+ * @return mixed
+ */
+function wc_lomi_merge_settings_on_update( $value, $old_value ) {
+	if ( ! is_array( $value ) || ! is_array( $old_value ) ) {
+		return $value;
+	}
+
+	$preserve_if_empty = array(
+		'test_secret_key',
+		'live_secret_key',
+		'test_webhook_secret',
+		'live_webhook_secret',
+		'test_public_key',
+		'live_public_key',
+	);
+
+	foreach ( $preserve_if_empty as $key ) {
+		if ( ( ! isset( $value[ $key ] ) || '' === $value[ $key ] ) && ! empty( $old_value[ $key ] ) ) {
+			$value[ $key ] = $old_value[ $key ];
+		}
+	}
+
+	return $value;
+}
+add_filter( 'pre_update_option_woocommerce_lomi_settings', 'wc_lomi_merge_settings_on_update', 10, 2 );
+
+/**
  * Add Settings link to the plugin entry in the plugins menu.
  *
  * @param array $links Plugin action links.
