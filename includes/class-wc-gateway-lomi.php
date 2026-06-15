@@ -42,6 +42,20 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 	public $live_secret_key;
 
 	/**
+	 * lomi. test public key (optional).
+	 *
+	 * @var string
+	 */
+	public $test_public_key;
+
+	/**
+	 * lomi. live public key (optional).
+	 *
+	 * @var string
+	 */
+	public $live_public_key;
+
+	/**
 	 * Should custom metadata be enabled?
 	 *
 	 * @var bool
@@ -140,6 +154,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 		$this->method_title       = __( 'lomi.', 'woo-lomi' );
 		$this->method_description = sprintf( __( 'Accept payments with lomi. Secure hosted checkout. <a href="%1$s" target="_blank">Create an account</a> and <a href="%2$s" target="_blank">get your API keys</a>.', 'woo-lomi' ), 'https://lomi.africa', 'https://dashboard.lomi.africa/settings/access-tokens' );
 		$this->has_fields         = false;
+		$this->icon               = wc_lomi_get_compact_icon_url();
 
 		$this->supports = array(
 			'products',
@@ -171,6 +186,8 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 
 		$this->test_secret_key = $this->get_option( 'test_secret_key' );
 		$this->live_secret_key = $this->get_option( 'live_secret_key' );
+		$this->test_public_key = $this->get_option( 'test_public_key' );
+		$this->live_public_key = $this->get_option( 'live_public_key' );
 
 		$this->remove_cancel_order_button = $this->get_option( 'remove_cancel_order_button' ) === 'yes' ? true : false;
 
@@ -214,12 +231,139 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 		add_action( 'woocommerce_api_tbz_wc_lomi_webhook', array( $this, 'process_lomi_webhooks' ) );
 
 		add_action( 'woocommerce_checkout_process', array( $this, 'validate_subscription_catalog_at_checkout' ) );
+	}
 
-		// Check if the gateway can be used.
-		if ( ! $this->is_valid_for_use() ) {
-			$this->enabled = false;
+	/**
+	 * Normalize enabled flag after WooCommerce loads settings.
+	 */
+	public function init_settings() {
+		parent::init_settings();
+		$this->enabled = ( ! empty( $this->settings['enabled'] ) && 'yes' === $this->settings['enabled'] ) ? 'yes' : 'no';
+	}
+
+	/**
+	 * Whether the store currency is supported by lomi.
+	 *
+	 * @return bool
+	 */
+	protected function currency_is_supported() {
+		$allowed = apply_filters( 'woocommerce_lomi_supported_currencies', array( 'XOF', 'USD', 'EUR' ) );
+
+		return in_array( get_woocommerce_currency(), $allowed, true );
+	}
+
+	/**
+	 * Whether test mode is enabled in settings.
+	 *
+	 * @return bool
+	 */
+	protected function is_test_mode() {
+		return 'yes' === $this->get_option( 'testmode' );
+	}
+
+	/**
+	 * Secret API key for the current mode (reads fresh from settings).
+	 *
+	 * @return string
+	 */
+	protected function get_active_secret_key() {
+		$key = $this->is_test_mode()
+			? $this->get_option( 'test_secret_key' )
+			: $this->get_option( 'live_secret_key' );
+
+		return trim( (string) $key );
+	}
+
+	/**
+	 * Webhook signing secret for the current mode (reads fresh from settings).
+	 *
+	 * @return string
+	 */
+	protected function get_active_webhook_secret() {
+		$secret = $this->is_test_mode()
+			? $this->get_option( 'test_webhook_secret' )
+			: $this->get_option( 'live_webhook_secret' );
+
+		return trim( (string) $secret );
+	}
+
+	/**
+	 * Reload credential properties from saved settings (after save or on checkout).
+	 */
+	protected function refresh_credentials_from_settings() {
+		$this->testmode           = $this->is_test_mode();
+		$this->test_secret_key    = (string) $this->get_option( 'test_secret_key' );
+		$this->live_secret_key    = (string) $this->get_option( 'live_secret_key' );
+		$this->test_public_key    = (string) $this->get_option( 'test_public_key' );
+		$this->live_public_key    = (string) $this->get_option( 'live_public_key' );
+		$this->test_webhook_secret = (string) $this->get_option( 'test_webhook_secret' );
+		$this->live_webhook_secret = (string) $this->get_option( 'live_webhook_secret' );
+		$this->secret_key         = $this->get_active_secret_key();
+		$this->webhook_secret     = $this->get_active_webhook_secret();
+	}
+
+	/**
+	 * Preserve hidden password fields when saving (WooCommerce clears empty password inputs).
+	 *
+	 * @return bool
+	 */
+	public function process_admin_options() {
+		$preserve_if_empty = array(
+			'test_secret_key',
+			'live_secret_key',
+			'test_webhook_secret',
+			'live_webhook_secret',
+		);
+
+		foreach ( $preserve_if_empty as $field_key ) {
+			$post_key = $this->get_field_key( $field_key );
+			if ( ! isset( $_POST[ $post_key ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+				continue;
+			}
+			$posted = wc_clean( wp_unslash( $_POST[ $post_key ] ) ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			if ( '' === $posted ) {
+				unset( $_POST[ $post_key ] ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			}
 		}
 
+		$saved = parent::process_admin_options();
+
+		$this->init_settings();
+		$this->refresh_credentials_from_settings();
+
+		return $saved;
+	}
+
+	/**
+	 * Whether this admin screen is the lomi. gateway settings page.
+	 *
+	 * @return bool
+	 */
+	protected function is_lomi_settings_screen() {
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return false;
+		}
+
+		$screen = get_current_screen();
+		if ( ! $screen ) {
+			return false;
+		}
+
+		if ( ! in_array( $screen->id, array( 'woocommerce_page_wc-settings', 'woocommerce_page_wc-admin' ), true ) ) {
+			return false;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_GET['section'] ) && 'lomi' === sanitize_text_field( wp_unslash( $_GET['section'] ) ) ) {
+			return true;
+		}
+
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( isset( $_GET['path'] ) && false !== strpos( sanitize_text_field( wp_unslash( $_GET['path'] ) ), 'lomi' ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	/**
@@ -227,9 +371,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 	 */
 	public function is_valid_for_use() {
 
-		$allowed = apply_filters( 'woocommerce_lomi_supported_currencies', array( 'XOF', 'USD', 'EUR' ) );
-
-		if ( ! in_array( get_woocommerce_currency(), $allowed, true ) ) {
+		if ( ! $this->currency_is_supported() ) {
 
 			$this->msg = sprintf(
 				/* translators: %s: settings URL */
@@ -275,18 +417,25 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 	 */
 	public function admin_notices() {
 
-		if ( $this->enabled == 'no' ) {
+		$settings_url = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=lomi' );
+
+		if ( 'yes' !== $this->get_option( 'enabled' ) ) {
+			if ( '' !== $this->get_active_secret_key() ) {
+				echo '<div class="notice notice-warning"><p>' . sprintf(
+					/* translators: %s: settings URL */
+					esc_html__( 'lomi. credentials are saved but the gateway is disabled. Enable lomi. %shere%s for checkout.', 'woo-lomi' ),
+					'<a href="' . esc_url( $settings_url ) . '">' . esc_html__( 'in gateway settings', 'woo-lomi' ) . '</a>'
+				) . '</p></div>';
+			}
 			return;
 		}
 
-		$settings_url = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=lomi' );
-
-		if ( ! $this->secret_key ) {
+		if ( '' === $this->get_active_secret_key() ) {
 			echo '<div class="error"><p>' . sprintf( esc_html__( 'Please enter your lomi. secret API key %shere%s to use this gateway.', 'woo-lomi' ), '<a href="' . esc_url( $settings_url ) . '">', '</a>' ) . '</p></div>';
 			return;
 		}
 
-		if ( ! $this->webhook_secret ) {
+		if ( ! $this->get_active_webhook_secret() ) {
 			echo '<div class="notice notice-warning"><p>' . sprintf(
 				/* translators: %s: settings URL */
 				esc_html__( 'lomi. is enabled but no webhook signing secret is configured. Add one %shere%s and register the webhook URL in your lomi. dashboard.', 'woo-lomi' ),
@@ -315,21 +464,19 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 	 * @return bool
 	 */
 	public function is_available() {
-
-		if ( 'yes' == $this->enabled ) {
-
-			if ( ! $this->secret_key ) {
-
-				return false;
-
-			}
-
-			return true;
-
+		if ( 'yes' !== $this->enabled ) {
+			return false;
 		}
 
-		return false;
+		if ( ! $this->currency_is_supported() ) {
+			return false;
+		}
 
+		if ( '' === $this->get_active_secret_key() ) {
+			return false;
+		}
+
+		return parent::is_available();
 	}
 
 	/**
@@ -363,7 +510,8 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 
 			$this->render_setup_health_panel();
 
-			echo '<table class="form-table">';
+			$mode_class = $this->is_test_mode() ? 'wc-lomi-mode-test' : 'wc-lomi-mode-live';
+			echo '<table class="form-table wc-lomi-settings-table ' . esc_attr( $mode_class ) . '">';
 			$this->generate_settings_html();
 			echo '</table>';
 
@@ -398,7 +546,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 				'title'       => __( 'Enable/Disable', 'woo-lomi' ),
 				'label'       => __( 'Enable lomi.', 'woo-lomi' ),
 				'type'        => 'checkbox',
-				'description' => __( 'Enable lomi. on the checkout page.', 'woo-lomi' ),
+				'description' => __( 'Must be enabled for lomi. to appear at checkout (in addition to the Active toggle on the Payments list).', 'woo-lomi' ),
 				'default'     => 'no',
 				'desc_tip'    => true,
 			),
@@ -427,24 +575,44 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 			'test_secret_key'                  => array(
 				'title'       => __( 'Test Secret Key', 'woo-lomi' ),
 				'type'        => 'password',
+				'class'       => 'wc-lomi-test-field',
 				'description' => __( 'Your lomi. secret API key (test).', 'woo-lomi' ),
+				'default'     => '',
+			),
+			'test_public_key'                  => array(
+				'title'       => __( 'Test Public Key', 'woo-lomi' ),
+				'type'        => 'text',
+				'class'       => 'wc-lomi-test-field',
+				'description' => __( 'Optional. Not required for hosted checkout.', 'woo-lomi' ),
+				'default'     => '',
+				'desc_tip'    => true,
+			),
+			'test_webhook_secret'              => array(
+				'title'       => __( 'Test webhook secret', 'woo-lomi' ),
+				'type'        => 'password',
+				'class'       => 'wc-lomi-test-field',
+				'description' => __( 'Secret for verifying webhook signatures (test). Must match the secret configured on your lomi. webhook endpoint.', 'woo-lomi' ),
 				'default'     => '',
 			),
 			'live_secret_key'                  => array(
 				'title'       => __( 'Live Secret Key', 'woo-lomi' ),
 				'type'        => 'password',
+				'class'       => 'wc-lomi-live-field',
 				'description' => __( 'Your lomi. secret API key (live).', 'woo-lomi' ),
 				'default'     => '',
 			),
-			'test_webhook_secret'              => array(
-				'title'       => __( 'Test webhook secret', 'woo-lomi' ),
-				'type'        => 'password',
-				'description' => __( 'Secret for verifying webhook signatures (test). Must match the secret configured on your lomi. webhook endpoint.', 'woo-lomi' ),
+			'live_public_key'                  => array(
+				'title'       => __( 'Live Public Key', 'woo-lomi' ),
+				'type'        => 'text',
+				'class'       => 'wc-lomi-live-field',
+				'description' => __( 'Optional. Not required for hosted checkout.', 'woo-lomi' ),
 				'default'     => '',
+				'desc_tip'    => true,
 			),
 			'live_webhook_secret'              => array(
 				'title'       => __( 'Live webhook secret', 'woo-lomi' ),
 				'type'        => 'password',
+				'class'       => 'wc-lomi-live-field',
 				'description' => __( 'Secret for verifying webhook signatures (live).', 'woo-lomi' ),
 				'default'     => '',
 			),
@@ -726,7 +894,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 	 */
 	public function admin_scripts() {
 
-		if ( 'woocommerce_page_wc-settings' !== get_current_screen()->id ) {
+		if ( ! $this->is_lomi_settings_screen() ) {
 			return;
 		}
 
@@ -736,9 +904,17 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 			'plugin_url' => WC_LOMI_URL,
 		);
 
-		wp_enqueue_script( 'wc_lomi_admin', plugins_url( 'assets/js/lomi-admin' . $suffix . '.js', WC_LOMI_MAIN_FILE ), array(), WC_LOMI_VERSION, true );
+		wp_enqueue_script( 'wc_lomi_admin', plugins_url( 'assets/js/lomi-admin' . $suffix . '.js', WC_LOMI_MAIN_FILE ), array( 'jquery' ), WC_LOMI_VERSION, true );
 
 		wp_localize_script( 'wc_lomi_admin', 'wc_lomi_admin_params', $lomi_admin_params );
+
+		wp_register_style( 'wc_lomi_admin', false, array(), WC_LOMI_VERSION );
+		wp_enqueue_style( 'wc_lomi_admin' );
+		wp_add_inline_style(
+			'wc_lomi_admin',
+			'.wc-lomi-mode-live tr:has(.wc-lomi-test-field){display:none!important}'
+			. '.wc-lomi-mode-test tr:has(.wc-lomi-live-field){display:none!important}'
+		);
 
 	}
 
@@ -1107,10 +1283,21 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 	protected function get_setup_health_checks() {
 		$checks = array();
 
+		$active_secret = $this->get_active_secret_key();
+		$active_webhook = $this->get_active_webhook_secret();
+
+		$checks['enabled'] = array(
+			'label'   => __( 'Checkout enabled', 'woo-lomi' ),
+			'status'  => 'yes' === $this->get_option( 'enabled' ) ? 'ok' : 'error',
+			'message' => 'yes' === $this->get_option( 'enabled' )
+				? __( 'Enabled', 'woo-lomi' )
+				: __( 'Disabled — check “Enable lomi.” below to show at checkout.', 'woo-lomi' ),
+		);
+
 		$checks['secret_key'] = array(
 			'label'   => __( 'API secret key', 'woo-lomi' ),
-			'status'  => $this->secret_key ? 'ok' : 'error',
-			'message' => $this->secret_key ? __( 'Configured', 'woo-lomi' ) : __( 'Missing — add your test or live secret key below.', 'woo-lomi' ),
+			'status'  => $active_secret ? 'ok' : 'error',
+			'message' => $active_secret ? __( 'Configured', 'woo-lomi' ) : __( 'Missing — add your test or live secret key below.', 'woo-lomi' ),
 		);
 
 		$checks['currency'] = array(
@@ -1123,8 +1310,8 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 
 		$checks['webhook_secret'] = array(
 			'label'   => __( 'Webhook signing secret', 'woo-lomi' ),
-			'status'  => $this->webhook_secret ? 'ok' : 'warning',
-			'message' => $this->webhook_secret ? __( 'Configured', 'woo-lomi' ) : __( 'Recommended — required to verify PAYMENT_SUCCEEDED webhooks.', 'woo-lomi' ),
+			'status'  => $active_webhook ? 'ok' : 'warning',
+			'message' => $active_webhook ? __( 'Configured', 'woo-lomi' ) : __( 'Recommended — required to verify PAYMENT_SUCCEEDED webhooks.', 'woo-lomi' ),
 		);
 
 		$checks['https'] = array(
@@ -1139,7 +1326,8 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 			'message' => $this->testmode ? __( 'Sandbox API active', 'woo-lomi' ) : __( 'Live API active', 'woo-lomi' ),
 		);
 
-		if ( $this->secret_key ) {
+		if ( $active_secret ) {
+			$this->refresh_credentials_from_settings();
 			$connection = $this->test_lomi_api_connection();
 			$checks['api_connection'] = array(
 				'label'   => __( 'API connection', 'woo-lomi' ),

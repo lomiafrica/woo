@@ -32,8 +32,16 @@ final class WC_Gateway_Lomi_Blocks_Support extends AbstractPaymentMethodType {
 	 * @return boolean
 	 */
 	public function is_active() {
-		$payment_gateways_class = WC()->payment_gateways();
-		$payment_gateways       = $payment_gateways_class->payment_gateways();
+		if ( ! function_exists( 'WC' ) || ! WC()->payment_gateways() ) {
+			return false;
+		}
+
+		$payment_gateways = WC()->payment_gateways()->payment_gateways();
+
+		if ( empty( $payment_gateways['lomi'] ) ) {
+			return false;
+		}
+
 		return $payment_gateways['lomi']->is_available();
 	}
 
