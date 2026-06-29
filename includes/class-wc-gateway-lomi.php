@@ -1933,6 +1933,24 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 			return;
 		}
 
+		$session_meta_order_id = isset( $session_data->metadata->wc_order_id ) ? (string) $session_data->metadata->wc_order_id : '';
+		if ( $session_meta_order_id && $session_meta_order_id !== (string) $order->get_id() ) {
+			$order->update_status(
+				'on-hold',
+				sprintf(
+					/* translators: 1: session order id, 2: current order id */
+					__( 'lomi.: checkout session belongs to a different order (session order %1$s vs current order %2$s). Possible replay attempt.', 'woo-lomi' ),
+					$session_meta_order_id,
+					(string) $order->get_id()
+				)
+			);
+			$order->save();
+			if ( $notify_customer ) {
+				wc_add_notice( __( 'Payment verification failed. Please try again or contact the store.', 'woo-lomi' ), 'error' );
+			}
+			return;
+		}
+
 		$uses_catalog = $this->order_uses_lomi_catalog_checkout( $order, $session_data );
 		$expected     = $this->get_expected_lomi_session_amount( $order, $session_data );
 		$paid         = isset( $session_data->amount ) ? (int) round( (float) $session_data->amount ) : 0;
@@ -2138,7 +2156,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 		}
 		$session_id = $order->get_meta( '_lomi_checkout_session_id' );
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
-		if ( ! empty( $_GET['lomi_checkout_session_id'] ) ) {
+		if ( ! $session_id && ! empty( $_GET['lomi_checkout_session_id'] ) ) {
 			$session_id = sanitize_text_field( wp_unslash( $_GET['lomi_checkout_session_id'] ) );
 		}
 		if ( ! $session_id ) {
