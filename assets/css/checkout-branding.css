@@ -73,9 +73,11 @@
 	height: 38px;
 	flex-shrink: 0;
 	border-radius: 9px;
-	background: #fff;
-	border: 1px solid #e8edf3;
-	box-shadow: 0 1px 0 rgba(15, 23, 42, 0.04);
+	background: #f8fafc;
+	border: 1px solid #cbd5e1;
+	box-shadow:
+		inset 0 0 0 1px rgba(255, 255, 255, 0.65),
+		0 1px 2px rgba(15, 23, 42, 0.06);
 }
 
 .wc-lomi-checkout-branding__method img {
@@ -116,7 +118,12 @@
 
 /* ── WooCommerce Blocks checkout ── */
 
-.wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) {
+.wc-block-checkout .wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding),
+.wc-block-checkout .wc-block-components-radio-control:not(:has(.wc-block-components-radio-control-accordion-option))
+	.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding),
+.wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding),
+.wc-block-components-radio-control:not(:has(.wc-block-components-radio-control-accordion-option))
+	.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding) {
 	border: 1px solid #dbe3ee !important;
 	border-radius: 12px !important;
 	background: #fff;
@@ -124,30 +131,61 @@
 	overflow: hidden;
 }
 
-.wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding):hover {
+.wc-block-checkout .wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding):hover,
+.wc-block-checkout .wc-block-components-radio-control:not(:has(.wc-block-components-radio-control-accordion-option))
+	.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding):hover,
+.wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding):hover,
+.wc-block-components-radio-control:not(:has(.wc-block-components-radio-control-accordion-option))
+	.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding):hover {
 	border-color: #b8c5d6 !important;
 }
 
-.wc-block-components-radio-control-accordion-option:has(input:checked) {
+.wc-block-checkout .wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding):has(input:checked),
+.wc-block-checkout .wc-block-components-radio-control:not(:has(.wc-block-components-radio-control-accordion-option))
+	.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding):has(input:checked),
+.wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding):has(input:checked),
+.wc-block-components-radio-control:not(:has(.wc-block-components-radio-control-accordion-option))
+	.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding):has(input:checked) {
 	border-color: #0c1e3d !important;
 	box-shadow: 0 0 0 1px #0c1e3d;
 }
 
-.wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__option {
-	display: flex !important;
-	align-items: center;
-	gap: 14px;
+/* Grid layout beats WC Blocks absolute radio positioning (WC 9.6–10.x). */
+.wc-block-checkout .wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__option,
+.wc-block-checkout .wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding),
+.wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__option,
+.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding) {
+	display: grid !important;
+	grid-template-columns: 20px minmax(0, 1fr);
+	column-gap: 14px;
+	align-items: start;
 	width: 100%;
 	padding: 16px 18px !important;
 	margin: 0;
+	position: relative;
 }
 
-.wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__input {
-	margin: 0 !important;
+.wc-block-checkout .wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__input,
+.wc-block-checkout .wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__input,
+.wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__input,
+.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__input {
+	position: static !important;
+	top: auto !important;
+	left: auto !important;
+	right: auto !important;
+	margin: 2px 0 0 !important;
+	grid-column: 1;
+	grid-row: 1;
 	flex-shrink: 0;
+	align-self: start;
 }
 
-.wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__label {
+.wc-block-checkout .wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__label,
+.wc-block-checkout .wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__label,
+.wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__label,
+.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__label {
+	grid-column: 2;
+	grid-row: 1;
 	flex: 1 1 auto;
 	width: 100%;
 	min-width: 0;
@@ -155,8 +193,25 @@
 	padding: 0 !important;
 }
 
-.wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__label-group {
+.wc-block-checkout .wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__label-group,
+.wc-block-checkout .wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__label-group,
+.wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__label-group,
+.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__label-group {
 	width: 100%;
+	min-width: 0;
+}
+
+@media (max-width: 480px) {
+	.wc-lomi-checkout-branding__main {
+		flex-direction: column;
+		align-items: flex-start;
+	}
+
+	.wc-lomi-checkout-branding__methods {
+		justify-content: flex-start;
+		margin-left: 0;
+		width: 100%;
+	}
 }
 
 /* ── Classic WooCommerce checkout ── */

@@ -3,7 +3,7 @@
  * Plugin Name: lomi. for WooCommerce
  * Plugin URI: https://lomi.africa
  * Description: WooCommerce payment gateway for lomi.
- * Version: 1.003.0
+ * Version: 1.003.1
  * Author: lomi.
  * Author URI: https://lomi.africa
  * License: GPL-2.0+
@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 define( 'WC_LOMI_MAIN_FILE', __FILE__ );
 define( 'WC_LOMI_URL', untrailingslashit( plugins_url( '/', __FILE__ ) ) );
 
-define( 'WC_LOMI_VERSION', '1.003.0' );
+define( 'WC_LOMI_VERSION', '1.003.1' );
 
 /**
  * Load plugin translations.
@@ -188,6 +188,7 @@ function wc_lomi_enqueue_checkout_branding_styles() {
 	);
 }
 add_action( 'wp_enqueue_scripts', 'wc_lomi_enqueue_checkout_branding_styles' );
+add_action( 'enqueue_block_assets', 'wc_lomi_enqueue_checkout_branding_styles' );
 
 /**
  * Checkout branding card: pay-with image + payment method icons (PrestaShop parity).

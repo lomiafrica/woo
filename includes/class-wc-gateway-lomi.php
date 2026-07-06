@@ -432,8 +432,8 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 		if ( 'yes' !== $this->get_option( 'enabled' ) ) {
 			if ( '' !== $this->get_active_secret_key() ) {
 				echo '<div class="notice notice-warning"><p>' . sprintf(
-					/* translators: %s: settings URL */
-					esc_html__( 'lomi. credentials are saved but the gateway is disabled. Enable lomi. %shere%s for checkout.', 'woo-lomi' ),
+					/* translators: %s: link to gateway settings */
+					esc_html__( 'lomi. credentials are saved but the gateway is disabled. Enable lomi. %s for checkout.', 'woo-lomi' ),
 					'<a href="' . esc_url( $settings_url ) . '">' . esc_html__( 'in gateway settings', 'woo-lomi' ) . '</a>'
 				) . '</p></div>';
 			}
@@ -447,8 +447,8 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 
 		if ( ! $this->get_active_webhook_secret() ) {
 			echo '<div class="notice notice-warning"><p>' . sprintf(
-				/* translators: %s: settings URL */
-				esc_html__( 'lomi. is enabled but no webhook signing secret is configured. Add one %shere%s and register the webhook URL in your lomi. dashboard.', 'woo-lomi' ),
+				/* translators: %s: link to gateway settings */
+				esc_html__( 'lomi. is enabled but no webhook signing secret is configured. Add one %s and register the webhook URL in your lomi. dashboard.', 'woo-lomi' ),
 				'<a href="' . esc_url( $settings_url ) . '">' . esc_html__( 'in gateway settings', 'woo-lomi' ) . '</a>'
 			) . '</p></div>';
 		}
