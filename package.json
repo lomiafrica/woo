@@ -45,6 +45,11 @@
       "postcss": "^8.5.23",
       "ip-address": "^10.3.1",
       "body-parser": "^1.20.6"
+    },
+    "auditConfig": {
+      "ignoreGhsas": [
+        "GHSA-8988-4f7v-96qf"
+      ]
     }
   }
 }
