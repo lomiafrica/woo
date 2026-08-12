@@ -1,0 +1,18 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "entry": [
+    "webpack.config.js",
+    "resources/js/frontend/blocks/index.js",
+    "assets/js/lomi-admin.js",
+    "assets/js/checkout-abandon.js"
+  ],
+  "project": ["resources/js/**/*.js", "assets/js/**/*.js", "webpack.config.js"],
+  "ignore": ["assets/js/**/*.min.js", "assets/js/blocks/**"],
+  "ignoreDependencies": [
+    "@wordpress/i18n",
+    "@wordpress/html-entities",
+    "@woocommerce/blocks-registry",
+    "@woocommerce/settings"
+  ],
+  "ignoreExportsUsedInFile": true
+}

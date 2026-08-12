@@ -12,6 +12,7 @@
   "devDependencies": {
     "@woocommerce/dependency-extraction-webpack-plugin": "2.2.0",
     "@wordpress/scripts": "^32.1.0",
+    "knip": "5.63.0",
     "react": "^18.3.0",
     "react-dom": "^18.3.0"
   },
@@ -19,7 +20,8 @@
     "start": "wp-scripts start",
     "build": "wp-scripts build",
     "i18n": "node scripts/i18n-build.mjs",
-    "release": "pnpm run build && pnpm run i18n && ./scripts/release.sh"
+    "release": "pnpm run build && pnpm run i18n && ./scripts/release.sh",
+    "knip": "knip --no-config-hints"
   },
   "pnpm": {
     "overrides": {
