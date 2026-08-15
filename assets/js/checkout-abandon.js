@@ -1,7 +1,17 @@
+
+function isPlainObject(value) {
+  return value !== null && !Array.isArray(value) && Object(value) === value;
+}
+function isTranslationLeaf(value) {
+  return value === null || value === undefined || Object(value) !== value;
+}
+function isStringValue(value) {
+  return Object.prototype.toString.call(value) === '[object String]';
+}
 ( function () {
 	'use strict';
 
-	if ( typeof wc_lomi_checkout_params === 'undefined' ) {
+	if ( (wc_lomi_checkout_params === void 0) ) {
 		return;
 	}
 

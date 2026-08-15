@@ -1,3 +1,13 @@
+
+function isPlainObject(value) {
+  return value !== null && !Array.isArray(value) && Object(value) === value;
+}
+function isTranslationLeaf(value) {
+  return value === null || value === undefined || Object(value) !== value;
+}
+function isStringValue(value) {
+  return Object.prototype.toString.call(value) === '[object String]';
+}
 jQuery( function( $ ) {
 	'use strict';
 
@@ -83,7 +93,7 @@ jQuery( function( $ ) {
 			var $input = $( '.wc-lomi-webhook-url-input' );
 			var $feedback = $( '.wc-lomi-copy-feedback' );
 			var url = $button.attr( 'data-copy-url' ) || $input.val() || '';
-			var params = typeof wc_lomi_admin_params !== 'undefined' ? wc_lomi_admin_params : {};
+			var params = (wc_lomi_admin_params !== void 0) ? wc_lomi_admin_params : {};
 
 			var onSuccess = function() {
 				$feedback.css( 'color', '#007017' ).text( params.copy_success || 'Copied!' ).show();

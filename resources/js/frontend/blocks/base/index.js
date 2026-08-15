@@ -19,7 +19,7 @@ export const ariaLabel = ( { title } ) => {
 };
 
 const isWidePaymentIcon = ( iconUrl ) => {
-	if ( typeof iconUrl !== 'string' ) {
+	if ( !isStringValue(iconUrl) ) {
 		return false;
 	}
 
@@ -27,6 +27,16 @@ const isWidePaymentIcon = ( iconUrl ) => {
 };
 
 const CheckoutBranding = ( { brandingImageUrl, paymentIconUrls } ) => {
+
+function isPlainObject(value) {
+  return value !== null && !Array.isArray(value) && Object(value) === value;
+}
+function isTranslationLeaf(value) {
+  return value === null || value === undefined || Object(value) !== value;
+}
+function isStringValue(value) {
+  return Object.prototype.toString.call(value) === '[object String]';
+}
 	return (
 		<div className="wc-lomi-checkout-branding">
 			<div className="wc-lomi-checkout-branding__main">
