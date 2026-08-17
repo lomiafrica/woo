@@ -1,9 +1,8 @@
-
-# Operating System files
+# OS
 .DS_Store
 Thumbs.db
 
-# IDE files
+# Editor
 .idea
 .vscode/*
 project.xml
@@ -14,46 +13,39 @@ project.properties
 *.sublime-workspace
 .sublimelinterrc
 
-# Sass
+# Cache
 .sass-cache/
 
 # Logs
 logs/
-
-# Environment files
-wp-cli.local.yml
 yarn-error.log
 npm-debug.log
 .pnpm-debug.log
 
-# Build files
+# Build
 *.sql
 *.swp
 *.zip
-
-# Built packages
 build/
 build-module/
 build-style/
 build-types/
 dist/
-
-# Project files
-node_modules/
-vendor/
-
-# TypeScript files
 tsconfig.tsbuildinfo
 
-# wp-env config
-.wp-env.override.json
-
-# Unit tests
-tmp/
-
-# Composer
+# Dependencies
+node_modules/
 vendor/
 bin/composer/**/vendor/
 lib/vendor/
+
+# Environment
+wp-cli.local.yml
+.wp-env.override.json
+
+# Tests
+tmp/
+
+# Local
 contributors.md
 contributors.html

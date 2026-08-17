@@ -18,6 +18,7 @@
   },
   "scripts": {
     "start": "wp-scripts start",
+    "dev": "wp-scripts start",
     "build": "wp-scripts build",
     "i18n": "node scripts/i18n-build.mjs",
     "release": "pnpm run build && pnpm run i18n && ./scripts/release.sh",
