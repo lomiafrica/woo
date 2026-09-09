@@ -78,12 +78,19 @@ function isStringValue(value) {
 			return;
 		}
 
+		const body = new URLSearchParams();
+		if ( wc_lomi_checkout_params.abandonNonce ) {
+			body.set( 'nonce', wc_lomi_checkout_params.abandonNonce );
+		}
+
 		window.fetch( abandonUrl, {
-			method: 'GET',
+			method: 'POST',
 			credentials: 'same-origin',
 			headers: {
 				Accept: 'application/json',
+				'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
 			},
+			body: body.toString(),
 		} )
 			.catch( function () {
 				return null;

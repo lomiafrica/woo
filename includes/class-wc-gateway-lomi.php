@@ -803,6 +803,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 			array(
 				'storageKey' => 'wc_lomi_checkout_redirect',
 				'abandonUrl' => WC()->api_request_url( 'wc_gateway_lomi_abandon' ),
+				'abandonNonce' => wp_create_nonce( 'wc_lomi_abandon' ),
 				'gatewayIds' => $this->get_lomi_gateway_ids(),
 			)
 		);
@@ -2333,6 +2334,15 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 	 */
 	public function handle_lomi_checkout_abandon() {
 		@ob_clean();
+
+		if ( isset( $_SERVER['REQUEST_METHOD'] ) && 'POST' !== strtoupper( (string) $_SERVER['REQUEST_METHOD'] ) ) {
+			wp_send_json_error( array( 'message' => 'method_not_allowed' ), 405 );
+		}
+
+		$nonce = isset( $_POST['nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['nonce'] ) ) : '';
+		if ( ! wp_verify_nonce( $nonce, 'wc_lomi_abandon' ) ) {
+			wp_send_json_error( array( 'message' => 'invalid_nonce' ), 403 );
+		}
 
 		$order = $this->get_pending_lomi_checkout_order();
 		if ( ! $order ) {
