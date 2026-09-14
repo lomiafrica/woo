@@ -1,12 +1,12 @@
 .wc-lomi-payment-icon {
-	display: inline-block;
-	height: 22px;
-	width: auto;
-	max-width: 72px;
-	vertical-align: middle;
-	object-fit: contain;
+  display: inline-block;
+  height: 22px;
+  width: auto;
+  max-width: 72px;
+  vertical-align: middle;
+  object-fit: contain;
 }
 
 .wc_payment_method.payment_method_lomi img.wc-lomi-payment-icon {
-	margin-right: 2px;
+  margin-right: 2px;
 }

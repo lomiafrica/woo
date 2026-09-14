@@ -1,274 +1,356 @@
 /* ── Branding card (inner content — border lives on the payment option wrapper) ── */
 
 .wc-lomi-checkout-branding {
-	box-sizing: border-box;
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-	min-width: 0;
-	gap: 10px;
-	padding: 0;
-	margin: 0;
-	border: 0;
-	background: transparent;
-	box-shadow: none;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 0;
+  gap: 10px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
 }
 
 .wc-lomi-checkout-branding__main {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	gap: 16px;
-	flex-wrap: wrap;
-	width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  width: 100%;
 }
 
 .wc-lomi-checkout-branding__brand {
-	display: flex;
-	align-items: center;
-	min-height: 36px;
-	flex: 1 1 160px;
-	min-width: 0;
+  display: flex;
+  align-items: center;
+  min-height: 36px;
+  flex: 1 1 160px;
+  min-width: 0;
 }
 
 .wc-lomi-checkout-branding__title {
-	margin: 0;
-	font-size: 16px;
-	font-weight: 500;
-	line-height: 1.3;
-	color: #0c1e3d;
-	letter-spacing: -0.01em;
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: #0c1e3d;
+  letter-spacing: -0.01em;
 }
 
 .wc-lomi-checkout-branding__title strong {
-	font-weight: 700;
+  font-weight: 700;
 }
 
 .wc-lomi-pay-with-image {
-	display: block;
-	height: 36px;
-	width: auto;
-	max-width: min(220px, 100%);
-	margin: 0;
-	object-fit: contain;
-	object-position: left center;
+  display: block;
+  height: 36px;
+  width: auto;
+  max-width: min(220px, 100%);
+  margin: 0;
+  object-fit: contain;
+  object-position: left center;
 }
 
 .wc-lomi-checkout-branding__methods {
-	display: flex;
-	flex-wrap: wrap;
-	align-items: center;
-	justify-content: flex-end;
-	gap: 6px;
-	flex: 0 1 auto;
-	margin-left: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  flex: 0 1 auto;
+  margin-left: auto;
 }
 
 .wc-lomi-checkout-branding__method {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	box-sizing: border-box;
-	width: 38px;
-	height: 38px;
-	flex-shrink: 0;
-	border-radius: 9px;
-	background: #f8fafc;
-	border: 1px solid #cbd5e1;
-	box-shadow:
-		inset 0 0 0 1px rgba(255, 255, 255, 0.65),
-		0 1px 2px rgba(15, 23, 42, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  border-radius: 9px;
+  background: #f8fafc;
+  border: 1px solid #cbd5e1;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.65),
+    0 1px 2px rgba(15, 23, 42, 0.06);
 }
 
 .wc-lomi-checkout-branding__method img {
-	display: block;
-	width: 28px;
-	height: 28px;
-	object-fit: contain;
+  display: block;
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }
 
 .wc-lomi-checkout-branding__method--wide {
-	width: 52px;
+  width: 52px;
 }
 
 .wc-lomi-checkout-branding__method--wide img {
-	width: 44px;
+  width: 44px;
 }
 
 .wc-lomi-checkout-branding__hint {
-	display: flex;
-	align-items: center;
-	gap: 6px;
-	margin: 0;
-	font-size: 12px;
-	line-height: 1.4;
-	color: #64748b;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.4;
+  color: #64748b;
 }
 
 .wc-lomi-checkout-branding__hint-icon {
-	display: inline-block;
-	width: 14px;
-	height: 14px;
-	flex-shrink: 0;
-	background: currentColor;
-	opacity: 0.7;
-	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='11' width='18' height='11' rx='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E") center / contain no-repeat;
-	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='11' width='18' height='11' rx='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E") center / contain no-repeat;
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  background: currentColor;
+  opacity: 0.7;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='11' width='18' height='11' rx='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E")
+    center / contain no-repeat;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='3' y='11' width='18' height='11' rx='2'/%3E%3Cpath d='M7 11V7a5 5 0 0 1 10 0v4'/%3E%3C/svg%3E")
+    center / contain no-repeat;
 }
 
 /* ── WooCommerce Blocks checkout ── */
 
-.wc-block-checkout .wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding),
-.wc-block-checkout .wc-block-components-radio-control:not(:has(.wc-block-components-radio-control-accordion-option))
-	.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding),
-.wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding),
-.wc-block-components-radio-control:not(:has(.wc-block-components-radio-control-accordion-option))
-	.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding) {
-	border: 1px solid #dbe3ee !important;
-	border-radius: 12px !important;
-	background: #fff;
-	transition: border-color 0.15s ease, box-shadow 0.15s ease;
-	overflow: hidden;
+.wc-block-checkout
+  .wc-block-components-radio-control-accordion-option:has(
+    .wc-lomi-checkout-branding
+  ),
+.wc-block-checkout
+  .wc-block-components-radio-control:not(
+    :has(.wc-block-components-radio-control-accordion-option)
+  )
+  .wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding),
+.wc-block-components-radio-control-accordion-option:has(
+    .wc-lomi-checkout-branding
+  ),
+.wc-block-components-radio-control:not(
+    :has(.wc-block-components-radio-control-accordion-option)
+  )
+  .wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding) {
+  border: 1px solid #dbe3ee !important;
+  border-radius: 12px !important;
+  background: #fff;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
+  overflow: hidden;
 }
 
-.wc-block-checkout .wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding):hover,
-.wc-block-checkout .wc-block-components-radio-control:not(:has(.wc-block-components-radio-control-accordion-option))
-	.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding):hover,
-.wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding):hover,
-.wc-block-components-radio-control:not(:has(.wc-block-components-radio-control-accordion-option))
-	.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding):hover {
-	border-color: #b8c5d6 !important;
+.wc-block-checkout
+  .wc-block-components-radio-control-accordion-option:has(
+    .wc-lomi-checkout-branding
+  ):hover,
+.wc-block-checkout
+  .wc-block-components-radio-control:not(
+    :has(.wc-block-components-radio-control-accordion-option)
+  )
+  .wc-block-components-radio-control__option:has(
+    .wc-lomi-checkout-branding
+  ):hover,
+.wc-block-components-radio-control-accordion-option:has(
+    .wc-lomi-checkout-branding
+  ):hover,
+.wc-block-components-radio-control:not(
+    :has(.wc-block-components-radio-control-accordion-option)
+  )
+  .wc-block-components-radio-control__option:has(
+    .wc-lomi-checkout-branding
+  ):hover {
+  border-color: #b8c5d6 !important;
 }
 
-.wc-block-checkout .wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding):has(input:checked),
-.wc-block-checkout .wc-block-components-radio-control:not(:has(.wc-block-components-radio-control-accordion-option))
-	.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding):has(input:checked),
-.wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding):has(input:checked),
-.wc-block-components-radio-control:not(:has(.wc-block-components-radio-control-accordion-option))
-	.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding):has(input:checked) {
-	border-color: #0c1e3d !important;
-	box-shadow: 0 0 0 1px #0c1e3d;
+.wc-block-checkout
+  .wc-block-components-radio-control-accordion-option:has(
+    .wc-lomi-checkout-branding
+  ):has(input:checked),
+.wc-block-checkout
+  .wc-block-components-radio-control:not(
+    :has(.wc-block-components-radio-control-accordion-option)
+  )
+  .wc-block-components-radio-control__option:has(
+    .wc-lomi-checkout-branding
+  ):has(input:checked),
+.wc-block-components-radio-control-accordion-option:has(
+    .wc-lomi-checkout-branding
+  ):has(input:checked),
+.wc-block-components-radio-control:not(
+    :has(.wc-block-components-radio-control-accordion-option)
+  )
+  .wc-block-components-radio-control__option:has(
+    .wc-lomi-checkout-branding
+  ):has(input:checked) {
+  border-color: #0c1e3d !important;
+  box-shadow: 0 0 0 1px #0c1e3d;
 }
 
 /* Grid layout beats WC Blocks absolute radio positioning (WC 9.6–10.x). */
-.wc-block-checkout .wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__option,
-.wc-block-checkout .wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding),
-.wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__option,
+.wc-block-checkout
+  .wc-block-components-radio-control-accordion-option:has(
+    .wc-lomi-checkout-branding
+  )
+  .wc-block-components-radio-control__option,
+.wc-block-checkout
+  .wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding),
+.wc-block-components-radio-control-accordion-option:has(
+    .wc-lomi-checkout-branding
+  )
+  .wc-block-components-radio-control__option,
 .wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding) {
-	display: grid !important;
-	grid-template-columns: 20px minmax(0, 1fr);
-	column-gap: 14px;
-	align-items: start;
-	width: 100%;
-	padding: 16px 18px !important;
-	margin: 0;
-	position: relative;
+  display: grid !important;
+  grid-template-columns: 20px minmax(0, 1fr);
+  column-gap: 14px;
+  align-items: start;
+  width: 100%;
+  padding: 16px 18px !important;
+  margin: 0;
+  position: relative;
 }
 
-.wc-block-checkout .wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__input,
-.wc-block-checkout .wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__input,
-.wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__input,
-.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__input {
-	position: static !important;
-	top: auto !important;
-	left: auto !important;
-	right: auto !important;
-	margin: 2px 0 0 !important;
-	grid-column: 1;
-	grid-row: 1;
-	flex-shrink: 0;
-	align-self: start;
+.wc-block-checkout
+  .wc-block-components-radio-control-accordion-option:has(
+    .wc-lomi-checkout-branding
+  )
+  .wc-block-components-radio-control__input,
+.wc-block-checkout
+  .wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding)
+  .wc-block-components-radio-control__input,
+.wc-block-components-radio-control-accordion-option:has(
+    .wc-lomi-checkout-branding
+  )
+  .wc-block-components-radio-control__input,
+.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding)
+  .wc-block-components-radio-control__input {
+  position: static !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  margin: 2px 0 0 !important;
+  grid-column: 1;
+  grid-row: 1;
+  flex-shrink: 0;
+  align-self: start;
 }
 
-.wc-block-checkout .wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__label,
-.wc-block-checkout .wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__label,
-.wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__label,
-.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__label {
-	grid-column: 2;
-	grid-row: 1;
-	flex: 1 1 auto;
-	width: 100%;
-	min-width: 0;
-	margin: 0 !important;
-	padding: 0 !important;
+.wc-block-checkout
+  .wc-block-components-radio-control-accordion-option:has(
+    .wc-lomi-checkout-branding
+  )
+  .wc-block-components-radio-control__label,
+.wc-block-checkout
+  .wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding)
+  .wc-block-components-radio-control__label,
+.wc-block-components-radio-control-accordion-option:has(
+    .wc-lomi-checkout-branding
+  )
+  .wc-block-components-radio-control__label,
+.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding)
+  .wc-block-components-radio-control__label {
+  grid-column: 2;
+  grid-row: 1;
+  flex: 1 1 auto;
+  width: 100%;
+  min-width: 0;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-.wc-block-checkout .wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__label-group,
-.wc-block-checkout .wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__label-group,
-.wc-block-components-radio-control-accordion-option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__label-group,
-.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding) .wc-block-components-radio-control__label-group {
-	width: 100%;
-	min-width: 0;
+.wc-block-checkout
+  .wc-block-components-radio-control-accordion-option:has(
+    .wc-lomi-checkout-branding
+  )
+  .wc-block-components-radio-control__label-group,
+.wc-block-checkout
+  .wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding)
+  .wc-block-components-radio-control__label-group,
+.wc-block-components-radio-control-accordion-option:has(
+    .wc-lomi-checkout-branding
+  )
+  .wc-block-components-radio-control__label-group,
+.wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding)
+  .wc-block-components-radio-control__label-group {
+  width: 100%;
+  min-width: 0;
 }
 
 @media (max-width: 480px) {
-	.wc-lomi-checkout-branding__main {
-		flex-direction: column;
-		align-items: flex-start;
-	}
+  .wc-lomi-checkout-branding__main {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-	.wc-lomi-checkout-branding__methods {
-		justify-content: flex-start;
-		margin-left: 0;
-		width: 100%;
-	}
+  .wc-lomi-checkout-branding__methods {
+    justify-content: flex-start;
+    margin-left: 0;
+    width: 100%;
+  }
 }
 
 /* ── Classic WooCommerce checkout ── */
 
 .wc_payment_method.payment_method_lomi {
-	list-style: none;
-	margin: 0 0 12px;
-	padding: 16px 18px;
-	border: 1px solid #dbe3ee;
-	border-radius: 12px;
-	background: #fff;
-	transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 16px 18px;
+  border: 1px solid #dbe3ee;
+  border-radius: 12px;
+  background: #fff;
+  transition:
+    border-color 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .wc_payment_method.payment_method_lomi:has(input:checked) {
-	border-color: #0c1e3d;
-	box-shadow: 0 0 0 1px #0c1e3d;
+  border-color: #0c1e3d;
+  box-shadow: 0 0 0 1px #0c1e3d;
 }
 
 .wc_payment_method.payment_method_lomi > input[type="radio"] {
-	float: left;
-	margin: 14px 14px 0 0;
+  float: left;
+  margin: 14px 14px 0 0;
 }
 
 .wc_payment_method.payment_method_lomi > label {
-	display: block !important;
-	float: none;
-	width: auto;
-	margin: 0 0 0 28px;
-	padding: 0;
-	cursor: pointer;
-	font-size: 0;
-	line-height: 0;
-	color: transparent;
+  display: block !important;
+  float: none;
+  width: auto;
+  margin: 0 0 0 28px;
+  padding: 0;
+  cursor: pointer;
+  font-size: 0;
+  line-height: 0;
+  color: transparent;
 }
 
 .wc_payment_method.payment_method_lomi > label .wc-lomi-checkout-branding {
-	margin-left: 0;
+  margin-left: 0;
 }
 
 .wc_payment_method.payment_method_lomi .payment_box {
-	clear: both;
-	margin: 10px 0 0 28px;
-	padding: 0;
-	background: transparent;
-	border: 0;
+  clear: both;
+  margin: 10px 0 0 28px;
+  padding: 0;
+  background: transparent;
+  border: 0;
 }
 
 .wc_payment_method.payment_method_lomi .payment_box::before {
-	display: none;
+  display: none;
 }
 
 .wc_payment_method.payment_method_lomi .payment_box:empty {
-	display: none;
-	margin: 0;
+  display: none;
+  margin: 0;
 }
 
 .wc_payment_method.payment_method_lomi .payment_box .wc-lomi-checkout-branding {
-	display: none;
+  display: none;
 }

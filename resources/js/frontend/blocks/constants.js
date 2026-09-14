@@ -1,1 +1,1 @@
-export const PAYMENT_METHOD_NAME = 'lomi';
+export const PAYMENT_METHOD_NAME = "lomi";
