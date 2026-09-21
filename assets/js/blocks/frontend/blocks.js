@@ -39,7 +39,7 @@ function isStringValue(value) {
           _owner: r.current,
         };
       }
-      ((n.jsx = c), (n.jsxs = c));
+      (n.jsx = c), (n.jsxs = c);
     },
     70(e, n, o) {
       e.exports = o(462);
@@ -57,7 +57,7 @@ function isStringValue(value) {
     const a = n[i];
     if (void 0 !== a) return a.exports;
     const t = (n[i] = { exports: {} });
-    return (e[i](t, t.exports, o), t.exports);
+    return e[i](t, t.exports, o), t.exports;
   })(70);
   const s = (0, a.__)("lomi.", "woo-lomi"),
     c = (0, a.__)("Pay with", "woo-lomi"),
