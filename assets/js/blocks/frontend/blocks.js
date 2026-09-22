@@ -1,1 +1,149 @@
-(()=>{"use strict";const e=e=>{var n;return()=>{if(e){var i=e;e=0,n={exports:{}},i.call(n.exports,n,n.exports)}return n.exports}};var n=e(function(e,n){var i=o(),a=Symbol.for("react.element"),t=(Symbol.for("react.fragment"),Object.prototype.hasOwnProperty),r=i.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED.ReactCurrentOwner,s={key:!0,ref:!0,__self:!0,__source:!0};function c(e,n,i){var o,c={},l=null,d=null;for(o in void 0!==i&&(l=""+i),void 0!==n.key&&(l=""+n.key),void 0!==n.ref&&(d=n.ref),n)t.call(n,o)&&!s.hasOwnProperty(o)&&(c[o]=n[o]);if(e&&e.defaultProps)for(o in n=e.defaultProps)void 0===c[o]&&(c[o]=n[o]);return{$$typeof:a,type:e,key:l,ref:d,props:c,_owner:r.current}}n.jsx=c,n.jsxs=c}),i=e(function(e,i){e.exports=n()}),o=e(function(e,n){e.exports=window.React});const a=window.wc.wcBlocksRegistry,t=window.wc.wcSettings,r=window.wp.i18n,s=window.wp.htmlEntities;i();const c=(0,r.__)("lomi.","woo-lomi"),l=(0,r.__)("Pay with","woo-lomi"),d=(0,r.__)("Pay with lomi.","woo-lomi"),m=(0,r.__)("Secure hosted checkout on lomi.","woo-lomi"),_=e=>!!isStringValue(e)&&(e.includes("apple-pay")||e.includes("google-pay")),w=({brandingImageUrl:e,paymentIconUrls:i})=>(0,n().jsxs)("div",{className:"wc-lomi-checkout-branding",children:[(0,n().jsxs)("div",{className:"wc-lomi-checkout-branding__main",children:[(0,n().jsx)("div",{className:"wc-lomi-checkout-branding__brand",children:e?(0,n().jsx)("img",{className:"wc-lomi-pay-with-image",src:e,alt:d,loading:"lazy",decoding:"async"}):(0,n().jsxs)("p",{className:"wc-lomi-checkout-branding__title",children:[l," ",(0,n().jsx)("strong",{children:"lomi."})]})}),i?.length>0&&(0,n().jsx)("div",{className:"wc-lomi-checkout-branding__methods","aria-hidden":"true",children:i.map((e,i)=>(0,n().jsx)("div",{className:"wc-lomi-checkout-branding__method"+(_(e)?" wc-lomi-checkout-branding__method--wide":""),children:(0,n().jsx)("img",{src:e,alt:"",loading:"lazy",decoding:"async"})},i))})]}),(0,n().jsxs)("p",{className:"wc-lomi-checkout-branding__hint",children:[(0,n().jsx)("span",{className:"wc-lomi-checkout-branding__hint-icon","aria-hidden":"true"}),m]})]}),g=({brandingImageUrl:e,paymentIconUrls:i})=>(0,n().jsx)(w,{brandingImageUrl:e,paymentIconUrls:i}),p=()=>null,u=(0,t.getSetting)("lomi_data",{}),h=(({title:e})=>(0,s.decodeEntities)(e)||c)({title:u.title}),y={name:"lomi",label:(0,n().jsx)(g,{title:h,brandingImageUrl:u.branding_image_url,paymentIconUrls:u.payment_icon_urls}),content:(0,n().jsx)(p,{}),edit:(0,n().jsx)(p,{}),canMakePayment:()=>!0,ariaLabel:h,supports:{showSavedCards:u.allow_saved_cards,showSaveOption:u.allow_saved_cards,features:u.supports}};(0,a.registerPaymentMethod)(y)})();
+(() => {
+  "use strict";
+  const e = (e) => {
+    var n;
+    return () => {
+      if (e) {
+        var i = e;
+        (e = 0), (n = { exports: {} }), i.call(n.exports, n, n.exports);
+      }
+      return n.exports;
+    };
+  };
+  var n = e(function (e, n) {
+      var i = o(),
+        a = Symbol.for("react.element"),
+        t = (Symbol.for("react.fragment"), Object.prototype.hasOwnProperty),
+        r =
+          i.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED
+            .ReactCurrentOwner,
+        s = { key: !0, ref: !0, __self: !0, __source: !0 };
+      function c(e, n, i) {
+        var o,
+          c = {},
+          l = null,
+          d = null;
+        for (o in (void 0 !== i && (l = "" + i),
+        void 0 !== n.key && (l = "" + n.key),
+        void 0 !== n.ref && (d = n.ref),
+        n))
+          t.call(n, o) && !s.hasOwnProperty(o) && (c[o] = n[o]);
+        if (e && e.defaultProps)
+          for (o in (n = e.defaultProps)) void 0 === c[o] && (c[o] = n[o]);
+        return {
+          $$typeof: a,
+          type: e,
+          key: l,
+          ref: d,
+          props: c,
+          _owner: r.current,
+        };
+      }
+      (n.jsx = c), (n.jsxs = c);
+    }),
+    i = e(function (e, i) {
+      e.exports = n();
+    }),
+    o = e(function (e, n) {
+      e.exports = window.React;
+    });
+  const a = window.wc.wcBlocksRegistry,
+    t = window.wc.wcSettings,
+    r = window.wp.i18n,
+    s = window.wp.htmlEntities;
+  i();
+  const c = (0, r.__)("lomi.", "woo-lomi"),
+    l = (0, r.__)("Pay with", "woo-lomi"),
+    d = (0, r.__)("Pay with lomi.", "woo-lomi"),
+    m = (0, r.__)("Secure hosted checkout on lomi.", "woo-lomi"),
+    _ = (e) =>
+      !!isStringValue(e) &&
+      (e.includes("apple-pay") || e.includes("google-pay")),
+    w = ({ brandingImageUrl: e, paymentIconUrls: i }) =>
+      (0, n().jsxs)("div", {
+        className: "wc-lomi-checkout-branding",
+        children: [
+          (0, n().jsxs)("div", {
+            className: "wc-lomi-checkout-branding__main",
+            children: [
+              (0, n().jsx)("div", {
+                className: "wc-lomi-checkout-branding__brand",
+                children: e
+                  ? (0, n().jsx)("img", {
+                      className: "wc-lomi-pay-with-image",
+                      src: e,
+                      alt: d,
+                      loading: "lazy",
+                      decoding: "async",
+                    })
+                  : (0, n().jsxs)("p", {
+                      className: "wc-lomi-checkout-branding__title",
+                      children: [
+                        l,
+                        " ",
+                        (0, n().jsx)("strong", { children: "lomi." }),
+                      ],
+                    }),
+              }),
+              i?.length > 0 &&
+                (0, n().jsx)("div", {
+                  className: "wc-lomi-checkout-branding__methods",
+                  "aria-hidden": "true",
+                  children: i.map((e, i) =>
+                    (0, n().jsx)(
+                      "div",
+                      {
+                        className:
+                          "wc-lomi-checkout-branding__method" +
+                          (_(e)
+                            ? " wc-lomi-checkout-branding__method--wide"
+                            : ""),
+                        children: (0, n().jsx)("img", {
+                          src: e,
+                          alt: "",
+                          loading: "lazy",
+                          decoding: "async",
+                        }),
+                      },
+                      i,
+                    ),
+                  ),
+                }),
+            ],
+          }),
+          (0, n().jsxs)("p", {
+            className: "wc-lomi-checkout-branding__hint",
+            children: [
+              (0, n().jsx)("span", {
+                className: "wc-lomi-checkout-branding__hint-icon",
+                "aria-hidden": "true",
+              }),
+              m,
+            ],
+          }),
+        ],
+      }),
+    g = ({ brandingImageUrl: e, paymentIconUrls: i }) =>
+      (0, n().jsx)(w, { brandingImageUrl: e, paymentIconUrls: i }),
+    p = () => null,
+    u = (0, t.getSetting)("lomi_data", {}),
+    h = (({ title: e }) => (0, s.decodeEntities)(e) || c)({ title: u.title }),
+    y = {
+      name: "lomi",
+      label: (0, n().jsx)(g, {
+        title: h,
+        brandingImageUrl: u.branding_image_url,
+        paymentIconUrls: u.payment_icon_urls,
+      }),
+      content: (0, n().jsx)(p, {}),
+      edit: (0, n().jsx)(p, {}),
+      canMakePayment: () => !0,
+      ariaLabel: h,
+      supports: {
+        showSavedCards: u.allow_saved_cards,
+        showSaveOption: u.allow_saved_cards,
+        features: u.supports,
+      },
+    };
+  (0, a.registerPaymentMethod)(y);
+})();
