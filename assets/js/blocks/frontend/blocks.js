@@ -5,7 +5,7 @@
     return () => {
       if (e) {
         var i = e;
-        (e = 0), (n = { exports: {} }), i.call(n.exports, n, n.exports);
+        ((e = 0), (n = { exports: {} }), i.call(n.exports, n, n.exports));
       }
       return n.exports;
     };
@@ -39,7 +39,7 @@
           _owner: r.current,
         };
       }
-      (n.jsx = c), (n.jsxs = c);
+      ((n.jsx = c), (n.jsxs = c));
     }),
     i = e(function (e, i) {
       e.exports = n();
