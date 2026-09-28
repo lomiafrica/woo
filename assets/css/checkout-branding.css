@@ -130,8 +130,8 @@
   )
   .wc-block-components-radio-control__option:has(.wc-lomi-checkout-branding),
 .wc-block-components-radio-control-accordion-option:has(
-  .wc-lomi-checkout-branding
-),
+    .wc-lomi-checkout-branding
+  ),
 .wc-block-components-radio-control:not(
     :has(.wc-block-components-radio-control-accordion-option)
   )
