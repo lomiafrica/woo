@@ -107,14 +107,14 @@ msgid "Could not copy — select the URL and press Ctrl+C (or Cmd+C)."
 msgstr "Could not copy — select the URL and press Ctrl+C (or Cmd+C)."
 
 #: includes/class-wc-gateway-lomi.php:2392
-msgid "Could not verify payment with lomi.."
-msgstr "Impossible de verifier le paiement avec lomi.."
+msgid "Could not verify payment with lomi."
+msgstr "Impossible de verifier le paiement avec lomi."
 
 #: includes/class-wc-gateway-lomi.php:2219
 msgid ""
-"Currency mismatch while verifying payment with lomi.. Please contact the store."
+"Currency mismatch while verifying payment with lomi. Please contact the store."
 msgstr ""
-"La devise ne correspond pas lors de la verification du paiement avec lomi.. Veuillez contacter la boutique."
+"La devise ne correspond pas lors de la verification du paiement avec lomi. Veuillez contacter la boutique."
 
 #: includes/class-wc-gateway-lomi.php:677
 msgid "Custom Metadata"
@@ -220,9 +220,9 @@ msgstr ""
 
 #: includes/class-wc-gateway-lomi.php:681
 msgid ""
-"If enabled, you will be able to send more information about the order to lomi.."
+"If enabled, you will be able to send more information about the order to lomi."
 msgstr ""
-"Si cette option est activee, vous pourrez envoyer davantage d'informations sur la commande a lomi.."
+"Si cette option est activee, vous pourrez envoyer davantage d'informations sur la commande a lomi."
 
 #: includes/class-wc-gateway-lomi.php:437
 #: includes/class-wc-gateway-lomi.php:452
@@ -783,9 +783,9 @@ msgid "Warning"
 msgstr "Warning"
 
 #: includes/class-wc-gateway-lomi.php:2190
-msgid "We could not confirm the payment amount with lomi.. Please contact the store."
+msgid "We could not confirm the payment amount with lomi. Please contact the store."
 msgstr ""
-"Nous n'avons pas pu confirmer le montant du paiement avec lomi.. Veuillez contacter la boutique."
+"Nous n'avons pas pu confirmer le montant du paiement avec lomi. Veuillez contacter la boutique."
 
 #: includes/class-wc-gateway-lomi.php:1490
 msgid "Webhook events"

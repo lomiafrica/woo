@@ -35,14 +35,14 @@ const translations = {
   "Autocomplete Order": "Finaliser automatiquement la commande",
   "Autocomplete Order After Payment":
     "Finaliser automatiquement la commande apres paiement",
-  "Automatic refunds from WooCommerce are not available for lomi.. Process refunds in your lomi. dashboard.":
-    "Les remboursements automatiques depuis WooCommerce ne sont pas disponibles pour lomi.. Effectuez les remboursements dans votre tableau de bord lomi.",
+  "Automatic refunds from WooCommerce are not available for lomi. Process refunds in your lomi. dashboard.":
+    "Les remboursements automatiques depuis WooCommerce ne sont pas disponibles pour lomi. Effectuez les remboursements dans votre tableau de bord lomi.",
   "Automatic subscription renewals are not charged in WooCommerce with lomi. hosted checkout. Collect payment via a new checkout session or from the lomi. dashboard.":
     "Les renouvellements automatiques d'abonnement ne sont pas debites dans WooCommerce avec la page de paiement hebergee lomi. Encaissez le paiement via une nouvelle session de paiement ou depuis le tableau de bord lomi.",
   "Cancel order & restore cart": "Annuler la commande et restaurer le panier",
   Cards: "Cartes",
-  "Could not verify payment with lomi..":
-    "Impossible de verifier le paiement avec lomi..",
+  "Could not verify payment with lomi.":
+    "Impossible de verifier le paiement avec lomi.",
   'Configure a webhook in your <a href="%1$s" target="_blank" rel="noopener noreferrer">lomi. dashboard</a> with URL: <code style="color:red">%2$s</code> and the same signing secret as below.':
     'Configurez un webhook dans votre <a href="%1$s" target="_blank" rel="noopener noreferrer">tableau de bord lomi.</a> avec l\'URL: <code style="color:red">%2$s</code> et le meme secret de signature que ci-dessous.',
   "Create additional lomi. payment methods that use the same API keys as the main gateway, with custom checkout labels and icons.":
@@ -51,8 +51,8 @@ const translations = {
   "Customer Email": "E-mail client",
   "Customer Name": "Nom du client",
   "Customer Phone": "Telephone du client",
-  "Currency mismatch while verifying payment with lomi.. Please contact the store.":
-    "La devise ne correspond pas lors de la verification du paiement avec lomi.. Veuillez contacter la boutique.",
+  "Currency mismatch while verifying payment with lomi. Please contact the store.":
+    "La devise ne correspond pas lors de la verification du paiement avec lomi. Veuillez contacter la boutique.",
   "lomi.": "lomi.",
   Description: "Description",
   "Disable lomi. test mode": "Desactiver le mode test lomi.",
@@ -89,8 +89,8 @@ const translations = {
     "Si cette option est activee, la commande sera marquee comme terminee apres un paiement reussi.",
   "If enabled, users will be able to pay with a saved card during checkout. Card details are saved on lomi. servers, not on your store.<br>Note that you need to have a valid SSL certificate installed.":
     "Si cette option est activee, les utilisateurs pourront payer avec une carte enregistree lors du paiement. Les details de carte sont stockes sur les serveurs de lomi., pas sur votre boutique.<br>Notez qu'un certificat SSL valide doit etre installe.",
-  "If enabled, you will be able to send more information about the order to lomi..":
-    "Si cette option est activee, vous pourrez envoyer davantage d'informations sur la commande a lomi..",
+  "If enabled, you will be able to send more information about the order to lomi.":
+    "Si cette option est activee, vous pourrez envoyer davantage d'informations sur la commande a lomi.",
   'Important: configure your webhook in the <a href="%s" target="_blank" rel="noopener noreferrer">lomi. dashboard</a> using the URL below.':
     'Important: configurez votre webhook dans le <a href="%s" target="_blank" rel="noopener noreferrer">tableau de bord lomi.</a> avec l\'URL ci-dessous.',
   "Legacy option. All payments use lomi. hosted checkout.":
@@ -237,8 +237,8 @@ const translations = {
   Verve: "Verve",
   "View lomi. WooCommerce settings": "Voir les reglages WooCommerce lomi.",
   Visa: "Visa",
-  "We could not confirm the payment amount with lomi.. Please contact the store.":
-    "Nous n'avons pas pu confirmer le montant du paiement avec lomi.. Veuillez contacter la boutique.",
+  "We could not confirm the payment amount with lomi. Please contact the store.":
+    "Nous n'avons pas pu confirmer le montant du paiement avec lomi. Veuillez contacter la boutique.",
   "Who bears lomi. charges?": "Qui prend en charge les frais lomi. ?",
   "WooCommerce payment gateway for lomi.":
     "Passerelle de paiement WooCommerce pour lomi.",

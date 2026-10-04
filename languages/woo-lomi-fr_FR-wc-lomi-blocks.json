@@ -50,11 +50,11 @@
       "Could not copy — select the URL and press Ctrl+C (or Cmd+C).": [
         "Could not copy — select the URL and press Ctrl+C (or Cmd+C)."
       ],
-      "Could not verify payment with lomi..": [
-        "Impossible de verifier le paiement avec lomi.."
+      "Could not verify payment with lomi.": [
+        "Impossible de verifier le paiement avec lomi."
       ],
-      "Currency mismatch while verifying payment with lomi.. Please contact the store.": [
-        "La devise ne correspond pas lors de la verification du paiement avec lomi.. Veuillez contacter la boutique."
+      "Currency mismatch while verifying payment with lomi. Please contact the store.": [
+        "La devise ne correspond pas lors de la verification du paiement avec lomi. Veuillez contacter la boutique."
       ],
       "Custom Metadata": ["Metadonnees personnalisees"],
       "Customer Email": ["E-mail client"],
@@ -99,8 +99,8 @@
       "If enabled, the order will be marked as complete after successful payment": [
         "Si cette option est activee, la commande sera marquee comme terminee apres un paiement reussi."
       ],
-      "If enabled, you will be able to send more information about the order to lomi..": [
-        "Si cette option est activee, vous pourrez envoyer davantage d'informations sur la commande a lomi.."
+      "If enabled, you will be able to send more information about the order to lomi.": [
+        "Si cette option est activee, vous pourrez envoyer davantage d'informations sur la commande a lomi."
       ],
       "in gateway settings": ["in gateway settings"],
       "Invalid secret API key for %1$s mode. Copy the key from Dashboard → Developers → API keys and ensure test mode matches your keys.%2$s": [
@@ -355,8 +355,8 @@
         "Voir les reglages WooCommerce lomi."
       ],
       "Warning": ["Warning"],
-      "We could not confirm the payment amount with lomi.. Please contact the store.": [
-        "Nous n'avons pas pu confirmer le montant du paiement avec lomi.. Veuillez contacter la boutique."
+      "We could not confirm the payment amount with lomi. Please contact the store.": [
+        "Nous n'avons pas pu confirmer le montant du paiement avec lomi. Veuillez contacter la boutique."
       ],
       "Webhook events": ["Webhook events"],
       "Webhook signing secret": ["Webhook signing secret"],

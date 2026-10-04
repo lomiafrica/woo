@@ -678,7 +678,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 				'label'       => __( 'Enable Custom Metadata', 'woo-lomi' ),
 				'type'        => 'checkbox',
 				'class'       => 'wc-lomi-metadata wc-lomi-advanced-field',
-				'description' => __( 'If enabled, you will be able to send more information about the order to lomi..', 'woo-lomi' ),
+				'description' => __( 'If enabled, you will be able to send more information about the order to lomi.', 'woo-lomi' ),
 				'default'     => 'no',
 				'desc_tip'    => true,
 			),
@@ -2188,7 +2188,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 			);
 			$order->save();
 			if ( $notify_customer ) {
-				wc_add_notice( __( 'We could not confirm the payment amount with lomi.. Please contact the store.', 'woo-lomi' ), 'error' );
+				wc_add_notice( __( 'We could not confirm the payment amount with lomi. Please contact the store.', 'woo-lomi' ), 'error' );
 			}
 			return;
 		}
@@ -2217,7 +2217,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 				);
 				$order->save();
 				if ( $notify_customer ) {
-					wc_add_notice( __( 'Currency mismatch while verifying payment with lomi.. Please contact the store.', 'woo-lomi' ), 'error' );
+					wc_add_notice( __( 'Currency mismatch while verifying payment with lomi. Please contact the store.', 'woo-lomi' ), 'error' );
 				}
 				return;
 			}
@@ -2399,7 +2399,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 		if ( ! $data ) {
 			$order->add_order_note( __( 'lomi.: could not fetch checkout session from API after customer return.', 'woo-lomi' ) );
 			$order->save();
-			wc_add_notice( __( 'Could not verify payment with lomi..', 'woo-lomi' ), 'error' );
+			wc_add_notice( __( 'Could not verify payment with lomi.', 'woo-lomi' ), 'error' );
 			wp_safe_redirect( $order->get_checkout_payment_url() );
 			exit;
 		}
@@ -2523,7 +2523,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 	}
 
 	/**
-	 * Get custom fields to pass to lomi..
+	 * Get custom fields to pass to lomi.
 	 *
 	 * @param int $order_id WC Order ID
 	 *
