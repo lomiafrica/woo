@@ -152,7 +152,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 	public function __construct() {
 		$this->id                 = 'lomi';
 		$this->method_title       = __( 'lomi.', 'woo-lomi' );
-		$this->method_description = sprintf( __( 'Accept payments with lomi. Secure hosted checkout. <a href="%1$s" target="_blank">Create an account</a> and <a href="%2$s" target="_blank">get your API keys</a>.', 'woo-lomi' ), 'https://lomi.africa', 'https://dashboard.lomi.africa/settings/access-tokens' );
+		$this->method_description = sprintf( __( 'Accept payments with lomi. Secure hosted checkout. <a href="%1$s" target="_blank">Create an account</a> and <a href="%2$s" target="_blank">get your API keys</a>.', 'woo-lomi' ), 'https://lomi.africa', 'https://dashboard.lomi.africa/#/settings/developers?tab=access-tokens' );
 		$this->has_fields         = false;
 		$this->icon               = wc_lomi_get_compact_icon_url();
 
@@ -1246,7 +1246,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 				<?php
 				printf(
 					wp_kses_post( __( 'Use the same signing secret as below. Enable <code>PAYMENT_SUCCEEDED</code> and <code>REFUND_COMPLETED</code> in your <a href="%1$s" target="_blank" rel="noopener noreferrer">lomi. dashboard</a>.', 'woo-lomi' ) ),
-					'https://dashboard.lomi.africa/settings/webhooks'
+					'https://dashboard.lomi.africa/#/settings/developers?tab=webhooks'
 				);
 				?>
 			</p>
