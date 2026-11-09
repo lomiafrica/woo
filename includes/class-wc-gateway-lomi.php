@@ -1126,16 +1126,20 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 	 * @param string          $method HTTP method.
 	 * @param string          $path   Path after /v1.
 	 * @param array|null      $body   Request body.
+	 * @param array           $headers Extra request headers (e.g. Idempotency-Key).
 	 * @return object|WP_Error Decoded JSON or WP_Error.
 	 */
-	protected function lomi_api_request( $method, $path, $body = null ) {
+	protected function lomi_api_request( $method, $path, $body = null, $headers = array() ) {
 		$url  = $this->get_lomi_api_base_url() . $path;
 		$args = array(
 			'method'  => $method,
 			'timeout' => 60,
-			'headers' => array(
-				'X-API-KEY'    => $this->secret_key,
-				'Content-Type' => 'application/json',
+			'headers' => array_merge(
+				$headers,
+				array(
+					'X-API-KEY'    => $this->secret_key,
+					'Content-Type' => 'application/json',
+				)
 			),
 		);
 		if ( null !== $body && in_array( $method, array( 'POST', 'PUT', 'PATCH' ), true ) ) {
@@ -1167,6 +1171,8 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 			$detail = __( 'No response body.', 'woo-lomi' );
 			if ( is_object( $json ) && ! empty( $json->message ) ) {
 				$detail = (string) $json->message;
+			} elseif ( is_object( $json ) && isset( $json->error->message ) && is_string( $json->error->message ) ) {
+				$detail = $json->error->message;
 			} elseif ( is_object( $json ) && ! empty( $json->error ) ) {
 				$detail = is_string( $json->error ) ? (string) $json->error : wp_json_encode( $json->error );
 			} elseif ( ! empty( $raw ) ) {
@@ -2705,26 +2711,45 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 			$body['reason'] = $reason;
 		}
 
-		$response = $this->lomi_api_request( 'POST', '/refunds', $body );
+		// POST /refunds is two-step: the first call only returns a preview with a
+		// confirmation_token; the refund executes when the token is sent back.
+		// Each call gets its own Idempotency-Key because replays return the original response.
+		$response = $this->lomi_api_request( 'POST', '/refunds', $body, array( 'Idempotency-Key' => wp_generate_uuid4() ) );
 		if ( is_wp_error( $response ) ) {
 			return $response;
 		}
 
+		$preview = $this->lomi_unwrap_data( $response );
+		if ( is_object( $preview ) && ! empty( $preview->requires_confirmation ) ) {
+			if ( empty( $preview->confirmation_token ) ) {
+				return new WP_Error( 'lomi_refund', __( 'lomi. did not return a refund confirmation token. No refund was made.', 'woo-lomi' ) );
+			}
+			$body['confirmation_token'] = (string) $preview->confirmation_token;
+
+			$response = $this->lomi_api_request( 'POST', '/refunds', $body, array( 'Idempotency-Key' => wp_generate_uuid4() ) );
+			if ( is_wp_error( $response ) ) {
+				return $response;
+			}
+		}
+
 		$refund_row = $this->lomi_unwrap_data( $response );
-		$refund_id  = is_object( $refund_row ) && ! empty( $refund_row->refund_id ) ? (string) $refund_row->refund_id : '';
+		if ( ! is_object( $refund_row ) || ! empty( $refund_row->requires_confirmation ) || empty( $refund_row->refund_id ) ) {
+			$this->log_lomi_api_error(
+				'Refund was not confirmed by lomi.',
+				array(
+					'order_id'      => $order_id,
+					'response_body' => wp_json_encode( $response ),
+				)
+			);
+			return new WP_Error( 'lomi_refund', __( 'lomi. did not confirm the refund. No refund was recorded; check your lomi. dashboard.', 'woo-lomi' ) );
+		}
 		$order->add_order_note(
-			$refund_id
-				? sprintf(
-					/* translators: 1: refund id, 2: refund type */
-					__( 'lomi. refund initiated (%1$s, %2$s).', 'woo-lomi' ),
-					$refund_id,
-					$refund_type
-				)
-				: sprintf(
-					/* translators: %s: refund type */
-					__( 'lomi. refund initiated (%s).', 'woo-lomi' ),
-					$refund_type
-				)
+			sprintf(
+				/* translators: 1: refund id, 2: refund type */
+				__( 'lomi. refund initiated (%1$s, %2$s).', 'woo-lomi' ),
+				(string) $refund_row->refund_id,
+				$refund_type
+			)
 		);
 		$order->save();
 
