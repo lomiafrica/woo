@@ -1050,24 +1050,13 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 	 */
 
 	/**
-	 * Order total formatted for lomi. API amount.
-	 *
-	 * XOF is sent in whole francs. USD and EUR are sent in minor units (cents).
+	 * Order total in the currency the customer pays. 9.99 USD is 9.99, not 999.
 	 *
 	 * @param WC_Order $order Order.
-	 * @return int
+	 * @return int|float
 	 */
 	protected function get_order_amount_for_lomi( $order ) {
-		$currency = strtoupper( $order->get_currency() );
-		$total    = (float) $order->get_total();
-
-		if ( 'XOF' === $currency ) {
-			return (int) round( $total );
-		}
-
-		$decimals = $this->get_currency_minor_unit_decimals( $currency );
-
-		return (int) round( $total * ( 10 ** $decimals ) );
+		return $this->amount_to_lomi_units( (float) $order->get_total(), $order->get_currency() );
 	}
 
 	/**
@@ -1091,7 +1080,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 	}
 
 	/**
-	 * Currency minor unit precision expected by the lomi. API.
+	 * Fractional digits for this currency (0 for XOF, 2 for USD/EUR).
 	 *
 	 * @param string $currency Currency code.
 	 * @return int
@@ -1732,9 +1721,15 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 			}
 			if ( ! $order->get_meta( '_lomi_paid_amount' ) ) {
 				if ( isset( $webhook_data->gross_amount ) ) {
-					$order->update_meta_data( '_lomi_paid_amount', (int) round( (float) $webhook_data->gross_amount ) );
+					$order->update_meta_data(
+						'_lomi_paid_amount',
+						$this->amount_to_lomi_units( (float) $webhook_data->gross_amount, $order->get_currency() )
+					);
 				} elseif ( isset( $webhook_data->amount ) ) {
-					$order->update_meta_data( '_lomi_paid_amount', (int) round( (float) $webhook_data->amount ) );
+					$order->update_meta_data(
+						'_lomi_paid_amount',
+						$this->amount_to_lomi_units( (float) $webhook_data->amount, $order->get_currency() )
+					);
 				}
 			}
 		}
@@ -1750,7 +1745,10 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 				$order->update_meta_data( '_lomi_price_id', sanitize_text_field( (string) $session_data->price_id ) );
 			}
 			if ( isset( $session_data->amount ) && ! $order->get_meta( '_lomi_paid_amount' ) ) {
-				$order->update_meta_data( '_lomi_paid_amount', (int) round( (float) $session_data->amount ) );
+				$order->update_meta_data(
+					'_lomi_paid_amount',
+					$this->amount_to_lomi_units( (float) $session_data->amount, $order->get_currency() )
+				);
 			}
 		}
 
@@ -1841,30 +1839,43 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 	}
 
 	/**
-	 * Convert a major-unit amount to lomi. API units.
+	 * Convert a shop amount to the units POST /checkout-sessions expects.
+	 * 10000 XOF stays 10000. 9.99 USD stays 9.99. Do not convert to cents.
 	 *
-	 * @param float  $amount   Amount in major units (e.g. 9.99 USD).
+	 * @param float  $amount   Amount in the currency (e.g. 9.99 USD).
 	 * @param string $currency Currency code.
-	 * @return int
+	 * @return int|float
 	 */
 	protected function amount_to_lomi_units( $amount, $currency ) {
 		$currency = strtoupper( (string) $currency );
 		$amount   = (float) $amount;
-
-		if ( 'XOF' === $currency ) {
-			return (int) round( $amount );
-		}
-
 		$decimals = $this->get_currency_minor_unit_decimals( $currency );
-		return (int) round( $amount * ( 10 ** $decimals ) );
+		$rounded  = round( $amount, $decimals );
+
+		return 0 === $decimals ? (int) $rounded : $rounded;
+	}
+
+	/**
+	 * True when two lomi. API amounts are the same in this currency.
+	 *
+	 * @param mixed  $expected Expected amount.
+	 * @param mixed  $paid     Amount on the checkout session or webhook.
+	 * @param string $currency Currency code.
+	 * @return bool
+	 */
+	protected function lomi_amounts_match( $expected, $paid, $currency ) {
+		$decimals = $this->get_currency_minor_unit_decimals( $currency );
+		$factor   = 10 ** $decimals;
+
+		return (int) round( (float) $expected * $factor ) === (int) round( (float) $paid * $factor );
 	}
 
 	/**
 	 * Format refund amount for lomi. API units.
 	 *
-	 * @param float  $amount   Refund amount in major units.
+	 * @param float  $amount   Refund amount in the order currency.
 	 * @param string $currency Currency code.
-	 * @return int
+	 * @return int|float
 	 */
 	protected function get_refund_amount_for_lomi( $amount, $currency ) {
 		return $this->amount_to_lomi_units( $amount, $currency );
@@ -1893,7 +1904,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 	 * Subscription line total in lomi. API units (excludes shipping/tax).
 	 *
 	 * @param WC_Order $order Order.
-	 * @return int
+	 * @return int|float
 	 */
 	protected function get_subscription_line_total_for_lomi( $order ) {
 		if ( ! class_exists( 'WC_Gateway_Lomi_Product_Admin' ) ) {
@@ -1926,7 +1937,7 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 	 *
 	 * @param WC_Order    $order        Order.
 	 * @param object|null $session_data Checkout session.
-	 * @return int
+	 * @return int|float
 	 */
 	protected function get_expected_lomi_session_amount( $order, $session_data = null ) {
 		if ( $this->order_uses_lomi_catalog_checkout( $order, $session_data ) ) {
@@ -1943,12 +1954,12 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 	 * Maximum refundable amount in lomi. API units for this order.
 	 *
 	 * @param WC_Order $order Order.
-	 * @return int
+	 * @return int|float
 	 */
 	protected function get_refundable_lomi_amount_ceiling( $order ) {
 		$paid = $order->get_meta( '_lomi_paid_amount' );
-		if ( '' !== $paid && null !== $paid ) {
-			return max( 0, (int) $paid );
+		if ( '' !== $paid && null !== $paid && is_numeric( $paid ) ) {
+			return $this->amount_to_lomi_units( (float) $paid, $order->get_currency() );
 		}
 
 		if ( $this->order_uses_lomi_catalog_checkout( $order ) ) {
@@ -2179,8 +2190,8 @@ class WC_Gateway_Lomi extends WC_Payment_Gateway {
 
 		$uses_catalog = $this->order_uses_lomi_catalog_checkout( $order, $session_data );
 		$expected     = $this->get_expected_lomi_session_amount( $order, $session_data );
-		$paid         = isset( $session_data->amount ) ? (int) round( (float) $session_data->amount ) : 0;
-		if ( $paid !== $expected ) {
+		$paid         = isset( $session_data->amount ) ? (float) $session_data->amount : 0;
+		if ( ! $this->lomi_amounts_match( $expected, $paid, $order->get_currency() ) ) {
 			$order->update_status(
 				'on-hold',
 				sprintf(
