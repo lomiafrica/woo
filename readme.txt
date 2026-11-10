@@ -4,7 +4,7 @@ Tags: woocommerce, payment, checkout, africa, xof
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.003.1
+Stable tag: 1.003.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,6 +48,12 @@ No. Recurring billing is handled by lomi. Link subscription products to a lomi r
 
 == Changelog ==
 
+= 1.003.3 =
+* Send USD and EUR checkout amounts in the currency (9.99 is 9.99, not 999 cents) so hosted checkout matches the order total
+
+= 1.003.2 =
+* Execute refunds with the confirmation token returned by POST /refunds
+
 = 1.003.1 =
 * Fix admin notices sprintf crash on PHP 8+
 * Blocks checkout: radio alignment and payment icon tile styling
@@ -72,6 +78,9 @@ No. Recurring billing is handled by lomi. Link subscription products to a lomi r
 * Initial hosted checkout integration
 
 == Upgrade Notice ==
+
+= 1.003.3 =
+USD and EUR checkouts now send the order total in dollars or euros, not cents. Update before or with the API that stopped converting those amounts.
 
 = 1.003.1 =
 Fixes PHP 8 admin notice crash and improves checkout branding layout on WooCommerce Blocks. Clear cache after update.
